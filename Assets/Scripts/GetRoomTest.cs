@@ -31,8 +31,8 @@ class GetRoomTest
   public static ContentResponse GetRoom(ulong id)
   {
     // 接続するチャンネルを生成
-    // ここでは、Golang の gRPC サーバーはローカルの5502番ポートに建っているので、そう指定
-    Channel channel = new Channel("127.0.0.1:5502", ChannelCredentials.Insecure);
+    // ここでは、Golang の gRPC サーバーは dev サーバーの5502番ポートに建っているのでそう指定
+    Channel channel = new Channel("168.138.198.236:5502", ChannelCredentials.Insecure);
 
     var client = new Room.RoomClient(channel);
 
