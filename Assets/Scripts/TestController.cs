@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Question1 : MonoBehaviour
+public class TestController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,11 +14,11 @@ public class Question1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
-    public void toGameScene()
+
+    public void ToTitleScene()
     {
-        SceneManager.LoadScene("Theme1");
+        SceneManager.LoadScene("Scenes/Title");
     }
-
 }
