@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package himo.v1;
+
+option go_package = "github.com/bamboooo-dev/himo/pkg/grpc/v1/himo/proto";
+
+service UserManager {
+  rpc SignUp (SignUpRequest) returns (SignUpResponse) {}
+}
+
+message SignUpRequest {
+  string nickname = 1;
+}
+
+message SignUpResponse {
+}
+
+message User {
+  uint32 id = 1;
+  string nickname = 2;
+}
