@@ -30,7 +30,7 @@ public class NicknameButton : MonoBehaviour
   {
     // 接続するチャンネルを生成
     // ここでは、Golang の gRPC サーバーは dev サーバーの5502番ポートに建っているのでそう指定
-    Channel channel = new Channel("localhost:5502", ChannelCredentials.Insecure);
+    Channel channel = new Channel("168.138.198.236:5502", ChannelCredentials.Insecure);
 
     UserManager.UserManagerClient client = new UserManager.UserManagerClient(channel);
 

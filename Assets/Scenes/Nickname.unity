@@ -178,7 +178,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6453956764e8840f180c628e592207de, type: 3}
+    m_Font: {fileID: 12800000, guid: 922cd5005e9de4561b723e9578c66076, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6453956764e8840f180c628e592207de, type: 3}
+    m_Font: {fileID: 12800000, guid: 922cd5005e9de4561b723e9578c66076, type: 3}
     m_FontSize: 100
     m_FontStyle: 1
     m_BestFit: 0
@@ -448,7 +448,7 @@ RectTransform:
   m_GameObject: {fileID: 760624684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.67592597, y: 0.67592597, z: 0.67592597}
+  m_LocalScale: {x: 0.78229165, y: 0.78229165, z: 0.78229165}
   m_Children:
   - {fileID: 2006039533}
   - {fileID: 334187593}
@@ -541,7 +541,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6453956764e8840f180c628e592207de, type: 3}
+    m_Font: {fileID: 12800000, guid: 922cd5005e9de4561b723e9578c66076, type: 3}
     m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
@@ -707,15 +707,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00008559227
-    y: 0
-    width: 0.9998288
-    height: 1
+    x: 0
+    y: 0.000073969364
+    width: 1
+    height: 0.99985206
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.4009247
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
