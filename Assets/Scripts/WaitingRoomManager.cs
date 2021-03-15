@@ -22,6 +22,7 @@ public class WaitingRoomManager : MonoBehaviour
 
   void Start()
   {
+    Debug.Log(channelName);
     ws = new WebSocket("ws://localhost:8000/");
     ws.OnOpen += (sender, e) =>
     {

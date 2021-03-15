@@ -11,11 +11,8 @@ using System.Collections.Generic;
 public partial class CreateRoomResponse
 {
   public string message;
-
   public string channel_name;
-
   public int max_num;
-
   public int[] theme_ids;
 }
 
@@ -78,6 +75,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
     else
     {
+      response = JsonUtility.FromJson<CreateRoomResponse>(request.downloadHandler.text);
       SceneManager.LoadScene("WaitingRoom");
     }
   }
