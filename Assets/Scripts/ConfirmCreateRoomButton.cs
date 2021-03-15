@@ -33,9 +33,9 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
   public async void OnClickConfirmCreateRoomButton()
   {
+    SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
     try
     {
-      SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
       await PostRequestAsync();
     }
     catch (UnityWebRequestException)

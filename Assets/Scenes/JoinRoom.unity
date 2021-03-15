@@ -304,7 +304,7 @@ RectTransform:
   m_GameObject: {fileID: 263147999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.78229165, y: 0.78229165, z: 0.78229165}
+  m_LocalScale: {x: 0.6979167, y: 0.6979167, z: 0.6979167}
   m_Children:
   - {fileID: 850813195}
   - {fileID: 1542815256}
@@ -812,9 +812,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.000073969364
+    y: 0.00016579032
     width: 1
-    height: 0.99985206
+    height: 0.9996684
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1524,6 +1524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 1542815258}
+  parent: {fileID: 263147999}
+  dialog: {fileID: 2372224455022005225, guid: ed2efc5bccd9d4735bb3105e639fd634, type: 3}
 --- !u!114 &1835469801
 MonoBehaviour:
   m_ObjectHideFlags: 0

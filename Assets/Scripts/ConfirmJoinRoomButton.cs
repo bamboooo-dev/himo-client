@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class ConfirmJoinRoomButton : MonoBehaviour
 {
   public InputField inputField;
+  [SerializeField] private GameObject parent = default;
+  [SerializeField] private Dialog dialog = default;
 
   // Start is called before the first frame update
   void Start() { }
@@ -38,9 +40,14 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
     yield return request.SendWebRequest();
-    if (request.isHttpError || request.isNetworkError)
+    if (request.responseCode == 404)
     {
-      throw new InvalidOperationException(request.error);
+      ShowDialog("部屋が見つかりませんでした");
+    }
+    else if (request.isHttpError || request.isNetworkError)
+    {
+      Debug.Log(request.error);
+      ShowDialog("通信に失敗しました");
     }
     else
     {
@@ -58,5 +65,15 @@ public class ConfirmJoinRoomButton : MonoBehaviour
 
     // イベントから削除
     SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
+  }
+
+  public void ShowDialog(string message)
+  {
+    // 生成してCanvasの子要素に設定
+    var _dialog = Instantiate(dialog);
+    _dialog.transform.SetParent(parent.transform, false);
+    _dialog.transform.Find("Image_DialogBody").Find("Message").GetComponent<Text>().text = message;
+    // ボタンが押されたときのイベント処理
+    _dialog.FixDialog = result => Debug.Log(result);
   }
 }
