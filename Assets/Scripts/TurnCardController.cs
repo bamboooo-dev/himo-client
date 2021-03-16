@@ -11,7 +11,7 @@ public class TurnCardController : MonoBehaviour
   private Sprite ura;
   private Sprite omote;
   public Text text;
-  void Start()
+  async void Start()
   {
     img = GetComponent<Image>();
     // 裏面の画像(Assets/Resource/Sprites/ura.png)
@@ -23,7 +23,7 @@ public class TurnCardController : MonoBehaviour
     // 最初は裏面を表示する
     transform.eulerAngles = new Vector3(0, 0, 0);
 
-    cardOpen(100f, true);
+    await cardOpen(100f, true);
   }
 
   void Update()
