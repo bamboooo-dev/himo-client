@@ -17,6 +17,7 @@ public class WaitingRoomManager : MonoBehaviour
   public string channelName;
   public int maxNum;
   public Text maxSubscribersText;
+  public Text channelNameText;
   public WebSocket ws;
 
   public bool isHost;
@@ -47,6 +48,7 @@ public class WaitingRoomManager : MonoBehaviour
 
     ws.Connect();
     maxSubscribersText.text = maxNum.ToString();
+    channelNameText.text = channelName;
   }
 
   private float timeLeft;
