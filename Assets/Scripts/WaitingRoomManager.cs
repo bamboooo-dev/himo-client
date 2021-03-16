@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using WebSocketSharp;
-using WebSocketSharp.Net;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
@@ -19,6 +18,8 @@ public class WaitingRoomManager : MonoBehaviour
   public int maxNum;
   public Text maxSubscribersText;
   public WebSocket ws;
+
+  public bool isHost;
 
   void Start()
   {
@@ -60,6 +61,10 @@ public class WaitingRoomManager : MonoBehaviour
       subscribersText.text = response.subscribers.ToString();
       if (response.subscribers == maxNum)
       {
+        if (isHost)
+        {
+          await StartRoomRequest();
+        }
         SceneManager.LoadScene("GameField");
       }
     }
@@ -82,4 +87,19 @@ public class WaitingRoomManager : MonoBehaviour
     }
   }
 
+  private async UniTask<GroupResponse> StartRoomRequest()
+  {
+    string url = "http://localhost:3000/group";
+    var request = UnityWebRequest.Get(url);
+    await request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException("failure.");
+    }
+    else
+    {
+      GroupResponse res = JsonUtility.FromJson<GroupResponse>(request.downloadHandler.text);
+      return res;
+    }
+  }
 }

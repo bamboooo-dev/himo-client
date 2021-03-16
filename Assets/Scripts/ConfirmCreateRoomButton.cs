@@ -129,6 +129,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     // データを渡す処理
     waitingRoomManager.channelName = response.channel_name;
     waitingRoomManager.maxNum = response.max_num;
+    waitingRoomManager.isHost = true;
 
     // イベントから削除
     SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
