@@ -39,6 +39,7 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
+    request.SetRequestHeader("Authorization", Token.getToken());
     yield return request.SendWebRequest();
     if (request.responseCode == 404)
     {
