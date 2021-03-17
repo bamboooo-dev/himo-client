@@ -1,0 +1,5 @@
+[0m2021.03.09 20:40:09 INFO  Started: Metals version 0.10.0 in workspace '/Users/yuya/Unity/himo-client' for client vscode 1.54.1.[0m
+[0m2021.03.09 20:40:12 INFO  time: initialize in 3.03s[0m
+[0m2021.03.09 20:40:13 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.09 20:40:13 WARN  no build tool detected in workspace '/Users/yuya/Unity/himo-client'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.09 20:48:40 INFO  shutting down Metals[0m
