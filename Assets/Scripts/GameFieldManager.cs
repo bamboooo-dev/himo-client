@@ -8,6 +8,9 @@ public class GameFieldManager : MonoBehaviour
 {
   public string channelName;
   public int playerCount;
+  private int myNumber;
+  private int myIndex;
+
   private WebSocket ws;
   void Start()
   {
@@ -93,8 +96,9 @@ public class GameFieldManager : MonoBehaviour
     }
   }
 
-  private void SetMyNumber(int myNumber)
+  private void SetMyNumber(int number)
   {
+    myNumber = number;
     GameObject.FindWithTag("MyNumber").GetComponent<Text>().text = myNumber.ToString();
   }
 
@@ -129,6 +133,29 @@ public class GameFieldManager : MonoBehaviour
       _emo5.transform.SetParent(parent.transform, false);
     }
   }
+
+  public void SendPredict()
+  {
+    int[] predicts = new int[playerCount];
+    predicts[myIndex] = myNumber;
+    for (int i = 0; i < playerCount; i++)
+    {
+      if (i == myIndex) { continue; }
+      string objectName = "Emo" + i.ToString();
+      if (i >= 4)
+      {
+        objectName += "(Clone)";
+      }
+      predicts[i] = int.Parse(GameObject.Find(objectName).transform.Find("Predict").GetComponent<InputField>().text);
+    }
+    PredictMessage predictMessage = new PredictMessage();
+    predictMessage.type = "predict";
+    predictMessage.predicts = predicts;
+    predictMessage.predictor_index = myIndex;
+    var json = JsonUtility.ToJson(predictMessage);
+    ws.Send(json);
+  }
+
 }
 
 [Serializable]
@@ -139,5 +166,13 @@ public class Response
   public string[] names;
   public int[] predicts;
   public int your_index;
+  public int predictor_index;
+}
+
+[Serializable]
+public class PredictMessage
+{
+  public string type;
+  public int[] predicts;
   public int predictor_index;
 }
