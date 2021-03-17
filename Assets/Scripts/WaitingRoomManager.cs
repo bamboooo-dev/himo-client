@@ -49,6 +49,7 @@ public class WaitingRoomManager : MonoBehaviour
     ws.Connect();
     maxSubscribersText.text = maxNum.ToString();
     channelNameText.text = channelName;
+    SceneManager.sceneLoaded += GameFieldSceneLoaded;
   }
 
   private float timeLeft;
@@ -103,5 +104,13 @@ public class WaitingRoomManager : MonoBehaviour
       GroupResponse res = JsonUtility.FromJson<GroupResponse>(request.downloadHandler.text);
       return res;
     }
+  }
+
+  private void GameFieldSceneLoaded(Scene next, LoadSceneMode mode)
+  {
+    var gameFieldManager = GameObject.FindWithTag("GameFieldManager").GetComponent<GameFieldManager>();
+    gameFieldManager.playerCount = maxNum;
+
+    SceneManager.sceneLoaded -= GameFieldSceneLoaded;
   }
 }
