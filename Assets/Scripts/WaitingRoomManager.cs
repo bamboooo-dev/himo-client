@@ -110,6 +110,7 @@ public class WaitingRoomManager : MonoBehaviour
   {
     var gameFieldManager = GameObject.FindWithTag("GameFieldManager").GetComponent<GameFieldManager>();
     gameFieldManager.playerCount = maxNum;
+    gameFieldManager.isHost = isHost;
 
     SceneManager.sceneLoaded -= GameFieldSceneLoaded;
   }

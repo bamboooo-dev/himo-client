@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WebSocketSharp;
 using UnityEngine.EventSystems;
@@ -12,8 +13,11 @@ public class GameFieldManager : MonoBehaviour
   private int myNumber;
   private int myIndex;
   private GameObject selectedPlayer;
-
+  public Text mainText;
   private WebSocket ws;
+  public bool isHost;
+  private int[] playerOrder;
+  public int nowIndex = 0;
   void Start()
   {
     SetupEmos(playerCount);
@@ -59,6 +63,30 @@ public class GameFieldManager : MonoBehaviour
     {
       SetPredict(response);
     }
+    else if (response.type == "next")
+    {
+      if (isHost)
+      {
+        judgeNext(response.player_id);
+      }
+    }
+    else if (response.type == "next_result")
+    {
+      if (response.result == "OK")
+      {
+        SetResult("成功！");
+      }
+      else if (response.result == "NG")
+      {
+        SetResult("失敗・・・");
+        Invoke(nameof(LoadVote), 3f);
+      }
+      else if (response.result == "FIN")
+      {
+        SetResult("ワイワイ！");
+        Invoke(nameof(LoadVote), 3f);
+      }
+    }
   }
 
   private void SetAnswer(Response response)
@@ -77,6 +105,7 @@ public class GameFieldManager : MonoBehaviour
   private void SaveNumbers(int[] numbers)
   {
     string saveDirPath = Application.temporaryCachePath + "/" + channelName + "/";
+    playerOrder = CalculateOrder(numbers);
     if (!Directory.Exists(saveDirPath))
     {
       Directory.CreateDirectory(saveDirPath);
@@ -84,6 +113,20 @@ public class GameFieldManager : MonoBehaviour
     string numbersFilePath = saveDirPath + "numbers.json";
     File.WriteAllText(numbersFilePath, JsonUtility.ToJson(numbers));
   }
+
+  private int[] CalculateOrder(int[] numbers)
+  {
+    int[] sortNumbers = numbers.Clone() as int[];
+    Array.Sort(sortNumbers);
+    int[] order = new int[numbers.Length];
+    for (int i = 0; i < numbers.Length; i++)
+    {
+      int index = Array.IndexOf(numbers, sortNumbers[i]);
+      order[i] = index;
+    }
+    return order;
+  }
+
 
   private void SetNames(string[] names)
   {
@@ -180,6 +223,34 @@ public class GameFieldManager : MonoBehaviour
     return int.Parse(name.Substring(3, 1));
   }
 
+  private void SetResult(string result)
+  {
+    mainText.text = result;
+  }
+
+  private void LoadVote()
+  {
+    SceneManager.LoadScene("Vote");
+  }
+
+  private void judgeNext(int player_id)
+  {
+    int nextID = playerOrder[nowIndex];
+    if (player_id == nextID)
+    {
+      SendNextResult("OK");
+      nowIndex++;
+    }
+    else
+    {
+      SendNextResult("NG");
+    }
+  }
+
+  private void SendNextResult(string result)
+  {
+
+  }
 }
 
 [Serializable]
@@ -191,6 +262,8 @@ public class Response
   public int[] predicts;
   public int your_index;
   public int predictor_index;
+  public string result;
+  public int player_id;
 }
 
 [Serializable]
@@ -210,5 +283,17 @@ public class NextPlayerMessage
   {
     this.type = type;
     this.player_id = player_id;
+  }
+}
+
+[Serializable]
+public class NextResultMessage
+{
+  public string type;
+  public string result;
+  public NextResultMessage(string result)
+  {
+    this.type = "next_result";
+    this.result = result;
   }
 }
