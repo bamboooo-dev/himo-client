@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
+using UnityEngine.EventSystems;
 using System;
 using System.IO;
 
@@ -10,6 +11,7 @@ public class GameFieldManager : MonoBehaviour
   public int playerCount;
   private int myNumber;
   private int myIndex;
+  private GameObject selectedPlayer;
 
   private WebSocket ws;
   void Start()
@@ -156,6 +158,28 @@ public class GameFieldManager : MonoBehaviour
     ws.Send(json);
   }
 
+  public void OnSelectPlayer(GameObject player)
+  {
+    EventSystem.current.SetSelectedGameObject(null);
+    selectedPlayer = player;
+    GameObject selectedPlayerName = GameObject.Find("SelectedPlayerName");
+    selectedPlayerName.GetComponent<Text>().text = player.transform.Find("Name").GetComponent<Text>().text;
+  }
+
+  public void SendNextPlayer()
+  {
+    int playerID = extractPlayerID(selectedPlayer);
+    NextPlayerMessage message = new NextPlayerMessage("next", playerID);
+    ws.Send(JsonUtility.ToJson(message));
+  }
+
+  public int extractPlayerID(GameObject player)
+  {
+    string name = player.name;
+    // 4番目が ID となっている
+    return int.Parse(name.Substring(3, 1));
+  }
+
 }
 
 [Serializable]
@@ -175,4 +199,16 @@ public class PredictMessage
   public string type;
   public int[] predicts;
   public int predictor_index;
+}
+
+[Serializable]
+public class NextPlayerMessage
+{
+  public string type;
+  public int player_id;
+  public NextPlayerMessage(string type, int player_id)
+  {
+    this.type = type;
+    this.player_id = player_id;
+  }
 }
