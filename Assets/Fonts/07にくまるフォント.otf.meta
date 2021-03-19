@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9cdb0783bfc4440b4bc8630e8131111a
+guid: 5fc28c43cff92e94a9d6d28eca9e98fc
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: NIKUKYU
+  fontName: 07NikumaruFont
   fontNames:
-  - NIKUKYU
+  - 07NikumaruFont
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

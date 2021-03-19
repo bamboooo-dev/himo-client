@@ -230,6 +230,7 @@ public class GameFieldManager : MonoBehaviour
 
   private void LoadVote()
   {
+    SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
     SceneManager.LoadScene("Vote");
   }
 
@@ -250,6 +251,14 @@ public class GameFieldManager : MonoBehaviour
   private void SendNextResult(string result)
   {
 
+  }
+
+  private void WaitingRoomSceneLoaded(Scene next, LoadSceneMode mode)
+  {
+    var voteSceneManager = GameObject.FindWithTag("VoteSceneManager").GetComponent<VoteSceneManager>();
+    voteSceneManager.channelName = channelName;
+
+    SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
   }
 }
 
