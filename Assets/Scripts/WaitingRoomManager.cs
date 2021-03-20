@@ -19,11 +19,17 @@ public class WaitingRoomManager : MonoBehaviour
   public Text maxSubscribersText;
   public Text channelNameText;
   public WebSocket ws;
+  public GameObject startButton;
 
   public bool isHost;
 
   void Start()
   {
+    Debug.Log(channelName);
+    if (!isHost)
+    {
+      startButton.SetActive(false);
+    }
     ws = new WebSocket(Url.WsSub(channelName));
     ws.OnOpen += (sender, e) =>
     {

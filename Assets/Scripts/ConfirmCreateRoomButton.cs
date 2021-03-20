@@ -61,9 +61,6 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     var createRoomRequest = new CreateRoomRequest();
     createRoomRequest.max_num = Int32.Parse(dropdownComponent.options[dropdownComponent.value].text.ToString());
     createRoomRequest.theme_ids = RandomThemeIDs();
-    Debug.Log(createRoomRequest.theme_ids[0]);
-    Debug.Log(createRoomRequest.theme_ids[1]);
-    Debug.Log(createRoomRequest.theme_ids[2]);
     string myjson = JsonUtility.ToJson(createRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
     var request = new UnityWebRequest(Url.Room(), "POST");

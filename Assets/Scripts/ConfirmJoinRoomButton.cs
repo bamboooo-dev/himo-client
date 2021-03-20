@@ -46,7 +46,6 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     }
     else if (request.isHttpError || request.isNetworkError)
     {
-      Debug.Log(request.error);
       ShowDialog("通信に失敗しました");
     }
     else
