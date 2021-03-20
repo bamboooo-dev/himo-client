@@ -1263,6 +1263,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   channelName: 
   playerCount: 0
+  mainText: {fileID: 0}
+  isHost: 0
+  nowIndex: 0
   parent: {fileID: 2087864234}
   emo4: {fileID: 752357771652578103, guid: f814ac9c8a5c243e39fbde93b175dc87, type: 3}
   emo5: {fileID: 688405603581341721, guid: 0f6a3aaad8b9c4560aa51c20a0ddbdc9, type: 3}
@@ -1555,7 +1558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4068f95a17b032b48bcac85184f3a778, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55b2a05c22c63944b8a6268b5db7175a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1828,9 +1831,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.00013512373
+    y: 0.00083231926
     width: 1
-    height: 0.99972975
+    height: 0.99833536
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -3450,7 +3453,7 @@ RectTransform:
   m_GameObject: {fileID: 2087864234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85625, y: 0.85625, z: 0.85625}
+  m_LocalScale: {x: 0.38177082, y: 0.38177082, z: 0.38177082}
   m_Children:
   - {fileID: 1222854231}
   - {fileID: 508224892}
@@ -3470,7 +3473,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920.0001, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2087864236
 MonoBehaviour:

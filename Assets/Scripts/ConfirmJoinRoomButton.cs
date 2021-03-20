@@ -30,12 +30,11 @@ public class ConfirmJoinRoomButton : MonoBehaviour
 
   private IEnumerator PostRequestAsync()
   {
-    string url = "http://localhost:3000/posts";
     var enterRoomRequest = new EnterRoomRequest();
     enterRoomRequest.channel_name = inputField.text;
     string requestJson = JsonUtility.ToJson(enterRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(requestJson);
-    var request = new UnityWebRequest(url, "POST");
+    var request = new UnityWebRequest(Url.Enter(), "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");

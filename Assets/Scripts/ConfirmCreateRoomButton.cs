@@ -58,13 +58,15 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   [SerializeField] private Dropdown dropdownComponent;
   private IEnumerator PostRequestAsync()
   {
-    string url = "http://localhost:3000/posts";
     var createRoomRequest = new CreateRoomRequest();
     createRoomRequest.max_num = Int32.Parse(dropdownComponent.options[dropdownComponent.value].text.ToString());
     createRoomRequest.theme_ids = RandomThemeIDs();
+    Debug.Log(createRoomRequest.theme_ids[0]);
+    Debug.Log(createRoomRequest.theme_ids[1]);
+    Debug.Log(createRoomRequest.theme_ids[2]);
     string myjson = JsonUtility.ToJson(createRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
-    var request = new UnityWebRequest(url, "POST");
+    var request = new UnityWebRequest(Url.Room(), "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
@@ -84,7 +86,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   private int[] RandomThemeIDs()
   {
     int start = 1;
-    int end = 100;
+    int end = 3;
     int count = 3;
     int[] ids = new int[count];
 

@@ -7,7 +7,7 @@ public static class Token
   {
     string tokenPath = Application.persistentDataPath + "/access-token.jwt";
     string token = File.ReadAllText(tokenPath);
-    return token;
+    return "Bearer " + token;
   }
 
 }

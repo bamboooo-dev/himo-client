@@ -22,7 +22,7 @@ public class VoteSceneManager : MonoBehaviour
 
   private WebSocket SetupWebSocket()
   {
-    ws = new WebSocket(Url.getSub(channelName));
+    ws = new WebSocket(Url.Sub(channelName));
     ws.OnMessage += (sender, e) =>
     {
       ProcessData(e.Data);

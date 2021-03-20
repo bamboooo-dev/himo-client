@@ -24,8 +24,7 @@ public class WaitingRoomManager : MonoBehaviour
 
   void Start()
   {
-    Debug.Log(channelName);
-    ws = new WebSocket("ws://localhost:8000/");
+    ws = new WebSocket(Url.WsSub(channelName));
     ws.OnOpen += (sender, e) =>
     {
       Debug.Log("WebSocket Open");
@@ -53,7 +52,7 @@ public class WaitingRoomManager : MonoBehaviour
   }
 
   private float timeLeft;
-  public Text subscribersText;
+  public Text nowSubscribersText;
   async void Update()
   {
     timeLeft -= Time.deltaTime;
@@ -61,7 +60,7 @@ public class WaitingRoomManager : MonoBehaviour
     {
       timeLeft = 1.0f;
       GroupResponse response = await GetRequestAsync();
-      subscribersText.text = response.subscribers.ToString();
+      nowSubscribersText.text = response.subscribers.ToString();
       if (response.subscribers == maxNum)
       {
         if (isHost)
@@ -71,13 +70,11 @@ public class WaitingRoomManager : MonoBehaviour
         SceneManager.LoadScene("GameField");
       }
     }
-
   }
 
   private async UniTask<GroupResponse> GetRequestAsync()
   {
-    string url = "http://localhost:3000/group";
-    var request = UnityWebRequest.Get(url);
+    var request = UnityWebRequest.Get(Url.Group(channelName));
     await request.SendWebRequest();
     if (request.isHttpError || request.isNetworkError)
     {
@@ -92,8 +89,7 @@ public class WaitingRoomManager : MonoBehaviour
 
   private async UniTask<GroupResponse> StartRoomRequest()
   {
-    string url = "http://localhost:3000/group";
-    var request = UnityWebRequest.Get(url);
+    var request = UnityWebRequest.Get(Url.Start());
     await request.SendWebRequest();
     if (request.isHttpError || request.isNetworkError)
     {

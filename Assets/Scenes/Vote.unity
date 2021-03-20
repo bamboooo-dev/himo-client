@@ -1315,7 +1315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4068f95a17b032b48bcac85184f3a778, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55b2a05c22c63944b8a6268b5db7175a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2008,7 +2008,7 @@ RectTransform:
   m_GameObject: {fileID: 1197031186}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.30833334, y: 0.30833334, z: 0.30833334}
+  m_LocalScale: {x: 0.38177082, y: 0.38177082, z: 0.38177082}
   m_Children:
   - {fileID: 696145924}
   - {fileID: 226141048}
@@ -2028,7 +2028,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 1920.0001, y: 1080.0001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1197031188
 MonoBehaviour:
@@ -2945,9 +2945,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 0.00083231926
     width: 1
-    height: 1
+    height: 0.99833536
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
