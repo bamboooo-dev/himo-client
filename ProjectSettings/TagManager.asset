@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WaitingRoomManager
   - MyNumber
+  - GameFieldManager
   layers:
   - Default
   - TransparentFX

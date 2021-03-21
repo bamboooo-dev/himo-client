@@ -61,7 +61,7 @@ public class ConfirmJoinRoomButton : MonoBehaviour
 
     // データを渡す処理
     waitingRoomManager.channelName = inputField.text;
-    waitingRoomManager.isHost = false;
+    PlayerStatus.isHost = false;
 
     // イベントから削除
     SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;

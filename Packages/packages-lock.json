@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "be34d8abf43bed7cf55015becc002554ed3703c8"
     },
+    "com.google.external-dependency-manager": {
+      "version": "1.2.164",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,

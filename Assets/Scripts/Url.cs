@@ -20,7 +20,7 @@ public static class Url
 
   public static string Group(string channelName)
   {
-    return ingame + "/group" + "/" + channelName;
+    return ingame + "/group" + "?channel_id=" + channelName;
   }
 
   public static string Start()
@@ -28,9 +28,14 @@ public static class Url
     return ingame + "/start";
   }
 
+  public static string WsSub(string channelName, int playerNum)
+  {
+    return wsIngame + "/sub" + "?channel_id=" + channelName + "&player_num=" + playerNum.ToString();
+  }
+
   public static string WsSub(string channelName)
   {
-    return wsIngame + "/sub" + "/" + channelName;
+    return wsIngame + "/sub" + "?channel_id=" + channelName;
   }
 }
 

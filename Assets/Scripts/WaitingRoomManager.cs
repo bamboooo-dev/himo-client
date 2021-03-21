@@ -10,27 +10,38 @@ using UnityEngine.UI;
 public partial class GroupResponse
 {
   public int subscribers;
+  public Limits limits;
+}
+
+[Serializable]
+public class Limits
+{
+  public int subscribers;
 }
 
 public class WaitingRoomManager : MonoBehaviour
 {
   public string channelName;
-  public int maxNum;
   public Text maxSubscribersText;
   public Text channelNameText;
   public WebSocket ws;
   public GameObject startButton;
 
-  public bool isHost;
-
   void Start()
   {
     Debug.Log(channelName);
-    if (!isHost)
+    if (!PlayerStatus.isHost)
     {
       startButton.SetActive(false);
     }
-    ws = new WebSocket(Url.WsSub(channelName));
+    if (PlayerStatus.isHost)
+    {
+      ws = new WebSocket(Url.WsSub(channelName, RoomStatus.maxNum));
+    }
+    else
+    {
+      ws = new WebSocket(Url.WsSub(channelName));
+    }
     ws.OnOpen += (sender, e) =>
     {
       Debug.Log("WebSocket Open");
@@ -52,9 +63,7 @@ public class WaitingRoomManager : MonoBehaviour
     };
 
     ws.Connect();
-    maxSubscribersText.text = maxNum.ToString();
     channelNameText.text = channelName;
-    SceneManager.sceneLoaded += GameFieldSceneLoaded;
   }
 
   private float timeLeft;
@@ -67,20 +76,14 @@ public class WaitingRoomManager : MonoBehaviour
       timeLeft = 1.0f;
       GroupResponse response = await GetRequestAsync();
       nowSubscribersText.text = response.subscribers.ToString();
-      if (response.subscribers == maxNum)
-      {
-        if (isHost)
-        {
-          await StartRoomRequest();
-        }
-        SceneManager.LoadScene("GameField");
-      }
+      maxSubscribersText.text = response.limits.subscribers.ToString();
     }
   }
 
   private async UniTask<GroupResponse> GetRequestAsync()
   {
     var request = UnityWebRequest.Get(Url.Group(channelName));
+    request.SetRequestHeader("Accept", "text/json");
     await request.SendWebRequest();
     if (request.isHttpError || request.isNetworkError)
     {
@@ -93,27 +96,4 @@ public class WaitingRoomManager : MonoBehaviour
     }
   }
 
-  private async UniTask<GroupResponse> StartRoomRequest()
-  {
-    var request = UnityWebRequest.Get(Url.Start());
-    await request.SendWebRequest();
-    if (request.isHttpError || request.isNetworkError)
-    {
-      throw new InvalidOperationException("failure.");
-    }
-    else
-    {
-      GroupResponse res = JsonUtility.FromJson<GroupResponse>(request.downloadHandler.text);
-      return res;
-    }
-  }
-
-  private void GameFieldSceneLoaded(Scene next, LoadSceneMode mode)
-  {
-    var gameFieldManager = GameObject.FindWithTag("GameFieldManager").GetComponent<GameFieldManager>();
-    gameFieldManager.playerCount = maxNum;
-    gameFieldManager.isHost = isHost;
-
-    SceneManager.sceneLoaded -= GameFieldSceneLoaded;
-  }
 }
