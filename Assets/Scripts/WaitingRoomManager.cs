@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using WebSocketSharp;
 using Cysharp.Threading.Tasks;
-using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -78,6 +77,12 @@ public class WaitingRoomManager : MonoBehaviour
       nowSubscribersText.text = response.subscribers.ToString();
       maxSubscribersText.text = response.limits.subscribers.ToString();
     }
+  }
+
+  void OnDestroy()
+  {
+    ws.Close();
+    ws = null;
   }
 
   private async UniTask<GroupResponse> GetRequestAsync()
