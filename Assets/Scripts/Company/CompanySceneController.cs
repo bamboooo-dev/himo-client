@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CompanySceneController : MonoBehaviour
 {
@@ -21,6 +20,10 @@ public class CompanySceneController : MonoBehaviour
     {
       FadeManager.Instance.LoadScene("Scenes/Title", 0.2f);
     }
+  }
 
+  void OnDestroy()
+  {
+    AudioManager.GetInstance().PlayBGM(0);
   }
 }

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 
 
-public class CreateRoomButton : MonoBehaviour
+public class JoinRoomButton : MonoBehaviour
 {
   // Start is called before the first frame update
   void Start()
@@ -16,9 +16,10 @@ public class CreateRoomButton : MonoBehaviour
 
   }
 
-  public void OnClickCreateRoomButton()
+  public void OnClickJoinRoomButton()
   {
-    SceneManager.LoadScene("CreateRoom");
+    AudioManager.GetInstance().PlaySound(0);
+    SceneManager.LoadScene("JoinRoom");
   }
 
 }

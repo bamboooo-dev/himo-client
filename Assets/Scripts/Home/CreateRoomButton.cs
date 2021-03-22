@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BackToTitleButton : MonoBehaviour
+
+public class CreateRoomButton : MonoBehaviour
 {
   // Start is called before the first frame update
   void Start()
@@ -15,8 +16,10 @@ public class BackToTitleButton : MonoBehaviour
 
   }
 
-  public void OnClickBackToTitleButton()
+  public void OnClickCreateRoomButton()
   {
-    SceneManager.LoadScene("Title");
+    AudioManager.GetInstance().PlaySound(0);
+    SceneManager.LoadScene("CreateRoom");
   }
+
 }

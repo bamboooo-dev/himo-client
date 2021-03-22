@@ -11,6 +11,7 @@ public class BackToHomeButton : MonoBehaviour
 
   public void OnClickBackToHomeButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
     SceneManager.LoadScene("Home");
   }
 }

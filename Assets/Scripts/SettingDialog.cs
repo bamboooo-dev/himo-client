@@ -1,29 +1,24 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SettingDialog : MonoBehaviour
 {
-    public enum DialogResult
-    {
-        OK,
-        Cancel,
-    }
+  public enum DialogResult
+  {
+    OK,
+    Cancel,
+  }
 
-    // ダイアログが操作されたときに発生するイベント
-    public Action<DialogResult> FixDialog { get; set; }
+  // OKボタンが押されたとき
+  public void OnOk()
+  {
+    AudioManager.GetInstance().PlaySound(0);
+    Destroy(this.gameObject);
+  }
 
-    // OKボタンが押されたとき
-    public void OnOk()
-    {
-        this.FixDialog?.Invoke(DialogResult.OK);
-        Destroy(this.gameObject);
-    }
-
-    // Cancelボタンが押されたとき
-    public void OnCancel()
-    {
-        // イベント通知先があれば通知してダイアログを破棄してしまう
-        this.FixDialog?.Invoke(DialogResult.Cancel);
-        Destroy(this.gameObject);
-    }
+  // Cancelボタンが押されたとき
+  public void OnCancel()
+  {
+    AudioManager.GetInstance().PlaySound(0);
+    Destroy(this.gameObject);
+  }
 }
