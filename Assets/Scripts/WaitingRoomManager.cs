@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
-using WebSocketSharp;
-using Cysharp.Threading.Tasks;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using WebSocketSharp;
+using Cysharp.Threading.Tasks;
 
 [Serializable]
 public partial class GroupResponse
@@ -48,7 +49,8 @@ public class WaitingRoomManager : MonoBehaviour
 
     ws.OnMessage += (sender, e) =>
     {
-      Debug.Log("WebSocket Data: " + e.Data);
+      ProcessData(e.Data);
+      SceneManager.LoadScene("CardCheck");
     };
 
     ws.OnError += (sender, e) =>
@@ -101,4 +103,11 @@ public class WaitingRoomManager : MonoBehaviour
     }
   }
 
+  private void ProcessData(string data)
+  {
+    var response = JsonUtility.FromJson<StartRoomResponse>(data);
+    Debug.Log(response.type);
+    Debug.Log(response.numbers);
+    Debug.Log(response.names);
+  }
 }

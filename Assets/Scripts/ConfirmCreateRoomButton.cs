@@ -128,6 +128,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
     // データを渡す処理
     waitingRoomManager.channelName = response.channel_name;
+    RoomStatus.channelName = response.channel_name;
     RoomStatus.maxNum = response.max_num;
     PlayerStatus.isHost = true;
 
