@@ -104,8 +104,8 @@ public class GameFieldManager : MonoBehaviour
 
   private void SaveNumbers(int[] numbers)
   {
-    string saveDirPath = Application.temporaryCachePath + "/" + channelName + "/";
     playerOrder = CalculateOrder(numbers);
+    string saveDirPath = Application.temporaryCachePath + "/" + channelName + "/";
     if (!Directory.Exists(saveDirPath))
     {
       Directory.CreateDirectory(saveDirPath);

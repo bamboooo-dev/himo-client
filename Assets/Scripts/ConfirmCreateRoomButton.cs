@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.IO;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
@@ -14,22 +15,16 @@ public partial class CreateRoomResponse
   public string channel_name;
   public int max_num;
   public int[] theme_ids;
+  public Theme[] themes;
 }
 
 public class ConfirmCreateRoomButton : MonoBehaviour
 {
   private CreateRoomResponse response;
-  // Start is called before the first frame update
-  void Start()
-  {
 
-  }
+  void Start() { }
 
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+  void Update() { }
 
   public async void OnClickConfirmCreateRoomButton()
   {
@@ -77,6 +72,10 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     else
     {
       response = JsonUtility.FromJson<CreateRoomResponse>(request.downloadHandler.text);
+      RoomStatus.channelName = response.channel_name;
+      RoomStatus.maxNum = response.max_num;
+      PlayerStatus.isHost = true;
+      SaveThemes(response.themes);
       SceneManager.LoadScene("WaitingRoom");
     }
   }
@@ -128,12 +127,19 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
     // データを渡す処理
     waitingRoomManager.channelName = response.channel_name;
-    RoomStatus.channelName = response.channel_name;
-    RoomStatus.maxNum = response.max_num;
-    PlayerStatus.isHost = true;
 
     // イベントから削除
     SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
+  }
+
+  private void SaveThemes(Theme[] themes)
+  {
+    string dirPath = SavePath.TmpDir(RoomStatus.channelName);
+    if (!Directory.Exists(dirPath))
+    {
+      Directory.CreateDirectory(dirPath);
+    }
+    File.WriteAllText(dirPath + "themes.json", JsonUtility.ToJson(themes));
   }
 
 }

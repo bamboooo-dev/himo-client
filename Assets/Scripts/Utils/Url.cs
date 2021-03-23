@@ -3,6 +3,11 @@ public static class Url
   private static string outgame = "http://168.138.198.236:5502";
   private static string ingame = "http://168.138.198.236";
   private static string wsIngame = "ws://168.138.198.236";
+
+  public static string OutgameIP()
+  {
+    return outgame.Replace("http://", "");
+  }
   public static string Sub(string channelName)
   {
     return outgame + "/sub" + "/" + channelName;
