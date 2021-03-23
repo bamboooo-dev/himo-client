@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
@@ -21,7 +22,6 @@ public class Limits
 
 public class WaitingRoomManager : MonoBehaviour
 {
-  public string channelName;
   public Text maxSubscribersText;
   public Text channelNameText;
   public WebSocket ws;
@@ -29,18 +29,18 @@ public class WaitingRoomManager : MonoBehaviour
 
   void Start()
   {
-    Debug.Log(channelName);
+    Debug.Log(RoomStatus.channelName);
     if (!PlayerStatus.isHost)
     {
       startButton.SetActive(false);
     }
     if (PlayerStatus.isHost)
     {
-      ws = new WebSocket(Url.WsSub(channelName, RoomStatus.maxNum));
+      ws = new WebSocket(Url.WsSub(RoomStatus.channelName, RoomStatus.maxNum));
     }
     else
     {
-      ws = new WebSocket(Url.WsSub(channelName));
+      ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
     }
     ws.OnOpen += (sender, e) =>
     {
@@ -50,7 +50,6 @@ public class WaitingRoomManager : MonoBehaviour
     ws.OnMessage += (sender, e) =>
     {
       ProcessData(e.Data);
-      SceneManager.LoadScene("CardCheck");
     };
 
     ws.OnError += (sender, e) =>
@@ -64,7 +63,7 @@ public class WaitingRoomManager : MonoBehaviour
     };
 
     ws.Connect();
-    channelNameText.text = channelName;
+    channelNameText.text = RoomStatus.channelName;
   }
 
   private float timeLeft;
@@ -78,6 +77,12 @@ public class WaitingRoomManager : MonoBehaviour
       GroupResponse response = await GetRequestAsync();
       nowSubscribersText.text = response.subscribers.ToString();
       maxSubscribersText.text = response.limits.subscribers.ToString();
+
+      // Cycle の started が true ならゲーム開始
+      if (Cycle.started)
+      {
+        SceneManager.LoadScene("CardCheck");
+      }
     }
   }
 
@@ -89,7 +94,7 @@ public class WaitingRoomManager : MonoBehaviour
 
   private async UniTask<GroupResponse> GetRequestAsync()
   {
-    var request = UnityWebRequest.Get(Url.Group(channelName));
+    var request = UnityWebRequest.Get(Url.Group(RoomStatus.channelName));
     request.SetRequestHeader("Accept", "text/json");
     await request.SendWebRequest();
     if (request.isHttpError || request.isNetworkError)
@@ -106,8 +111,8 @@ public class WaitingRoomManager : MonoBehaviour
   private void ProcessData(string data)
   {
     var response = JsonUtility.FromJson<StartRoomResponse>(data);
-    Debug.Log(response.type);
-    Debug.Log(response.numbers);
-    Debug.Log(response.names);
+    Cycle.numbers = response.numbers;
+    Cycle.names = response.names;
+    Cycle.started = true;
   }
 }

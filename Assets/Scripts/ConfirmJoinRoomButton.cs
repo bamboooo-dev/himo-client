@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using System;
-using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using Cysharp.Threading.Tasks;
 
 public class ConfirmJoinRoomButton : MonoBehaviour
 {
@@ -17,16 +17,10 @@ public class ConfirmJoinRoomButton : MonoBehaviour
   // Update is called once per frame
   void Update() { }
 
-  [Serializable]
-  private class EnterRoomRequest
-  {
-    public string channel_name;
-  }
-  public void OnClickConfirmJoinRoomButton()
+  public async void OnClickConfirmJoinRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
-    SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
-    StartCoroutine(PostRequestAsync());
+    await PostRequestAsync();
   }
 
   private IEnumerator PostRequestAsync()
@@ -51,21 +45,10 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     }
     else
     {
+      PlayerStatus.isHost = false;
+      RoomStatus.channelName = inputField.text;
       SceneManager.LoadScene("WaitingRoom");
     }
-  }
-
-  private void WaitingRoomSceneLoaded(Scene next, LoadSceneMode mode)
-  {
-    // シーン切り替え後のスクリプトを取得
-    var waitingRoomManager = GameObject.FindWithTag("WaitingRoomManager").GetComponent<WaitingRoomManager>();
-
-    // データを渡す処理
-    waitingRoomManager.channelName = inputField.text;
-    PlayerStatus.isHost = false;
-
-    // イベントから削除
-    SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
   }
 
   public void ShowDialog(string message)

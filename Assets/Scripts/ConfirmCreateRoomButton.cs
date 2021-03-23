@@ -29,10 +29,14 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   public async void OnClickConfirmCreateRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
-    SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
     try
     {
       await PostRequestAsync();
+      RoomStatus.channelName = response.channel_name;
+      RoomStatus.maxNum = response.max_num;
+      PlayerStatus.isHost = true;
+      SaveThemes(response.themes);
+      SceneManager.LoadScene("WaitingRoom");
     }
     catch (UnityWebRequestException)
     {
@@ -42,13 +46,6 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     {
       ShowDialog();
     }
-  }
-
-  [Serializable]
-  private class CreateRoomRequest
-  {
-    public int max_num;
-    public int[] theme_ids;
   }
 
   [SerializeField] private Dropdown dropdownComponent;
@@ -72,11 +69,6 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     else
     {
       response = JsonUtility.FromJson<CreateRoomResponse>(request.downloadHandler.text);
-      RoomStatus.channelName = response.channel_name;
-      RoomStatus.maxNum = response.max_num;
-      PlayerStatus.isHost = true;
-      SaveThemes(response.themes);
-      SceneManager.LoadScene("WaitingRoom");
     }
   }
 
@@ -118,18 +110,6 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     _dialog.transform.SetParent(parent.transform, false);
     // ボタンが押されたときのイベント処理
     _dialog.FixDialog = result => Debug.Log(result);
-  }
-
-  private void WaitingRoomSceneLoaded(Scene next, LoadSceneMode mode)
-  {
-    // シーン切り替え後のスクリプトを取得
-    var waitingRoomManager = GameObject.FindWithTag("WaitingRoomManager").GetComponent<WaitingRoomManager>();
-
-    // データを渡す処理
-    waitingRoomManager.channelName = response.channel_name;
-
-    // イベントから削除
-    SceneManager.sceneLoaded -= WaitingRoomSceneLoaded;
   }
 
   private void SaveThemes(Theme[] themes)
