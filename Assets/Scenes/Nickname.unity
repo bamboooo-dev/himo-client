@@ -449,7 +449,7 @@ RectTransform:
   m_GameObject: {fileID: 760624684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.38055554, y: 0.38055554, z: 0.38055554}
+  m_LocalScale: {x: 0.87916666, y: 0.87916666, z: 0.87916666}
   m_Children:
   - {fileID: 1701156367}
   - {fileID: 2006039533}
@@ -464,7 +464,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1080}
+  m_SizeDelta: {x: 1920.0001, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &760624686
 CanvasRenderer:
@@ -908,15 +908,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00022801757
-    y: 0
-    width: 0.99954396
-    height: 1
+    x: 0
+    y: 0.04525864
+    width: 1
+    height: 0.9094827
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.4024634
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1089,7 +1089,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1680864596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0766aa14f5a3495dbd9f5c19aa1081f, type: 3}
+  m_Script: {fileID: 11500000, guid: 009be102fa41c4f4b8b4da1ff63a2d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1680864602
@@ -1158,7 +1158,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2652, y: 1492}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701156368
 MonoBehaviour:

@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-public class NicknameButton : MonoBehaviour
+public class ConfirmNicknameButton : MonoBehaviour
 {
   InputField inputField;
-  // Start is called before the first frame update
+
   void Start()
   {
     inputField = GameObject.Find("InputField").GetComponent<InputField>();
   }
 
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+  void Update() { }
 
   string GetNickname()
   {
@@ -43,14 +39,15 @@ public class NicknameButton : MonoBehaviour
 
   public void OnClickNicknameButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
     string nickname = GetNickname();
 
     AsyncUnaryCall<SignUpResponse> call = SignUp(nickname);
     Task<Metadata> headers = call.ResponseHeadersAsync;
     string token = headers.Result.GetValue("access-token");
 
-    string tokenPath = Application.persistentDataPath + "/access-token.jwt";
-    File.WriteAllText(tokenPath, token);
+    File.WriteAllText(SavePath.token, token);
+    File.WriteAllText(SavePath.nickname, nickname);
     SceneManager.LoadScene("Home");
   }
 }
