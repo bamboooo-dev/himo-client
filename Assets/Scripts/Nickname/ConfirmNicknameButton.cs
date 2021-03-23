@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class ConfirmNicknameButton : MonoBehaviour
 {
   InputField inputField;
+  public GameObject errorText;
 
   void Start()
   {
@@ -40,7 +41,13 @@ public class ConfirmNicknameButton : MonoBehaviour
   public void OnClickNicknameButton()
   {
     AudioManager.GetInstance().PlaySound(0);
+
     string nickname = GetNickname();
+    if (nickname == "")
+    {
+      errorText.SetActive(true);
+      return;
+    }
 
     AsyncUnaryCall<SignUpResponse> call = SignUp(nickname);
     Task<Metadata> headers = call.ResponseHeadersAsync;
