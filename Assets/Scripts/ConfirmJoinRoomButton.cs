@@ -24,6 +24,7 @@ public class ConfirmJoinRoomButton : MonoBehaviour
   }
   public void OnClickConfirmJoinRoomButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
     SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
     StartCoroutine(PostRequestAsync());
   }

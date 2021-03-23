@@ -33,6 +33,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
   public async void OnClickConfirmCreateRoomButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
     SceneManager.sceneLoaded += WaitingRoomSceneLoaded;
     try
     {
