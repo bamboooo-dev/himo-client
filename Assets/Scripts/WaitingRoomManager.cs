@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
@@ -77,6 +76,11 @@ public class WaitingRoomManager : MonoBehaviour
       GroupResponse response = await GetRequestAsync();
       nowSubscribersText.text = response.subscribers.ToString();
       maxSubscribersText.text = response.limits.subscribers.ToString();
+
+      if (PlayerStatus.isHost & response.subscribers == response.limits.subscribers)
+      {
+        startButton.GetComponent<StartButton>().OnClickStartButton();
+      }
 
       // Cycle の started が true ならゲーム開始
       if (Cycle.started)

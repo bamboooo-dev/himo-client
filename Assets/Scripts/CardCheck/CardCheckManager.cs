@@ -21,7 +21,7 @@ public class CardCheckManager : MonoBehaviour
 
     if (step_time >= 3.0f)
     {
-      SceneManager.LoadScene("GameFiled");
+      SceneManager.LoadScene("GameField");
     }
   }
 

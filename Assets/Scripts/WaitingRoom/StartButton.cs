@@ -14,6 +14,7 @@ public class StartButton : MonoBehaviour
 
   public async void OnClickStartButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
     await StartRoomRequest();
   }
 

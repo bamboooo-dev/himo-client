@@ -34,6 +34,8 @@ public class ConfirmCreateRoomButton : MonoBehaviour
       await PostRequestAsync();
       RoomStatus.channelName = response.channel_name;
       RoomStatus.maxNum = response.max_num;
+      RoomStatus.themes = response.themes;
+      RoomStatus.cycleIndex = 0;
       PlayerStatus.isHost = true;
       SaveThemes(response.themes);
       SceneManager.LoadScene("WaitingRoom");
