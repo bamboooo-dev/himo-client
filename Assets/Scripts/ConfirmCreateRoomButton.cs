@@ -14,7 +14,6 @@ public partial class CreateRoomResponse
   public string message;
   public string channel_name;
   public int max_num;
-  public int[] theme_ids;
   public Theme[] themes;
 }
 
@@ -77,7 +76,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   private int[] RandomThemeIDs()
   {
     int start = 1;
-    int end = 3;
+    int end = 40;
     int count = 3;
     int[] ids = new int[count];
 

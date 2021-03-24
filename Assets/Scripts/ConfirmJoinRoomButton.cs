@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 
@@ -10,17 +11,33 @@ public class ConfirmJoinRoomButton : MonoBehaviour
   public InputField inputField;
   [SerializeField] private GameObject parent = default;
   [SerializeField] private Dialog dialog = default;
+  private JoinRoomResponse response;
 
-  // Start is called before the first frame update
   void Start() { }
 
-  // Update is called once per frame
   void Update() { }
 
   public async void OnClickConfirmJoinRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
-    await PostRequestAsync();
+    try
+    {
+      await PostRequestAsync();
+      RoomStatus.channelName = inputField.text;
+      RoomStatus.maxNum = response.max_num;
+      RoomStatus.themes = response.themes;
+      RoomStatus.cycleIndex = 0;
+      PlayerStatus.isHost = false;
+      SceneManager.LoadScene("WaitingRoom");
+    }
+    catch (RoomNotFoundException)
+    {
+      ShowDialog("部屋が見つかりませんでした");
+    }
+    catch (InvalidOperationException)
+    {
+      ShowDialog("通信に失敗しました");
+    }
   }
 
   private IEnumerator PostRequestAsync()
@@ -37,17 +54,15 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     yield return request.SendWebRequest();
     if (request.responseCode == 404)
     {
-      ShowDialog("部屋が見つかりませんでした");
+      throw new RoomNotFoundException();
     }
     else if (request.isHttpError || request.isNetworkError)
     {
-      ShowDialog("通信に失敗しました");
+      throw new InvalidOperationException(request.error);
     }
     else
     {
-      PlayerStatus.isHost = false;
-      RoomStatus.channelName = inputField.text;
-      SceneManager.LoadScene("WaitingRoom");
+      response = JsonUtility.FromJson<JoinRoomResponse>(request.downloadHandler.text);
     }
   }
 
