@@ -28,8 +28,8 @@ public class CardCheckManager : MonoBehaviour
   private int ExtractMyNumber()
   {
     string nickname = FetchNickname();
-    int index = Array.IndexOf(Cycle.names, nickname);
-    return Cycle.numbers[index];
+    Cycle.myIndex = Array.IndexOf(Cycle.names, nickname);
+    return Cycle.numbers[Cycle.myIndex];
   }
 
   private string FetchNickname()
