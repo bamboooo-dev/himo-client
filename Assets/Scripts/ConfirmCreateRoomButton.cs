@@ -76,7 +76,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   private int[] RandomThemeIDs()
   {
     int start = 1;
-    int end = 40;
+    int end = 3;
     int count = 3;
     int[] ids = new int[count];
 

@@ -6,4 +6,5 @@ public class Cycle : ScriptableObject
   public static string[] names;
   public static bool started = false;
   public static int myIndex;
+  public static int[][] predicts;
 }

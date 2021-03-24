@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 813422173}
   - component: {fileID: 813422172}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MessageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,6 +466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   themeText: {fileID: 801554212}
   player: {fileID: 8671278126515776360, guid: d1533a381f7404053a1239aa1b5346f4, type: 3}
+  players: []
   playerParent: {fileID: 2087864234}
   sprites:
   - {fileID: 21300000, guid: cc90fe25ce0c52940af6a56460074861, type: 3}
@@ -563,8 +564,9 @@ GameObject:
   - component: {fileID: 1362612174}
   - component: {fileID: 1362612173}
   - component: {fileID: 1362612172}
+  - component: {fileID: 1362612176}
   m_Layer: 5
-  m_Name: Confirm
+  m_Name: GuessButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,7 +680,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1362612173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1362612176}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1362612175
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -687,6 +700,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362612170}
   m_CullTransparentMesh: 0
+--- !u!114 &1362612176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362612170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c79b2dc03125a4f058b8bb7e483bf0bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 813422172}
 --- !u!1 &1463701598
 GameObject:
   m_ObjectHideFlags: 0
