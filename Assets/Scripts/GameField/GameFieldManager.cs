@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using System.Threading;
 using WebSocketSharp;
 
 public class GameFieldManager : MonoBehaviour
@@ -22,14 +24,15 @@ public class GameFieldManager : MonoBehaviour
     }
     players = new Player[Cycle.names.Length];
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
-    ws = new WebSocket(Url.WsSub("test"));
+    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
     ws.OnOpen += (sender, e) =>
     {
       Debug.Log("WebSocket Open");
     };
+    var context = SynchronizationContext.Current;
     ws.OnMessage += (sender, e) =>
     {
-      ProcessData(e.Data);
+      ProcessData(e.Data, context);
     };
     ws.Connect();
   }
@@ -76,11 +79,16 @@ public class GameFieldManager : MonoBehaviour
     }
   }
 
-  private void ProcessData(string data)
+  private void ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonUtility.FromJson<GuessMessage>(data);
+    if (message.type != "guess") return;
     Cycle.predicts[message.playerIndex] = message.numbers;
-    players[message.playerIndex].transform.Find("GuessedImage").gameObject.SetActive(true);
+    int index = message.playerIndex;
+    context.Post(state =>
+    {
+      players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
+    }, index);
     for (int i = 0; i < Cycle.names.Length; i++)
     {
       if (Cycle.predicts[i][0] == 0)

@@ -1,6 +1,6 @@
-using UnityEngine;
-using WebSocketSharp;
+using System;
 
+[Serializable]
 public class GuessMessage
 {
   public string type = "guess";

@@ -28,6 +28,11 @@ public static class Url
     return ingame + "/group" + "?channel_id=" + channelName;
   }
 
+  public static string Pub(string channelName)
+  {
+    return ingame + "/pub" + "?channel_id=" + channelName;
+  }
+
   public static string Start()
   {
     return ingame + "/start";
