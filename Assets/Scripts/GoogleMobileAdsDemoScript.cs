@@ -7,7 +7,7 @@ public class GoogleMobileAdsDemoScript : MonoBehaviour
 {
     private InterstitialAd interstitial;
     // Start is called before the first frame update
-    public void Start()
+    public void OnClick()
     {
         MobileAds.Initialize(initStatus => { });
         RequestInterstitial();

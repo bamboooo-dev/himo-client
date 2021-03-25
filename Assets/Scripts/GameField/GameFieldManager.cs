@@ -88,14 +88,14 @@ public class GameFieldManager : MonoBehaviour
     context.Post(state =>
     {
       players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
-    }, index);
-    for (int i = 0; i < Cycle.names.Length; i++)
-    {
-      if (Cycle.predicts[i][0] == 0)
+      for (int i = 0; i < Cycle.names.Length; i++)
       {
-        return;
+        if (Cycle.predicts[i][0] == 0)
+        {
+          return;
+        }
       }
-    }
-    SceneManager.LoadScene("HostGeneralConsulting");
+      SceneManager.LoadScene("HostGeneralConsulting");
+    }, index);
   }
 }

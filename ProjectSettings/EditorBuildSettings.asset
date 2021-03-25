@@ -42,6 +42,6 @@ EditorBuildSettings:
     path: Assets/Scenes/CardCheck.unity
     guid: 21ebab16a486a8c45a191009907b1319
   - enabled: 1
-    path: Assets/Scenes/HostGeneralConsulting.unity
+    path: Assets/Scenes/Ordering.unity
     guid: 6d98c53da11ba8543bdf1aaac6784a9f
   m_configObjects: {}
