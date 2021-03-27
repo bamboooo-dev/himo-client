@@ -9,4 +9,6 @@ public class Cycle : ScriptableObject
   public static int[][] predicts;
   public static int nextIndex;
   public static int[] orderIndices;
+  public static int mvpIndex;
+  public static int mwpIndex;
 }
