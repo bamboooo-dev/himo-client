@@ -7,4 +7,5 @@ public class RoomStatus : ScriptableObject
   public static Theme[] themes;
   public static int cycleIndex;
   public static int[] points;
+  public static bool finished;
 }

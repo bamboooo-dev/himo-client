@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds.Api;
 
-public class GoogleMobileAdsDemoScript : MonoBehaviour
+public class HomeManager : MonoBehaviour
 {
     private InterstitialAd interstitial;
-    // Start is called before the first frame update
-    public void OnClick()
-    {
-        MobileAds.Initialize(initStatus => { });
-        RequestInterstitial();
-        if (this.interstitial.IsLoaded())
-        {
-            this.interstitial.Show();
+    void Start()
+    { if (RoomStatus.finished)
+        { MobileAds.Initialize(initStatus => { });
+            RequestInterstitial();
+            if (this.interstitial.IsLoaded())
+            {
+                this.interstitial.Show();
+            }
+          RoomStatus.finished = false;
         }
     }
-
 
 
     private void RequestInterstitial()
@@ -33,6 +33,6 @@ public class GoogleMobileAdsDemoScript : MonoBehaviour
         this.interstitial.LoadAd(request);
     }
 
-    
-
 }
+
+    
