@@ -35,7 +35,7 @@ public class GuessButton : MonoBehaviour
         return;
       }
     }
-    SceneManager.LoadScene("HostGeneralConsulting");
+    SceneManager.LoadScene("Ordering");
   }
 
   private (int[], bool) Validate(Player[] players)

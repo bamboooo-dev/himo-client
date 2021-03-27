@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
@@ -116,7 +117,19 @@ public class WaitingRoomManager : MonoBehaviour
   {
     var response = JsonUtility.FromJson<StartRoomResponse>(data);
     Cycle.numbers = response.numbers;
+    Cycle.orderIndices = SortIndices(Cycle.numbers);
     Cycle.names = response.names;
     Cycle.started = true;
+  }
+
+  private int[] SortIndices(int[] numbers)
+  {
+    int[] indices = new int[numbers.Length];
+    int[] sortedNumbers = numbers.OrderBy(x => x).ToArray();
+    for (int i = 0; i < numbers.Length; i++)
+    {
+      indices[i] = Array.IndexOf(sortedNumbers, numbers[i]);
+    }
+    return indices;
   }
 }

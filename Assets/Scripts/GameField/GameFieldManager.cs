@@ -95,7 +95,7 @@ public class GameFieldManager : MonoBehaviour
           return;
         }
       }
-      SceneManager.LoadScene("HostGeneralConsulting");
+      SceneManager.LoadScene("Ordering");
     }, index);
   }
 }
