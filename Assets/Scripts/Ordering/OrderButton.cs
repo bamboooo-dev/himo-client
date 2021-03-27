@@ -42,13 +42,13 @@ public class OrderButton : MonoBehaviour
   private void EraseFailedImage()
   {
     failedImage.gameObject.SetActive(false);
-    SceneManager.LoadScene("Voting");
+    SceneManager.LoadScene("Vote");
   }
 
   private void Finish()
   {
     successImage.gameObject.SetActive(false);
-    SceneManager.LoadScene("Voting");
+    SceneManager.LoadScene("Vote");
   }
 
   private string Judge(int playerIndex)

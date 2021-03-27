@@ -489,7 +489,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 7
 --- !u!222 &535849926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1063,7 +1063,7 @@ RectTransform:
   m_GameObject: {fileID: 999935743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.31510416, y: 0.31510416, z: 0.31510416}
+  m_LocalScale: {x: 0.88854164, y: 0.88854164, z: 0.88854164}
   m_Children:
   - {fileID: 1124950491}
   - {fileID: 946547551}
@@ -2630,9 +2630,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.0010080636
+    y: 0.010395408
     width: 1
-    height: 0.9979839
+    height: 0.9792092
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60

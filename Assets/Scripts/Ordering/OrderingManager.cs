@@ -154,12 +154,12 @@ public class OrderingManager : MonoBehaviour
   private void EraseFailedImage()
   {
     failedImage.gameObject.SetActive(false);
-    SceneManager.LoadScene("Voting");
+    SceneManager.LoadScene("Vote");
   }
 
   private void Finish()
   {
     successImage.gameObject.SetActive(false);
-    SceneManager.LoadScene("Voting");
+    SceneManager.LoadScene("Vote");
   }
 }
