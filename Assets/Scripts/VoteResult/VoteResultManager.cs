@@ -58,8 +58,14 @@ public class VoteResultManager : MonoBehaviour
       _player.transform.Find("Name").GetComponent<Text>().color = newCol;
       _player.transform.Find("Point").Find("Text").GetComponent<Text>().color = newCol;
 
-      _player.transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[i].ToString();
-
+      if (RoomStatus.cycleIndex != 2)
+      {
+        _player.transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[i].ToString();
+      }
+      else
+      {
+        _player.transform.Find("Point").Find("Text").GetComponent<Text>().text = "?";
+      }
       _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
 
       players[i] = _player;
@@ -88,12 +94,19 @@ public class VoteResultManager : MonoBehaviour
   private void AddPoints(int mvpIndex, int mwpIndex)
   {
     RoomStatus.points[mvpIndex] += 3;
-    RoomStatus.points[mwpIndex] -= 3;
+    RoomStatus.points[mwpIndex] -= 2;
     players[Cycle.mvpIndex].transform.Find("MVPText").GetComponent<Text>().gameObject.SetActive(false);
     players[Cycle.mwpIndex].transform.Find("MWPText").GetComponent<Text>().gameObject.SetActive(false);
     for (int i = 0; i < RoomStatus.points.Length; ++i)
     {
-      players[i].transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[i].ToString();
+      if (RoomStatus.cycleIndex != 2)
+      {
+        players[i].transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[i].ToString();
+      }
+      else
+      {
+        players[i].transform.Find("Point").Find("Text").GetComponent<Text>().text = "?";
+      }
     }
   }
 
