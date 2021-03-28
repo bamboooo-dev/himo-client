@@ -382,7 +382,7 @@ RectTransform:
   m_GameObject: {fileID: 385636223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.88854164, y: 0.88854164, z: 0.88854164}
+  m_LocalScale: {x: 0.7416667, y: 0.7416667, z: 0.7416667}
   m_Children:
   - {fileID: 658973572}
   - {fileID: 915931495}
@@ -805,9 +805,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.010395408
+    y: 0.1325688
     width: 1
-    height: 0.9792092
+    height: 0.7348624
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1008,7 +1008,7 @@ RectTransform:
   m_GameObject: {fileID: 1172181390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.88854164, y: 0.88854164, z: 0.88854164}
+  m_LocalScale: {x: 0.7416667, y: 0.7416667, z: 0.7416667}
   m_Children:
   - {fileID: 2056907555}
   - {fileID: 1492218559}
@@ -1020,7 +1020,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1172181392
 MonoBehaviour:
@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.02745098, g: 0.26666668, b: 0.25882354, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

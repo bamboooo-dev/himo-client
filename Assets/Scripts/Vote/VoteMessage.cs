@@ -4,12 +4,13 @@
 public class VoteMessage
 {
   public string type;
-  public int mvp_id;
-  public int mwp_id;
+  public int mvpIndex;
+  public int mwpIndex;
 
-  public VoteMessage(int mvp_id, int mwp_id)
+  public VoteMessage(string type, int mvpIndex, int mwpIndex)
   {
-    this.mvp_id = mvp_id;
-    this.mwp_id = mwp_id;
+    this.type = type;
+    this.mvpIndex = mvpIndex;
+    this.mwpIndex = mwpIndex;
   }
 }

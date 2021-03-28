@@ -86,6 +86,8 @@ public class WaitingRoomManager : MonoBehaviour
       // Cycle の started が true ならゲーム開始
       if (Cycle.started)
       {
+        // ゲーム開始にともなって各パラメータの初期化をここで行う
+        RoomInit();
         SceneManager.LoadScene("CardCheck");
       }
     }
@@ -131,5 +133,11 @@ public class WaitingRoomManager : MonoBehaviour
       indices[i] = Array.IndexOf(sortedNumbers, numbers[i]);
     }
     return indices;
+  }
+
+  private void RoomInit()
+  {
+    // 各プレイヤーの持ち点は10点で開始する
+    RoomStatus.points = Enumerable.Repeat<int>(10, Cycle.names.Length).ToArray();
   }
 }

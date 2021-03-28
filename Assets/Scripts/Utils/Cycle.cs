@@ -13,4 +13,6 @@ public class Cycle : ScriptableObject
   public static int mwpIndex;
   public static int nearIndex;
   public static int farIndex;
+  public static int[] mvpCount;
+  public static int[] mwpCount;
 }

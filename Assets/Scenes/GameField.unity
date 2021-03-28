@@ -437,7 +437,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000024319, y: -0.0000040531}
-  m_SizeDelta: {x: 1938.332, y: 1079.9797}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222854232
 MonoBehaviour:
@@ -584,7 +584,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1362612172}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -667,9 +667,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.0010080636
+    y: 0.11637932
     width: 1
-    height: 0.9979839
+    height: 0.76724136
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1144,7 +1144,7 @@ RectTransform:
   m_GameObject: {fileID: 2087864234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.31510416, y: 0.31510416, z: 0.31510416}
+  m_LocalScale: {x: 0.7416667, y: 0.7416667, z: 0.7416667}
   m_Children:
   - {fileID: 1222854231}
   - {fileID: 813422171}
