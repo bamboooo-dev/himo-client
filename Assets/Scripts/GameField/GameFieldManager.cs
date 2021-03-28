@@ -81,6 +81,7 @@ public class GameFieldManager : MonoBehaviour
 
   private void ProcessData(string data, SynchronizationContext context)
   {
+    Debug.Log(data);
     var message = JsonUtility.FromJson<GuessMessage>(data);
     if (message.type != "guess") return;
     Cycle.predicts[message.playerIndex] = message.numbers;

@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExpectResult.unity
     guid: b6d838d464d3e964681c0f42305e1199
+  - enabled: 1
+    path: Assets/Scenes/Round2.unity
+    guid: 5d0361d072aa56140b04b1fc0b4deb9b
   m_configObjects: {}
