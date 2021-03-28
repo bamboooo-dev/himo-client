@@ -1,30 +1,45 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 using WebSocketSharp;
 using Cysharp.Threading.Tasks;
 
 public class Round2Manager : MonoBehaviour
 {
   private WebSocket ws;
+  private float step_time;
   void Start()
   {
+
+    // DEBUG
+    // RoomStatus.channelName = "263261a";
+
+    step_time = 0.0f;
     ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
     ws.OnOpen += (sender, e) =>
     {
       Debug.Log("WebSocket Open");
     };
-
+    var context = SynchronizationContext.Current;
     ws.OnMessage += (sender, e) =>
     {
-      ProcessData(e.Data);
+      ProcessData(e.Data, context);
     };
     ws.Connect();
-    // await StartRoomRequest();
+  }
+
+  async void Update()
+  {
+    step_time += Time.deltaTime;
+    if (step_time >= 3.0f)
+    {
+      step_time = 0.0f;
+      await StartRoomRequest();
+    }
   }
 
   void OnDestroy()
@@ -33,13 +48,17 @@ public class Round2Manager : MonoBehaviour
     ws = null;
   }
 
-  private void ProcessData(string data)
+  private void ProcessData(string data, SynchronizationContext context)
   {
-    var response = JsonUtility.FromJson<StartRoomResponse>(data);
-    Cycle.numbers = response.numbers;
-    Cycle.orderIndices = SortIndices(Cycle.numbers);
-    Cycle.names = response.names;
-    Cycle.started = true;
+    Debug.Log(data);
+    context.Post(state =>
+    {
+      var response = JsonUtility.FromJson<StartRoomResponse>(data);
+      Cycle.numbers = response.numbers;
+      Cycle.orderIndices = SortIndices(Cycle.numbers);
+      Cycle.names = response.names;
+      SceneManager.LoadScene("CardCheck");
+    }, data);
   }
 
   private IEnumerator StartRoomRequest()

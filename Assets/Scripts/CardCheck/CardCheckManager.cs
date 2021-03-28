@@ -11,6 +11,8 @@ public class CardCheckManager : MonoBehaviour
 
   void Start()
   {
+    // 前回分を初期化する
+    myNumberText.text = "";
     int myNumber = ExtractMyNumber();
     myNumberText.text = myNumber.ToString();
   }

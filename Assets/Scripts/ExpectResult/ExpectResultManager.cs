@@ -14,10 +14,10 @@ public class ExpectResultManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    RoomStatus.points = new int[] { 10, 13, 10, 7, 10 };
-    Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+    // RoomStatus.points = new int[] { 10, 13, 10, 7, 10 };
+    // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
     Cycle.nearIndex = 1;
-    Cycle.farIndex = 2;
+    Cycle.farIndex = 0;
 
     players = new ExpectResultPlayer[Cycle.names.Length];
     InstantiateExpectPlayers(RoomStatus.points, Cycle.names);
