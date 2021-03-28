@@ -16,34 +16,27 @@ public class VoteManager : MonoBehaviour
   public bool isHost;
   private WebSocket ws;
   private VoteResult result;
+  private Button[] mvpBtns;
+  private Button[] mwpBtns;
+
   [SerializeField] private VotePlayer player;
   [SerializeField] private GameObject votePlayerParent;
   [SerializeField] private Sprite[] sprites;
   void Start()
   {
     // DEBUG
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+    Cycle.names = new string[] { "a", "b" };
 
     Cycle.mvpCount = new int[Cycle.names.Length];
     Cycle.mwpCount = new int[Cycle.names.Length];
 
     InstantiatePlayers(Cycle.names);
+    PlayerPrefs.SetInt("mvpIndex", 0);
+    PlayerPrefs.SetInt("mwpIndex", 0);
+    SetMVPBtns();
+    SetMWPBtns();
     ws = SetupWebSocket();
     ws.Connect();
-  }
-
-  async void Update()
-  {
-    if (PlayerStatus.isHost && (Cycle.mvpCount.Sum() == Cycle.names.Length))
-    {
-      var mvpIndex = Cycle.mvpCount.Select((x, i) => new { x, i })
-    .Aggregate((max, xi) => xi.x > max.x ? xi : max).i;
-      var mwpIndex = Cycle.mwpCount.Select((x, i) => new { x, i })
-    .Aggregate((min, xi) => xi.x < min.x ? xi : min).i;
-      Debug.Log(mvpIndex);
-      Debug.Log(mwpIndex);
-      await PostVoteResult(mvpIndex, mwpIndex);
-    }
   }
 
   private WebSocket SetupWebSocket()
@@ -69,6 +62,15 @@ public class VoteManager : MonoBehaviour
     {
       Cycle.mvpCount[message.mvpIndex]++;
       Cycle.mwpCount[message.mwpIndex]++;
+      if (Cycle.mvpCount.Sum() == Cycle.names.Length)
+      {
+        var mvpIndex = Array.IndexOf(Cycle.mvpCount, Cycle.mvpCount.Max());
+        var mwpIndex = Array.IndexOf(Cycle.mwpCount, Cycle.mwpCount.Max());
+        context.Post(async state =>
+        {
+          await PostVoteResult(mvpIndex, mwpIndex);
+        }, message);
+      }
     }
     else if (message.type.Equals("voteResult"))
     {
@@ -92,6 +94,10 @@ public class VoteManager : MonoBehaviour
     int count = names.Length;
 
     string[] colors = new string[] { "#018D50", "#0178C2", "#FD8016", "#C4453F", "#714A9B", "#C031A5" };
+
+    mvpBtns = new Button[names.Length];
+    mwpBtns = new Button[names.Length];
+
     for (int i = 0; i < count; ++i)
     {
       int x;
@@ -103,7 +109,7 @@ public class VoteManager : MonoBehaviour
       {
         x = -750 + i * 1500 / (count - 1);
       }
-      var _player = Instantiate(player, new Vector3(x, 150, 0), Quaternion.identity);
+      var _player = Instantiate(player, new Vector3(x, -20, 0), Quaternion.identity);
       _player.transform.SetParent(votePlayerParent.transform.transform, false);
       _player.transform.Find("Name").GetComponent<Text>().text = names[i];
 
@@ -111,7 +117,28 @@ public class VoteManager : MonoBehaviour
       ColorUtility.TryParseHtmlString(colors[i], out newCol);
       _player.transform.Find("Name").GetComponent<Text>().color = newCol;
       _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
+
+      // MVP・MWP ボタンの初期設定
+      int tmp = i;
+      var mvpButton = _player.transform.Find("MVPButton").GetComponent<Button>();
+      var mwpButton = _player.transform.Find("MWPButton").GetComponent<Button>();
+      mvpButton.onClick.AddListener(delegate { OnClickMVPButton(tmp); });
+      mwpButton.onClick.AddListener(delegate { OnClickMWPButton(tmp); });
+      mvpBtns[tmp] = mvpButton;
+      mwpBtns[tmp] = mwpButton;
     }
+  }
+
+  void OnClickMVPButton(int tmp)
+  {
+    PlayerPrefs.SetInt("mvpIndex", tmp);
+    SetMVPBtns();
+  }
+
+  void OnClickMWPButton(int tmp)
+  {
+    PlayerPrefs.SetInt("mwpIndex", tmp);
+    SetMWPBtns();
   }
 
   private IEnumerator PostVoteResult(int mvpIndex, int mwpIndex)
@@ -136,5 +163,23 @@ public class VoteManager : MonoBehaviour
     middleResultSceneManager.result = result;
 
     SceneManager.sceneLoaded -= MiddleResultSceneLoaded;
+  }
+
+  private void SetMVPBtns()
+  {
+    int r = PlayerPrefs.GetInt("mvpIndex"), cnt = 0;
+    foreach (Button b in mvpBtns)
+    {
+      b.interactable = (cnt != r); cnt++;
+    }
+  }
+
+  private void SetMWPBtns()
+  {
+    int r = PlayerPrefs.GetInt("mwpIndex"), cnt = 0;
+    foreach (Button b in mwpBtns)
+    {
+      b.interactable = (cnt != r); cnt++;
+    }
   }
 }

@@ -8,10 +8,7 @@ public class VoteButton : MonoBehaviour
 {
   public async void OnClick()
   {
-    // TODO 投票の結果を取得する処理を書く
-    int mvpIndex = 0;
-    int mwpIndex = 1;
-    await PostVote(mvpIndex, mwpIndex);
+    await PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex"));
   }
 
   private IEnumerator PostVote(int mvpIndex, int mwpIndex)
