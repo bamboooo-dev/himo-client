@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
@@ -6,8 +7,12 @@ using Cysharp.Threading.Tasks;
 
 public class VoteButton : MonoBehaviour
 {
+  public Text messageText;
+
   public async void OnClick()
   {
+    this.gameObject.SetActive(false);
+    messageText.gameObject.SetActive(true);
     await PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex"));
   }
 
