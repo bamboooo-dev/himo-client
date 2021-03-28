@@ -20,14 +20,17 @@ public class VoteResultManager : MonoBehaviour
     players = new VoteResultPlayer[Cycle.names.Length];
     InstantiateOrderPlayers(RoomStatus.points, Cycle.names);
 
-    // 1秒後に MVP・MWP を表示する
-    Invoke(nameof(ShowVotedPlayers), 1.0f);
+    // 同じ人になりうるため MVP の発表と MWP の発表を分ける
+    Invoke(nameof(ShowMVP), 1.0f);
+    Invoke(nameof(ShowMVPPoints), 2.0f);
+    Invoke(nameof(ShowMVPAddedPoints), 3.0f);
 
-    Invoke(nameof(ShowVotedPoints), 2.0f);
+    Invoke(nameof(ShowMWP), 5.0f);
+    Invoke(nameof(ShowMWPPoints), 6.0f);
+    Invoke(nameof(ShowMWPAddedPoints), 7.0f);
 
-    Invoke(nameof(ShowAddedPoints), 3.0f);
-
-    Invoke(nameof(MoveToExpectResult), 5.0f);
+    // 画面遷移は自動で行う
+    Invoke(nameof(MoveToExpectResult), 10.0f);
   }
 
   private void InstantiateOrderPlayers(int[] points, string[] names)
@@ -72,41 +75,46 @@ public class VoteResultManager : MonoBehaviour
     }
   }
 
-  private void ShowVotedPlayers()
+  private void ShowMVP()
   {
     players[Cycle.mvpIndex].transform.Find("MVPImage").GetComponent<Image>().gameObject.SetActive(true);
+  }
+
+  private void ShowMWP()
+  {
     players[Cycle.mwpIndex].transform.Find("MWPImage").GetComponent<Image>().gameObject.SetActive(true);
   }
 
-  private void ShowVotedPoints()
+  private void ShowMVPPoints()
   {
     players[Cycle.mvpIndex].transform.Find("MVPText").GetComponent<Text>().gameObject.SetActive(true);
+  }
+
+  private void ShowMWPPoints()
+  {
     players[Cycle.mwpIndex].transform.Find("MWPText").GetComponent<Text>().gameObject.SetActive(true);
   }
 
-  private void ShowAddedPoints()
+  private void ShowMVPAddedPoints()
   {
-    AddPoints(Cycle.mvpIndex, Cycle.mwpIndex);
-    players[Cycle.mvpIndex].transform.Find("Point").Find("Text").GetComponent<Text>().gameObject.SetActive(true);
-    players[Cycle.mwpIndex].transform.Find("Point").Find("Text").GetComponent<Text>().gameObject.SetActive(true);
+    players[Cycle.mvpIndex].transform.Find("MVPText").GetComponent<Text>().gameObject.SetActive(false);
+    AddPoints(Cycle.mvpIndex, 3);
+    players[Cycle.mvpIndex].transform.Find("MVPImage").GetComponent<Image>().gameObject.SetActive(false);
   }
 
-  private void AddPoints(int mvpIndex, int mwpIndex)
+  private void ShowMWPAddedPoints()
   {
-    RoomStatus.points[mvpIndex] += 3;
-    RoomStatus.points[mwpIndex] -= 2;
-    players[Cycle.mvpIndex].transform.Find("MVPText").GetComponent<Text>().gameObject.SetActive(false);
     players[Cycle.mwpIndex].transform.Find("MWPText").GetComponent<Text>().gameObject.SetActive(false);
-    for (int i = 0; i < RoomStatus.points.Length; ++i)
+    AddPoints(Cycle.mwpIndex, -2);
+    players[Cycle.mwpIndex].transform.Find("MWPImage").GetComponent<Image>().gameObject.SetActive(false);
+  }
+
+  private void AddPoints(int index, int point)
+  {
+    RoomStatus.points[index] += point;
+    if (RoomStatus.cycleIndex != 2)
     {
-      if (RoomStatus.cycleIndex != 2)
-      {
-        players[i].transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[i].ToString();
-      }
-      else
-      {
-        players[i].transform.Find("Point").Find("Text").GetComponent<Text>().text = "?";
-      }
+      players[index].transform.Find("Point").Find("Text").GetComponent<Text>().text = RoomStatus.points[index].ToString();
     }
   }
 
