@@ -16,6 +16,7 @@ public class ExpectResultManager : MonoBehaviour
     // DEBUG
     // RoomStatus.points = new int[] { 10, 13, 10, 7, 10 };
     // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+
     Cycle.nearIndex = 1;
     Cycle.farIndex = 0;
 

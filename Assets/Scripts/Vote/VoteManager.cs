@@ -66,9 +66,10 @@ public class VoteManager : MonoBehaviour
       {
         var mvpIndex = Array.IndexOf(Cycle.mvpCount, Cycle.mvpCount.Max());
         var mwpIndex = Array.IndexOf(Cycle.mwpCount, Cycle.mwpCount.Max());
+        var (nearIndex, farIndex) = CalcScore();
         context.Post(async state =>
         {
-          await PostVoteResult(mvpIndex, mwpIndex);
+          await PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex);
         }, message);
       }
     }
@@ -76,6 +77,12 @@ public class VoteManager : MonoBehaviour
     {
       Cycle.mvpIndex = message.mvpIndex;
       Cycle.mwpIndex = message.mwpIndex;
+      Cycle.nearIndex = message.nearIndex;
+      Cycle.farIndex = message.farIndex;
+      Debug.Log(Cycle.mvpIndex);
+      Debug.Log(Cycle.mwpIndex);
+      Debug.Log(Cycle.nearIndex);
+      Debug.Log(Cycle.farIndex);
       context.Post(state =>
       {
         SceneManager.LoadScene("VoteResult");
@@ -141,9 +148,9 @@ public class VoteManager : MonoBehaviour
     SetMWPBtns();
   }
 
-  private IEnumerator PostVoteResult(int mvpIndex, int mwpIndex)
+  private IEnumerator PostVoteResult(int mvpIndex, int mwpIndex, int nearIndex, int farIndex)
   {
-    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex);
+    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex, nearIndex, farIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
@@ -181,5 +188,33 @@ public class VoteManager : MonoBehaviour
     {
       b.interactable = (cnt != r); cnt++;
     }
+  }
+
+  private (int, int) CalcScore()
+  {
+    int nearIndex = 0;
+    int nearLoss = 10000;
+    int farIndex = 0;
+    int farLoss = -10000;
+
+    for (int i = 0; i < Cycle.names.Length; i++)
+    {
+      int loss = 0;
+      for (int j = 0; j < Cycle.names.Length; j++)
+      {
+        loss += Math.Abs(Cycle.predicts[i][j] - Cycle.numbers[j]);
+      }
+      if (loss < nearLoss)
+      {
+        nearIndex = i;
+        nearLoss = loss;
+      }
+      if (loss > farLoss)
+      {
+        farIndex = i;
+        farLoss = loss;
+      }
+    }
+    return (nearIndex, farIndex);
   }
 }

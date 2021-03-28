@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 using WebSocketSharp;
 using Cysharp.Threading.Tasks;
 
-public class Round2Manager : MonoBehaviour
+public class RoundManager : MonoBehaviour
 {
   private WebSocket ws;
   private float step_time;
