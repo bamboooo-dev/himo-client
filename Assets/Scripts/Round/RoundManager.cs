@@ -71,7 +71,6 @@ public class RoundManager : MonoBehaviour
         return;
       }
       Cycle.numbers = response.numbers;
-      Cycle.orderIndices = SortIndices(Cycle.numbers);
       Cycle.names = response.names;
       SceneManager.LoadScene("CardCheck");
     }, data);
@@ -92,16 +91,5 @@ public class RoundManager : MonoBehaviour
     {
       throw new InvalidOperationException(request.error);
     }
-  }
-
-  private int[] SortIndices(int[] numbers)
-  {
-    int[] indices = new int[numbers.Length];
-    int[] sortedNumbers = numbers.OrderBy(x => x).ToArray();
-    for (int i = 0; i < numbers.Length; i++)
-    {
-      indices[i] = Array.IndexOf(sortedNumbers, numbers[i]);
-    }
-    return indices;
   }
 }

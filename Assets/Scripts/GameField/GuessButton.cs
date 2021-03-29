@@ -61,7 +61,7 @@ public class GuessButton : MonoBehaviour
 
   private IEnumerator PostGuess(int[] numbers)
   {
-    GuessMessage message = new GuessMessage(numbers, Cycle.myIndex);
+    GuessMessage message = new GuessMessage(numbers, Cycle.myIndex, RoomStatus.cycleIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");

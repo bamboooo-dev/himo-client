@@ -86,8 +86,8 @@ public class WaitingRoomManager : MonoBehaviour
       // Cycle の started が true ならゲーム開始
       if (Cycle.started)
       {
-        // ゲーム開始にともなって各パラメータの初期化をここで行う
-        RoomInit();
+        // 各プレイヤーの持ち点は10点で開始する
+        RoomStatus.points = Enumerable.Repeat<int>(10, Cycle.names.Length).ToArray();
         SceneManager.LoadScene("CardCheck");
       }
     }
@@ -119,25 +119,7 @@ public class WaitingRoomManager : MonoBehaviour
   {
     var response = JsonUtility.FromJson<StartRoomResponse>(data);
     Cycle.numbers = response.numbers;
-    Cycle.orderIndices = SortIndices(Cycle.numbers);
     Cycle.names = response.names;
     Cycle.started = true;
-  }
-
-  private int[] SortIndices(int[] numbers)
-  {
-    int[] indices = new int[numbers.Length];
-    int[] sortedNumbers = numbers.OrderBy(x => x).ToArray();
-    for (int i = 0; i < numbers.Length; i++)
-    {
-      indices[i] = Array.IndexOf(sortedNumbers, numbers[i]);
-    }
-    return indices;
-  }
-
-  private void RoomInit()
-  {
-    // 各プレイヤーの持ち点は10点で開始する
-    RoomStatus.points = Enumerable.Repeat<int>(10, Cycle.names.Length).ToArray();
   }
 }

@@ -18,7 +18,7 @@ public class VoteButton : MonoBehaviour
 
   private IEnumerator PostVote(int mvpIndex, int mwpIndex)
   {
-    VoteMessage message = new VoteMessage("vote", mvpIndex, mwpIndex, 0, 0);
+    VoteMessage message = new VoteMessage("vote", mvpIndex, mwpIndex, 0, 0, RoomStatus.cycleIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");

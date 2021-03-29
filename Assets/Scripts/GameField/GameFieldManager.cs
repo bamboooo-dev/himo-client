@@ -17,11 +17,6 @@ public class GameFieldManager : MonoBehaviour
   void Start()
   {
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
-    Cycle.predicts = new int[Cycle.names.Length][];
-    for (int i = 0; i < Cycle.predicts.Length; i++)
-    {
-      Cycle.predicts[i] = new int[Cycle.names.Length];
-    }
     players = new Player[Cycle.names.Length];
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
     ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
@@ -83,7 +78,7 @@ public class GameFieldManager : MonoBehaviour
   {
     Debug.Log(data);
     var message = JsonUtility.FromJson<GuessMessage>(data);
-    if (message.type != "guess") return;
+    if (message.type != "guess" | message.cycleIndex != RoomStatus.cycleIndex) return;
     Cycle.predicts[message.playerIndex] = message.numbers;
     int index = message.playerIndex;
     context.Post(state =>

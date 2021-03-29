@@ -119,7 +119,7 @@ public class OrderingManager : MonoBehaviour
   private void ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonUtility.FromJson<OrderMessage>(data);
-    if (message.type != "order") return;
+    if (message.type != "order" | message.cycleIndex != RoomStatus.cycleIndex) return;
     string result = message.result;
     context.Post(state =>
     {

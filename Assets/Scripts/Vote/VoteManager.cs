@@ -57,7 +57,7 @@ public class VoteManager : MonoBehaviour
   private void ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonUtility.FromJson<VoteMessage>(data);
-    if (!message.type.Equals("vote") & !message.type.Equals("voteResult")) return;
+    if ((!message.type.Equals("vote") & !message.type.Equals("voteResult")) | message.cycleIndex != RoomStatus.cycleIndex) return;
     if (message.type.Equals("vote") & PlayerStatus.isHost)
     {
       Cycle.mvpCount[message.mvpIndex]++;
@@ -150,7 +150,7 @@ public class VoteManager : MonoBehaviour
 
   private IEnumerator PostVoteResult(int mvpIndex, int mwpIndex, int nearIndex, int farIndex)
   {
-    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex, nearIndex, farIndex);
+    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex, nearIndex, farIndex, RoomStatus.cycleIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
