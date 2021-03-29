@@ -20,7 +20,7 @@ public class GameFieldManager : MonoBehaviour
     Cycle.predicts = new int[Cycle.names.Length][];
     for (int i = 0; i < Cycle.predicts.Length; i++)
     {
-      Cycle.predicts[i] = new int[Cycle.predicts.Length];
+      Cycle.predicts[i] = new int[Cycle.names.Length];
     }
     players = new Player[Cycle.names.Length];
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
