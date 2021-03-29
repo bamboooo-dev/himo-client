@@ -12,24 +12,17 @@ public class RoundManager : MonoBehaviour
 {
   private WebSocket ws;
   private float step_time;
+  private int count;
   void Start()
   {
+    Debug.Log("Round Scene start");
 
     // DEBUG
     // RoomStatus.channelName = "263261a";
 
+    SetupWebSocket();
     step_time = 0.0f;
-    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
-    ws.OnOpen += (sender, e) =>
-    {
-      Debug.Log("WebSocket Open");
-    };
-    var context = SynchronizationContext.Current;
-    ws.OnMessage += (sender, e) =>
-    {
-      ProcessData(e.Data, context);
-    };
-    ws.Connect();
+    count = 0;
   }
 
   async void Update()
@@ -48,12 +41,35 @@ public class RoundManager : MonoBehaviour
     ws = null;
   }
 
+  private void SetupWebSocket()
+  {
+    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("WebSocket Open");
+    };
+    var context = SynchronizationContext.Current;
+    ws.OnMessage += (sender, e) =>
+    {
+      ProcessData(e.Data, context);
+    };
+    ws.Connect();
+  }
+
   private void ProcessData(string data, SynchronizationContext context)
   {
     Debug.Log(data);
     context.Post(state =>
     {
       var response = JsonUtility.FromJson<StartRoomResponse>(data);
+      if (response.type != "answer") return;
+
+      // 以前のデータも流れてくるため今回のデータのみ採用する
+      if (count < RoomStatus.cycleIndex)
+      {
+        count++;
+        return;
+      }
       Cycle.numbers = response.numbers;
       Cycle.orderIndices = SortIndices(Cycle.numbers);
       Cycle.names = response.names;

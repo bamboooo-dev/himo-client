@@ -51,7 +51,7 @@ public class GuessButton : MonoBehaviour
       }
       else if (Int32.Parse(input) <= 0 | Int32.Parse(input) >= 101)
       {
-        messageText.text = "1~100で入力してね";
+        messageText.text = "1から100で入力してね";
         return (validatedNumbers, false);
       }
       validatedNumbers[i] = Int32.Parse(input);

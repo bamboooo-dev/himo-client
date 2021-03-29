@@ -79,10 +79,10 @@ public class VoteManager : MonoBehaviour
       Cycle.mwpIndex = message.mwpIndex;
       Cycle.nearIndex = message.nearIndex;
       Cycle.farIndex = message.farIndex;
-      Debug.Log(Cycle.mvpIndex);
-      Debug.Log(Cycle.mwpIndex);
-      Debug.Log(Cycle.nearIndex);
-      Debug.Log(Cycle.farIndex);
+      Debug.Log("MVP Index: " + Cycle.mvpIndex);
+      Debug.Log("MWP Index: " + Cycle.mwpIndex);
+      Debug.Log("Near Index: " + Cycle.nearIndex);
+      Debug.Log("Far Index: " + Cycle.farIndex);
       context.Post(state =>
       {
         SceneManager.LoadScene("VoteResult");
