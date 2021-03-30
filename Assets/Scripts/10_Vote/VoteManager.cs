@@ -16,8 +16,8 @@ public class VoteManager : MonoBehaviour
   public bool isHost;
   private WebSocket ws;
   private VoteResult result;
-  private Button[] mvpBtns;
-  private Button[] mwpBtns;
+  public Button[] mvpBtns;
+  public Button[] mwpBtns;
 
   [SerializeField] private VotePlayer player;
   [SerializeField] private GameObject votePlayerParent;

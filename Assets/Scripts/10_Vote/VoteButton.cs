@@ -13,6 +13,16 @@ public class VoteButton : MonoBehaviour
   {
     this.gameObject.SetActive(false);
     messageText.gameObject.SetActive(true);
+    Button[] mvpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mvpBtns;
+    Button[] mwpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mwpBtns;
+    foreach (Button b in mvpBtns)
+    {
+      b.interactable = false;
+    }
+    foreach (Button b in mwpBtns)
+    {
+      b.interactable = false;
+    }
     await PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex"));
   }
 
