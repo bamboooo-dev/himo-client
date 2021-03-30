@@ -12,14 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 475ec4d85d87a4728a7657e3e514dc31
   - enabled: 1
+    path: Assets/Scenes/Nickname.unity
+    guid: 6f931033ffac748fb9d7ac0312993329
+  - enabled: 1
     path: Assets/Scenes/Home.unity
     guid: 8120b1577616648e6b7ac6befb5ed92d
   - enabled: 1
     path: Assets/Scenes/CreateRoom.unity
     guid: ea6e2224710e44ffe8f8f71f12936f56
-  - enabled: 1
-    path: Assets/Scenes/Nickname.unity
-    guid: 6f931033ffac748fb9d7ac0312993329
   - enabled: 1
     path: Assets/Scenes/JoinRoom.unity
     guid: 024284a50c0fde54880cbfb724ef2480
