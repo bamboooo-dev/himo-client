@@ -164,14 +164,6 @@ public class VoteManager : MonoBehaviour
     }
   }
 
-  private void MiddleResultSceneLoaded(Scene next, LoadSceneMode mode)
-  {
-    var middleResultSceneManager = GameObject.FindWithTag("MiddleResultSceneManager").GetComponent<MiddleResultSceneManager>();
-    middleResultSceneManager.result = result;
-
-    SceneManager.sceneLoaded -= MiddleResultSceneLoaded;
-  }
-
   private void SetMVPBtns()
   {
     int r = PlayerPrefs.GetInt("mvpIndex"), cnt = 0;

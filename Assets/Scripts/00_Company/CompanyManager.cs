@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CompanySceneController : MonoBehaviour
+public class CompanyManager : MonoBehaviour
 {
   private float step_time;
   // Start is called before the first frame update

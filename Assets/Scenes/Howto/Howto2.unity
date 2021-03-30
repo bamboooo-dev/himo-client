@@ -729,7 +729,7 @@ RectTransform:
   - {fileID: 1337178706}
   - {fileID: 1112029726}
   m_Father: {fileID: 741400651}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -869,7 +869,7 @@ RectTransform:
   m_GameObject: {fileID: 741400650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3462963, y: 0.3462963, z: 0.3462963}
+  m_LocalScale: {x: 0.37222224, y: 0.37222224, z: 0.37222224}
   m_Children:
   - {fileID: 258607077}
   - {fileID: 250489932}
@@ -877,6 +877,7 @@ RectTransform:
   - {fileID: 1849695483}
   - {fileID: 877332192}
   - {fileID: 1133797427}
+  - {fileID: 1161407307}
   - {fileID: 1618355366}
   - {fileID: 598937146}
   m_Father: {fileID: 1459562235}
@@ -885,7 +886,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1079.9999}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &741400652
 CanvasRenderer:
@@ -1057,7 +1058,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u81EA\u5206\u306E\u6570\u5B57\u3092\u3046\u307E\u304F\u305F\u3068\u3048\u3088\u3046"
+  m_Text: " \u81EA\u5206\u306E\u6570\u5B57\u3092\u3046\u307E\u304F\u4F8B\u3048\u3088\u3046"
 --- !u!222 &885884997
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1244,13 +1245,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 885884995}
-  m_Father: {fileID: 1618355366}
-  m_RootOrder: 1
+  m_Father: {fileID: 741400651}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 580, y: 0}
-  m_SizeDelta: {x: 900, y: 140}
+  m_AnchoredPosition: {x: 0, y: -220}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1161407308
 MonoBehaviour:
@@ -1483,15 +1484,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.13982183
+    x: 0.00023308396
     y: 0
-    width: 0.72035635
+    width: 0.99953383
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.49629
+  orthographic size: 5.402519
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1744,9 +1745,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1513243511}
-  - {fileID: 1161407307}
   m_Father: {fileID: 741400651}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
