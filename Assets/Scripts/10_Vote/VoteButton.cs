@@ -15,13 +15,15 @@ public class VoteButton : MonoBehaviour
     messageText.gameObject.SetActive(true);
     Button[] mvpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mvpBtns;
     Button[] mwpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mwpBtns;
-    foreach (Button b in mvpBtns)
+    for (int i = 0; i < mvpBtns.Length; i++)
     {
-      b.interactable = false;
+      if (i == PlayerPrefs.GetInt("mvpIndex")) continue;
+      mvpBtns[i].gameObject.SetActive(false);
     }
-    foreach (Button b in mwpBtns)
+    for (int i = 0; i < mwpBtns.Length; i++)
     {
-      b.interactable = false;
+      if (i == PlayerPrefs.GetInt("mwpIndex")) continue;
+      mwpBtns[i].gameObject.SetActive(false);
     }
     await PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex"));
   }
