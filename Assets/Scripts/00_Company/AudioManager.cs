@@ -43,6 +43,8 @@ public class AudioManager : MonoBehaviour
       Destroy(this.gameObject);
       return;
     }
+    BGMVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+    SEVolume = PlayerPrefs.GetFloat("SEVolume", 0.5f);
     DontDestroyOnLoad(this.gameObject);
   }
 

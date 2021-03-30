@@ -12,6 +12,11 @@ public class SettingDialog : MonoBehaviour
   public void OnOk()
   {
     AudioManager.GetInstance().PlaySound(0);
+
+    // 音量を保存する
+    PlayerPrefs.SetFloat("BGMVolume", AudioManager.GetInstance().BGMVolume);
+    PlayerPrefs.SetFloat("SEVolume", AudioManager.GetInstance().SEVolume);
+    PlayerPrefs.Save();
     Destroy(this.gameObject);
   }
 
