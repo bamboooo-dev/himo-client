@@ -29,7 +29,9 @@ public class WaitingRoomManager : MonoBehaviour
 
   void Start()
   {
+    Debug.Log("WaitingRoom scene started");
     Debug.Log(RoomStatus.channelName);
+    RoomStatus.started = false;
     if (!PlayerStatus.isHost)
     {
       startButton.SetActive(false);
@@ -83,8 +85,8 @@ public class WaitingRoomManager : MonoBehaviour
         startButton.GetComponent<StartButton>().OnClickStartButton();
       }
 
-      // Cycle の started が true ならゲーム開始
-      if (Cycle.started)
+      // RoomStatus の started が true ならゲーム開始
+      if (RoomStatus.started)
       {
         // 各プレイヤーの持ち点は10点で開始する
         RoomStatus.points = Enumerable.Repeat<int>(10, Cycle.names.Length).ToArray();
@@ -120,6 +122,6 @@ public class WaitingRoomManager : MonoBehaviour
     var response = JsonUtility.FromJson<StartRoomResponse>(data);
     Cycle.numbers = response.numbers;
     Cycle.names = response.names;
-    Cycle.started = true;
+    RoomStatus.started = true;
   }
 }

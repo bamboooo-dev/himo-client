@@ -8,6 +8,7 @@ public class StartButton : MonoBehaviour
 {
   public async void OnClickStartButton()
   {
+    this.gameObject.SetActive(false);
     AudioManager.GetInstance().PlaySound(0);
     await StartRoomRequest();
   }
