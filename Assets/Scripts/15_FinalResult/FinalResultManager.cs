@@ -1,7 +1,6 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Linq;
 
 public class FinalResultManager : MonoBehaviour
 {
