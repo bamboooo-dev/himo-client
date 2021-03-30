@@ -12,13 +12,12 @@ public class CardCheckManager : MonoBehaviour
 
   void Start()
   {
-    Debug.Log("CardCheck Scene started");
-
     // ゲーム開始にともなって各パラメータの初期化をここで行う
     myNumberText.text = "";
     RoomInit();
     int myNumber = ExtractMyNumber();
     myNumberText.text = myNumber.ToString();
+    Debug.Log("CardCheck Scene started");
   }
 
   void Update()

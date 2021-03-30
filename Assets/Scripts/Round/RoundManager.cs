@@ -28,7 +28,7 @@ public class RoundManager : MonoBehaviour
   async void Update()
   {
     step_time += Time.deltaTime;
-    if (step_time >= 3.0f)
+    if (step_time >= 3.0f & PlayerStatus.isHost)
     {
       step_time = 0.0f;
       await StartRoomRequest();
