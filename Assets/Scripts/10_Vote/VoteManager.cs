@@ -25,7 +25,8 @@ public class VoteManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    // Cycle.names = new string[] { "a", "b" };
+    // Cycle.names = new string[] { "a", "b", "c" };
+    // Cycle.numbers = new int[] { 20, 59, 100 };
 
     Cycle.mvpCount = new int[Cycle.names.Length];
     Cycle.mwpCount = new int[Cycle.names.Length];
@@ -124,6 +125,8 @@ public class VoteManager : MonoBehaviour
       ColorUtility.TryParseHtmlString(colors[i], out newCol);
       _player.transform.Find("Name").GetComponent<Text>().color = newCol;
       _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
+      _player.transform.Find("Answer").Find("Text").GetComponent<Text>().text = Cycle.numbers[i].ToString();
+      _player.transform.Find("Answer").Find("Text").GetComponent<Text>().color = newCol;
 
       // MVP・MWP ボタンの初期設定
       int tmp = i;
