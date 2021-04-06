@@ -27,6 +27,11 @@ public class VoteManager : MonoBehaviour
     // DEBUG
     // Cycle.names = new string[] { "a", "b", "c" };
     // Cycle.numbers = new int[] { 20, 59, 100 };
+    // Cycle.predicts = new int[][]{
+    //   new int[] { 20, 40, 80 },
+    //   new int[] { 22, 59, 80 },
+    //   new int[] { 30, 40, 100 }
+    // };
 
     Cycle.mvpCount = new int[Cycle.names.Length];
     Cycle.mwpCount = new int[Cycle.names.Length];

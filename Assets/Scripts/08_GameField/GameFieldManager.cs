@@ -16,6 +16,15 @@ public class GameFieldManager : MonoBehaviour
 
   void Start()
   {
+    // DEBUG
+    // RoomStatus.cycleIndex = 0;
+    // RoomStatus.themes = new Theme[] {
+    //   new Theme(0, "好きな食べ物は")
+    // };
+    // Cycle.names = new string[] { "a", "b", "c" };
+    // Cycle.numbers = new int[] { 1, 2, 3 };
+    // Cycle.myIndex = 0;
+
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     players = new Player[Cycle.names.Length];
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
