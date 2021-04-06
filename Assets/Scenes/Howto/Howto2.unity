@@ -261,6 +261,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &166715325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166715326}
+  - component: {fileID: 166715328}
+  - component: {fileID: 166715327}
+  m_Layer: 5
+  m_Name: Text (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &166715326
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166715325}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 741400651}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -430}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &166715327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166715325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.16078432, g: 0.47058827, b: 0.454902, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5fc28c43cff92e94a9d6d28eca9e98fc, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: "\u4ED6\u306E\u4EBA\u306E\u4F8B\u3048\u3092\u805E\u304D\u306A\u304C\u3089\u3001\u307F\u3093\u306A\u306E\u6570\u5B57\u3092\u4E88\u60F3\u3057\u307E\u3057\u3087\u3046\uFF01\r\n"
+--- !u!222 &166715328
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166715325}
+  m_CullTransparentMesh: 0
 --- !u!1 &250489931
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +947,7 @@ RectTransform:
   m_GameObject: {fileID: 741400650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.37222224, y: 0.37222224, z: 0.37222224}
+  m_LocalScale: {x: 0.30833334, y: 0.30833334, z: 0.30833334}
   m_Children:
   - {fileID: 258607077}
   - {fileID: 250489932}
@@ -880,6 +958,7 @@ RectTransform:
   - {fileID: 1161407307}
   - {fileID: 1618355366}
   - {fileID: 598937146}
+  - {fileID: 166715326}
   m_Father: {fileID: 1459562235}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -945,7 +1024,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -400}
+  m_AnchoredPosition: {x: 0, y: -390}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &877332193
@@ -980,7 +1059,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u914D\u3089\u308C\u305F\u30AB\u30FC\u30C9\u306F 83 \u3060\u3063\u305F\u306E\u3067\u3053\u306E\u304A\u984C\u3060\u3068\u300CTOKIO\u300D\u3068\u3044\u3063\u305F\u3068\u3053\u308D\u3067\u3057\u3087\u3046\u304B\uFF1F\r\n\u4ED6\u306E\u4EBA\u306E\u4F8B\u3048\u3092\u805E\u304D\u306A\u304C\u3089\u3001\u307F\u3093\u306A\u306E\u6570\u5B57\u3092\u4E88\u60F3\u3057\u307E\u3057\u3087\u3046\uFF01\r\n"
+  m_Text: "\u914D\u3089\u308C\u305F\u30AB\u30FC\u30C9\u306F 83 \u3060\u3063\u305F\u306E\u3067\u3053\u306E\u304A\u984C\u3060\u3068\u300CTOKIO\u300D\u3068\u3044\u3063\u305F\u3068\u3053\u308D\u3067\u3057\u3087\u3046\u304B\uFF1F\r\n\n"
 --- !u!222 &877332194
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1197,7 +1276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 657de09740421494499585079f85133b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25c99bb72c706a04c9a368f55c7806cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1484,15 +1563,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.00023308396
+    x: 0
     y: 0
-    width: 0.99953383
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.402519
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
