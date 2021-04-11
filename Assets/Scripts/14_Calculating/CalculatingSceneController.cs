@@ -17,7 +17,7 @@ public class CalculatingSceneController : MonoBehaviour
     step_time += Time.deltaTime;
 
     // 1秒後に画面遷移( Title へ移動)
-    if (step_time >= 1.0f)
+    if (step_time >= 5.0f)
     {
       SceneManager.LoadScene("FinalResult");
     }

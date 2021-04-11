@@ -20,9 +20,9 @@ public class FinalResultManager : MonoBehaviour
     // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
 
     SortNames();
-    Invoke(nameof(ShowThirdPlace), 1.0f);
-    Invoke(nameof(ShowSecondPlace), 2.0f);
-    Invoke(nameof(ShowFirstPlace), 3.0f);
+    Invoke(nameof(ShowThirdPlace), 3.0f);
+    Invoke(nameof(ShowSecondPlace), 4.0f);
+    Invoke(nameof(ShowFirstPlace), 6.0f);
   }
 
   private void ShowThirdPlace()

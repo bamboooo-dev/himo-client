@@ -53,8 +53,6 @@ public class OrderButton : MonoBehaviour
 
   private string Judge(int playerIndex)
   {
-    Debug.Log(Cycle.orderIndices[0]);
-    Debug.Log(Cycle.orderIndices[1]);
     // 最後の要素だと "FIN" を返す
     if (Cycle.orderIndices.Length - 1 == Cycle.nextIndex)
     {

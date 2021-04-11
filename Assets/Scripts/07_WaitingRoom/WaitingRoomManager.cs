@@ -30,7 +30,7 @@ public class WaitingRoomManager : MonoBehaviour
   void Start()
   {
     Debug.Log("WaitingRoom scene started");
-    Debug.Log(RoomStatus.channelName);
+    Debug.Log("channelName: " + RoomStatus.channelName);
     RoomStatus.started = false;
     if (!PlayerStatus.isHost)
     {
@@ -61,7 +61,8 @@ public class WaitingRoomManager : MonoBehaviour
 
     ws.OnClose += (sender, e) =>
     {
-      Debug.Log("WebSocket Close");
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
     };
 
     ws.Connect();

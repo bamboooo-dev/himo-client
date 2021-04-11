@@ -38,6 +38,11 @@ public class GameFieldManager : MonoBehaviour
     {
       ProcessData(e.Data, context);
     };
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
+    };
     ws.Connect();
   }
 

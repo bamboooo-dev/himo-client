@@ -45,7 +45,11 @@ public class OrderingManager : MonoBehaviour
       {
         ProcessData(e.Data, context);
       };
-      ws.Connect();
+      ws.OnClose += (sender, e) =>
+      {
+        Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+        if (e.Code == 1006) { ws.Connect(); }
+      };
     }
   }
 

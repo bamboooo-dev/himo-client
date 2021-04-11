@@ -57,9 +57,9 @@ public class CardCheckManager : MonoBehaviour
   {
     int[] indices = new int[numbers.Length];
     int[] sortedNumbers = numbers.OrderBy(x => x).ToArray();
-    for (int i = 0; i < numbers.Length; i++)
+    for (int i = 0; i < sortedNumbers.Length; i++)
     {
-      indices[i] = Array.IndexOf(sortedNumbers, numbers[i]);
+      indices[i] = Array.IndexOf(numbers, sortedNumbers[i]);
     }
     return indices;
   }

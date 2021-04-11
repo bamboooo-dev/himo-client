@@ -32,18 +32,11 @@ public class HomeManager : MonoBehaviour
 
     // Initialize an InterstitialAd.
     this.interstitial = new InterstitialAd(adUnitId);
-    this.interstitial.OnAdLoaded += HandleInterstitialBasedVideoLoaded;
 
     // Create an empty ad request.
     AdRequest request = new AdRequest.Builder().Build();
     // Load the interstitial with the request.
     this.interstitial.LoadAd(request);
   }
-
-  public void HandleInterstitialBasedVideoLoaded(object sender, EventArgs args)
-   {
-      interstitial.Show();
-   }
-
 }
 

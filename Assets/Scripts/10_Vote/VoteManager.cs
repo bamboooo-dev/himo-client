@@ -57,6 +57,11 @@ public class VoteManager : MonoBehaviour
     {
       Debug.Log("WebSocket Error Message: " + e.Message);
     };
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
+    };
     return ws;
   }
 
@@ -85,10 +90,6 @@ public class VoteManager : MonoBehaviour
       Cycle.mwpIndex = message.mwpIndex;
       Cycle.nearIndex = message.nearIndex;
       Cycle.farIndex = message.farIndex;
-      Debug.Log("MVP Index: " + Cycle.mvpIndex);
-      Debug.Log("MWP Index: " + Cycle.mwpIndex);
-      Debug.Log("Near Index: " + Cycle.nearIndex);
-      Debug.Log("Far Index: " + Cycle.farIndex);
       context.Post(state =>
       {
         SceneManager.LoadScene("VoteResult");
