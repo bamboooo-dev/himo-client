@@ -1,8 +1,8 @@
 public static class Url
 {
-  private static string outgame = "http://168.138.198.236:5502";
-  private static string ingame = "http://168.138.198.236";
-  private static string wsIngame = "ws://168.138.198.236";
+  private static string outgame = "http://185.81.165.107:31488";
+  private static string ingame = "http://185.81.165.107:32762";
+  private static string wsIngame = "ws://185.81.165.107:32762";
 
   public static string OutgameIP()
   {

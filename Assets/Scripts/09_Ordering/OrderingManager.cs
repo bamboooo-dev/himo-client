@@ -50,6 +50,7 @@ public class OrderingManager : MonoBehaviour
         Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
         if (e.Code == 1006) { ws.Connect(); }
       };
+      ws.Connect();
     }
   }
 
