@@ -1068,6 +1068,10 @@ MonoBehaviour:
     m_Options:
     - m_Text: "\u304A\u307E\u304B\u305B"
       m_Image: {fileID: 0}
+    - m_Text: "\u30A8\u30F3\u30B8\u30CB\u30A2"
+      m_Image: {fileID: 0}
+    - m_Text: "18\u7981"
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1581,7 +1585,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 390}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &669819673
 MonoBehaviour:
@@ -1730,6 +1734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropdownComponent: {fileID: 126718405}
+  categoryDropdown: {fileID: 501430322}
   parent: {fileID: 1858252074}
   dialog: {fileID: 2372224455022005225, guid: ed2efc5bccd9d4735bb3105e639fd634, type: 3}
 --- !u!1 &821689904
@@ -2017,8 +2022,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.5, y: -0.5}
-  m_SizeDelta: {x: 465, y: 87}
+  m_AnchoredPosition: {x: -65, y: -0.000026703}
+  m_SizeDelta: {x: 570, y: 130.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &935077394
 MonoBehaviour:
@@ -2046,7 +2051,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 150
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -2400,7 +2405,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u4ECA\u306F\u304A\u307E\u304B\u305B\u3057\u304B\n\u9078\u3079\u306A\u3044\u306E"
+  m_Text: "\u4ECA\u306F3\u3064\u306E\u304A\u984C\u3057\u304B\n\u9078\u3079\u306A\u3044\u306E"
 --- !u!222 &1210244577
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3013,15 +3018,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.09550157
+    x: 0.05226338
     y: 0
-    width: 0.80899686
+    width: 0.89547324
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.674933
+  orthographic size: 6.030331
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3586,7 +3591,7 @@ RectTransform:
   m_GameObject: {fileID: 1858252074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.52037036, y: 0.52037036, z: 0.52037036}
+  m_LocalScale: {x: 0.6296297, y: 0.6296297, z: 0.6296297}
   m_Children:
   - {fileID: 282521352}
   - {fileID: 126718404}
@@ -3605,7 +3610,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00024414062, y: -0.0010681152}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 1919.9999, y: 1079.9999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1858252076
 CanvasRenderer:

@@ -51,11 +51,12 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   }
 
   [SerializeField] private Dropdown dropdownComponent;
+  [SerializeField] private Dropdown categoryDropdown;
   private IEnumerator PostRequestAsync()
   {
     var createRoomRequest = new CreateRoomRequest();
     createRoomRequest.max_num = Int32.Parse(dropdownComponent.options[dropdownComponent.value].text.ToString());
-    createRoomRequest.theme_ids = RandomThemeIDs();
+    createRoomRequest.theme_ids = RandomThemeIDs(categoryDropdown.value);
     string myjson = JsonUtility.ToJson(createRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
     var request = new UnityWebRequest(Url.Room(), "POST");
@@ -74,10 +75,26 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
   }
 
-  private int[] RandomThemeIDs()
+  private int[] RandomThemeIDs(int categoryID)
   {
-    int start = 1;
-    int end = 40;
+    int start = 0;
+    int end = 0;
+    switch (categoryID)
+    {
+      case 0: // おまかせ
+        start = 1;
+        end = 40;
+        break;
+      case 1: // エンジニア
+        start = 41;
+        end = 80;
+        break;
+      case 2: // 18禁
+        start = 81;
+        end = 120;
+        break;
+    }
+
     int count = 3;
     int[] ids = new int[count];
 
