@@ -25,12 +25,15 @@ public class VoteManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    // Cycle.names = new string[] { "a", "b", "c" };
-    // Cycle.numbers = new int[] { 20, 59, 100 };
+    // Cycle.names = new string[] { "a", "b", "c", "d", "e", "f" };
+    // Cycle.numbers = new int[] { 20, 59, 100, 40, 10, 30 };
     // Cycle.predicts = new int[][]{
-    //   new int[] { 20, 40, 80 },
-    //   new int[] { 22, 59, 80 },
-    //   new int[] { 30, 40, 100 }
+    //   new int[] { 20, 40, 80, 35, 11, 32 },
+    //   new int[] { 22, 59, 90, 45, 15, 35 },
+    //   new int[] { 30, 60, 95, 33, 22, 11 },
+    //   new int[] { 40, 30, 70, 34, 20, 50 },
+    //   new int[] { 10, 50, 82, 22, 10, 30 },
+    //   new int[] { 25, 55, 83, 41, 11, 33 },
     // };
 
     Cycle.mvpCount = new int[Cycle.names.Length];

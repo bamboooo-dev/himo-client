@@ -21,8 +21,8 @@ public class GameFieldManager : MonoBehaviour
     // RoomStatus.themes = new Theme[] {
     //   new Theme(0, "好きな食べ物は")
     // };
-    // Cycle.names = new string[] { "a", "b", "c" };
-    // Cycle.numbers = new int[] { 1, 2, 3 };
+    // Cycle.names = new string[] { "a", "b", "c", "d", "e", "f" };
+    // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
     // Cycle.myIndex = 0;
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;

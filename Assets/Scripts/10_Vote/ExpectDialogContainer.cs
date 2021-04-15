@@ -5,7 +5,7 @@ public class ExpectDialogContainer : MonoBehaviour
 {
   void Start()
   {
-    string[] colors = new string[] { "Green", "Blue", "Brown", "Purple", "Orange", "Ocher" };
+    string[] colors = new string[] { "Green", "Blue", "Orange", "Brown", "Purple", "Ocher" };
     for (int i = 0; i < colors.Length; i++)
     {
       Transform row = gameObject.transform.Find("DialogBody").Find(colors[i]);
