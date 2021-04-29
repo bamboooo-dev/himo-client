@@ -17,12 +17,12 @@ public class GuessButton : MonoBehaviour
     (int[] numbers, bool isValid) = Validate(players);
     if (!isValid) { return; }
 
+    this.gameObject.SetActive(false);
     // 自分の予想を記憶しておく
     Cycle.predicts[Cycle.myIndex] = numbers;
 
     await PostGuess(numbers);
 
-    this.gameObject.SetActive(false);
     messageText.text = "みんなの予想が終わるまで待ってね！";
 
     // 自分が予想完了したことを示す
