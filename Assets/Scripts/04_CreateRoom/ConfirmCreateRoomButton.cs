@@ -40,13 +40,17 @@ public class ConfirmCreateRoomButton : MonoBehaviour
       SaveThemes(response.themes);
       SceneManager.LoadScene("WaitingRoom");
     }
+    catch (UnauthorizedException)
+    {
+      ShowDialog("認証に失敗しました");
+    }
     catch (UnityWebRequestException)
     {
-      ShowDialog();
+      ShowDialog("通信に失敗しました");
     }
     catch (InvalidOperationException)
     {
-      ShowDialog();
+      ShowDialog("通信に失敗しました");
     }
   }
 
@@ -63,8 +67,12 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
-    request.SetRequestHeader("Authorization", Token.getToken());
+    request.SetRequestHeader("Authorization", "");
     yield return request.SendWebRequest();
+    if (request.responseCode == 401)
+    {
+      throw new UnauthorizedException();
+    }
     if (request.isHttpError || request.isNetworkError)
     {
       throw new InvalidOperationException(request.error);
@@ -122,11 +130,12 @@ public class ConfirmCreateRoomButton : MonoBehaviour
   // 表示するダイアログ
   [SerializeField] private Dialog dialog = default;
 
-  public void ShowDialog()
+  public void ShowDialog(string message)
   {
     // 生成してCanvasの子要素に設定
     var _dialog = Instantiate(dialog);
     _dialog.transform.SetParent(parent.transform, false);
+    _dialog.transform.Find("Image_DialogBody").Find("Message").GetComponent<Text>().text = message;
     // ボタンが押されたときのイベント処理
     _dialog.FixDialog = result => Debug.Log(result);
   }

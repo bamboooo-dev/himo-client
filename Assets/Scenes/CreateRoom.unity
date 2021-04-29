@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "\u304A\u307E\u304B\u305B"
+    - m_Text: "\u4E00\u822C\u5411\u3051"
       m_Image: {fileID: 0}
     - m_Text: "\u30A8\u30F3\u30B8\u30CB\u30A2"
       m_Image: {fileID: 0}
@@ -1914,6 +1914,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847547633}
   m_CullTransparentMesh: 0
+--- !u!1 &877139168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 877139169}
+  - component: {fileID: 877139170}
+  m_Layer: 0
+  m_Name: GoogleAdMobController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &877139169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877139168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 416.65518, y: 128.10643, z: -17.02395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877139170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877139168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7ff6fa7c26f4e68b561d85fd830159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &907974708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,7 +2100,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u304A\u307E\u304B\u305B"
+  m_Text: "\u4E00\u822C\u5411\u3051"
 --- !u!222 &935077395
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3018,15 +3061,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.05226338
+    x: 0.09019521
     y: 0
-    width: 0.89547324
+    width: 0.8196096
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.030331
+  orthographic size: 6.588503
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3591,7 +3634,7 @@ RectTransform:
   m_GameObject: {fileID: 1858252074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6296297, y: 0.6296297, z: 0.6296297}
+  m_LocalScale: {x: 0.32314816, y: 0.32314816, z: 0.32314816}
   m_Children:
   - {fileID: 282521352}
   - {fileID: 126718404}
@@ -3610,7 +3653,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00024414062, y: -0.0010681152}
-  m_SizeDelta: {x: 1919.9999, y: 1079.9999}
+  m_SizeDelta: {x: 1919.9999, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1858252076
 CanvasRenderer:

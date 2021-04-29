@@ -11,3 +11,15 @@ public class RoomNotFoundException : Exception
   public RoomNotFoundException(string message, Exception innerException)
     : base(message, innerException) { }
 }
+
+public class UnauthorizedException : Exception
+{
+  public UnauthorizedException()
+    : base("Unauthoried.") { }
+
+  public UnauthorizedException(string message)
+    : base(message) { }
+
+  public UnauthorizedException(string message, Exception innerException)
+    : base(message, innerException) { }
+}
