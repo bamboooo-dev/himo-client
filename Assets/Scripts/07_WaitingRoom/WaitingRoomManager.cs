@@ -81,10 +81,11 @@ public class WaitingRoomManager : MonoBehaviour
       nowSubscribersText.text = response.subscribers.ToString();
       maxSubscribersText.text = response.limits.subscribers.ToString();
 
-      if (PlayerStatus.isHost & response.subscribers == response.limits.subscribers)
-      {
-        startButton.GetComponent<StartButton>().OnClickStartButton();
-      }
+      // POST /start が 2回送られる可能性があるので人数が揃ったことによるゲーム開始は行わないものとする
+      // if (PlayerStatus.isHost & response.subscribers == response.limits.subscribers)
+      // {
+      //   startButton.GetComponent<StartButton>().OnClickStartButton();
+      // }
 
       // RoomStatus の started が true ならゲーム開始
       if (RoomStatus.started)
