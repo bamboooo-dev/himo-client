@@ -24,6 +24,11 @@ public class GameFieldManager : MonoBehaviour
     // Cycle.names = new string[] { "a", "b", "c", "d", "e", "f" };
     // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
     // Cycle.myIndex = 0;
+    // Cycle.predicts = new int[Cycle.names.Length][];
+    // for (int i = 0; i < Cycle.predicts.Length; i++)
+    // {
+    //   Cycle.predicts[i] = new int[Cycle.names.Length];
+    // }
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     players = new Player[Cycle.names.Length];
