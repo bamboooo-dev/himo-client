@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using WebSocketSharp;
-using Cysharp.Threading.Tasks;
 
 public class RoundManager : MonoBehaviour
 {
@@ -20,17 +19,10 @@ public class RoundManager : MonoBehaviour
     // RoomStatus.channelName = "263261a";
 
     SetupWebSocket();
-    step_time = 0.0f;
     count = 0;
-  }
-
-  async void Update()
-  {
-    step_time += Time.deltaTime;
-    if (step_time >= 3.0f & PlayerStatus.isHost)
+    if (PlayerStatus.isHost)
     {
-      step_time = 0.0f;
-      await StartRoomRequest();
+      StartCoroutine(StartRoomRequest());
     }
   }
 
@@ -82,6 +74,7 @@ public class RoundManager : MonoBehaviour
 
   private IEnumerator StartRoomRequest()
   {
+    yield return new WaitForSeconds(3);
     var startRoomRequest = new StartRoomRequest(RoomStatus.channelName);
     string myjson = JsonUtility.ToJson(startRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);

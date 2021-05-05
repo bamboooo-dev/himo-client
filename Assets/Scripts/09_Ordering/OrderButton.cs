@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-using Cysharp.Threading.Tasks;
 
 public class OrderButton : MonoBehaviour
 {
   [SerializeField] private Image successImage;
   [SerializeField] private Image failedImage;
 
-  public async void OnClick()
+  public void OnClick()
   {
     int playerIndex = PlayerPrefs.GetInt("radio");
     string result = Judge(playerIndex);
-    await PostOrder(result, playerIndex);
+    StartCoroutine(PostOrder(result, playerIndex));
     if (result == "OK")
     {
       successImage.gameObject.SetActive(true);

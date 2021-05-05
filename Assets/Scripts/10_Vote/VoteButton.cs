@@ -3,15 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
-using Cysharp.Threading.Tasks;
 
 public class VoteButton : MonoBehaviour
 {
   public Text messageText;
 
-  public async void OnClick()
+  public void OnClick()
   {
-    this.gameObject.SetActive(false);
     messageText.gameObject.SetActive(true);
     Button[] mvpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mvpBtns;
     Button[] mwpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mwpBtns;
@@ -25,7 +23,8 @@ public class VoteButton : MonoBehaviour
       if (i == PlayerPrefs.GetInt("mwpIndex")) continue;
       mwpBtns[i].gameObject.SetActive(false);
     }
-    await PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex"));
+    StartCoroutine(PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex")));
+    this.gameObject.SetActive(false);
   }
 
   private IEnumerator PostVote(int mvpIndex, int mwpIndex)

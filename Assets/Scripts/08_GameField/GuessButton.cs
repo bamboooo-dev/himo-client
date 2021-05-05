@@ -4,24 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using Cysharp.Threading.Tasks;
 
 public class GuessButton : MonoBehaviour
 {
   public Text messageText;
 
-  public async void OnClick()
+  public void OnClick()
   {
     Player[] players = GameObject.Find("GameFieldManager").GetComponent<GameFieldManager>().players;
 
     (int[] numbers, bool isValid) = Validate(players);
     if (!isValid) { return; }
 
-    this.gameObject.SetActive(false);
     // 自分の予想を記憶しておく
     Cycle.predicts[Cycle.myIndex] = numbers;
 
-    await PostGuess(numbers);
+    StartCoroutine(PostGuess(numbers));
+    this.gameObject.SetActive(false);
 
     messageText.text = "みんなの予想が終わるまで待ってね！";
 

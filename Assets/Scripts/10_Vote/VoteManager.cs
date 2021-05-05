@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
-using Cysharp.Threading.Tasks;
 
 public class VoteManager : MonoBehaviour
 {
@@ -81,9 +80,9 @@ public class VoteManager : MonoBehaviour
         var mvpIndex = Array.IndexOf(Cycle.mvpCount, Cycle.mvpCount.Max());
         var mwpIndex = Array.IndexOf(Cycle.mwpCount, Cycle.mwpCount.Max());
         var (nearIndex, farIndex) = CalcScore();
-        context.Post(async state =>
+        context.Post(state =>
         {
-          await PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex);
+          StartCoroutine(PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex));
         }, message);
       }
     }

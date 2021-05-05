@@ -443,15 +443,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.09019521
+    x: 0.05903229
     y: 0
-    width: 0.8196096
+    width: 0.8819354
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.588503
+  orthographic size: 6.1228976
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -550,7 +550,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v1.5.1
+  m_Text: v1.5.2
 --- !u!222 &1093755301
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -586,7 +586,7 @@ RectTransform:
   m_GameObject: {fileID: 1390593700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.32314816, y: 0.32314816, z: 0.32314816}
+  m_LocalScale: {x: 0.70462966, y: 0.70462966, z: 0.70462966}
   m_Children:
   - {fileID: 117874337}
   - {fileID: 1902816065}
@@ -599,7 +599,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390593702
 MonoBehaviour:

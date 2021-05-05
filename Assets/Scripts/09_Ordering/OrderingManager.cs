@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,8 @@ public class OrderingManager : MonoBehaviour
     // {
     //   Cycle.predicts[i] = new int[Cycle.names.Length];
     // }
-    // PlayerStatus.isHost = false;
+    // Cycle.orderIndices = SortIndices(Cycle.numbers);
+    // PlayerStatus.isHost = true;
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
 
@@ -67,6 +69,17 @@ public class OrderingManager : MonoBehaviour
       };
       ws.Connect();
     }
+  }
+
+  private int[] SortIndices(int[] numbers)
+  {
+    int[] indices = new int[numbers.Length];
+    int[] sortedNumbers = numbers.OrderBy(x => x).ToArray();
+    for (int i = 0; i < sortedNumbers.Length; i++)
+    {
+      indices[i] = Array.IndexOf(numbers, sortedNumbers[i]);
+    }
+    return indices;
   }
 
   void OnDestroy()

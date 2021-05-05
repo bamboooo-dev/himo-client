@@ -21,14 +21,15 @@ public class GameFieldManager : MonoBehaviour
     // RoomStatus.themes = new Theme[] {
     //   new Theme(0, "好きな食べ物は")
     // };
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e", "f" };
-    // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
+    // Cycle.names = new string[] { "a", "b" };
+    // Cycle.numbers = new int[] { 1, 2 };
     // Cycle.myIndex = 0;
     // Cycle.predicts = new int[Cycle.names.Length][];
     // for (int i = 0; i < Cycle.predicts.Length; i++)
     // {
     //   Cycle.predicts[i] = new int[Cycle.names.Length];
     // }
+    // RoomStatus.channelName = "hikari5";
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     players = new Player[Cycle.names.Length];
