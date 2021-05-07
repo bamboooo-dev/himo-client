@@ -6,11 +6,8 @@ using System.Collections;
 
 public class VoteButton : MonoBehaviour
 {
-  public Text messageText;
-
   public void OnClick()
   {
-    messageText.gameObject.SetActive(true);
     Button[] mvpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mvpBtns;
     Button[] mwpBtns = GameObject.Find("VoteManager").GetComponent<VoteManager>().mwpBtns;
     for (int i = 0; i < mvpBtns.Length; i++)
@@ -24,12 +21,11 @@ public class VoteButton : MonoBehaviour
       mwpBtns[i].gameObject.SetActive(false);
     }
     StartCoroutine(PostVote(PlayerPrefs.GetInt("mvpIndex"), PlayerPrefs.GetInt("mwpIndex")));
-    this.gameObject.SetActive(false);
   }
 
   private IEnumerator PostVote(int mvpIndex, int mwpIndex)
   {
-    VoteMessage message = new VoteMessage("vote", mvpIndex, mwpIndex, 0, 0, RoomStatus.cycleIndex);
+    VoteMessage message = new VoteMessage("vote", mvpIndex, mwpIndex, 0, 0, RoomStatus.cycleIndex, Cycle.myIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");

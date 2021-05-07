@@ -300,7 +300,7 @@ RectTransform:
   m_GameObject: {fileID: 58009276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.60925925, y: 0.60925925, z: 0.60925925}
+  m_LocalScale: {x: 0.42407405, y: 0.42407405, z: 0.42407405}
   m_Children:
   - {fileID: 332300269}
   - {fileID: 869850493}
@@ -314,7 +314,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &58009278
 MonoBehaviour:
@@ -695,7 +695,7 @@ RectTransform:
   m_GameObject: {fileID: 630747222}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.60925925, y: 0.60925925, z: 0.60925925}
+  m_LocalScale: {x: 0.42407405, y: 0.42407405, z: 0.42407405}
   m_Children:
   - {fileID: 4291064523312003869}
   m_Father: {fileID: 330139451}
@@ -704,7 +704,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1919.9999, y: 1080}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &630747224
 MonoBehaviour:
@@ -1378,7 +1378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f886a653e640e4c3da8e44de3cc77fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageText: {fileID: 1027812929}
 --- !u!114 &1277101437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,6 +1566,8 @@ MonoBehaviour:
   isHost: 0
   mvpBtns: []
   mwpBtns: []
+  messageText: {fileID: 1027812929}
+  players: []
   player: {fileID: 1581004054126145961, guid: 15d611b1e73014a2bb27bc8cd7fd8b9e, type: 3}
   votePlayerParent: {fileID: 58009276}
   sprites:
@@ -1837,15 +1838,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.06674898
+    x: 0.027713358
     y: 0
-    width: 0.86650205
+    width: 0.9445733
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.231953
+  orthographic size: 5.7168665
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

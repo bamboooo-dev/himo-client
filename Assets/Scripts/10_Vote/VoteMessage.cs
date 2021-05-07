@@ -9,8 +9,9 @@ public class VoteMessage
   public int nearIndex;
   public int farIndex;
   public int cycleIndex;
+  public int playerIndex;
 
-  public VoteMessage(string type, int mvpIndex, int mwpIndex, int nearIndex, int farIndex, int cycleIndex)
+  public VoteMessage(string type, int mvpIndex, int mwpIndex, int nearIndex, int farIndex, int cycleIndex, int playerIndex)
   {
     this.type = type;
     this.mvpIndex = mvpIndex;
@@ -18,5 +19,6 @@ public class VoteMessage
     this.nearIndex = nearIndex;
     this.farIndex = farIndex;
     this.cycleIndex = cycleIndex;
+    this.playerIndex = playerIndex;
   }
 }

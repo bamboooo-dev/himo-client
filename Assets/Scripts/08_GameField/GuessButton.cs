@@ -16,25 +16,7 @@ public class GuessButton : MonoBehaviour
     (int[] numbers, bool isValid) = Validate(players);
     if (!isValid) { return; }
 
-    // 自分の予想を記憶しておく
-    Cycle.predicts[Cycle.myIndex] = numbers;
-
     StartCoroutine(PostGuess(numbers));
-    this.gameObject.SetActive(false);
-
-    messageText.text = "みんなの予想が終わるまで待ってね！";
-
-    // 自分が予想完了したことを示す
-    players[Cycle.myIndex].transform.Find("GuessedImage").gameObject.SetActive(true);
-
-    for (int i = 0; i < Cycle.names.Length; i++)
-    {
-      if (Cycle.predicts[i][0] == 0)
-      {
-        return;
-      }
-    }
-    SceneManager.LoadScene("Ordering");
   }
 
   private (int[], bool) Validate(Player[] players)
@@ -60,7 +42,8 @@ public class GuessButton : MonoBehaviour
 
   private IEnumerator PostGuess(int[] numbers)
   {
-    GuessMessage message = new GuessMessage(numbers, Cycle.myIndex, RoomStatus.cycleIndex);
+    int[][] dummyPredicts = new int[Cycle.names.Length][];
+    GuessMessage message = new GuessMessage("guess", numbers, Cycle.myIndex, RoomStatus.cycleIndex, dummyPredicts);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");

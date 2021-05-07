@@ -17,6 +17,8 @@ public class VoteManager : MonoBehaviour
   private VoteResult result;
   public Button[] mvpBtns;
   public Button[] mwpBtns;
+  public Text messageText;
+  public VotePlayer[] players;
 
   [SerializeField] private VotePlayer player;
   [SerializeField] private GameObject votePlayerParent;
@@ -38,6 +40,7 @@ public class VoteManager : MonoBehaviour
     Cycle.mvpCount = new int[Cycle.names.Length];
     Cycle.mwpCount = new int[Cycle.names.Length];
 
+    players = new VotePlayer[Cycle.names.Length];
     InstantiatePlayers(Cycle.names);
     PlayerPrefs.SetInt("mvpIndex", 0);
     PlayerPrefs.SetInt("mwpIndex", 0);
@@ -71,6 +74,19 @@ public class VoteManager : MonoBehaviour
   {
     var message = JsonUtility.FromJson<VoteMessage>(data);
     if ((!message.type.Equals("vote") & !message.type.Equals("voteResult")) | message.cycleIndex != RoomStatus.cycleIndex) return;
+    if (message.type.Equals("vote"))
+    {
+      context.Post(state =>
+      {
+        int index = Int32.Parse(state.ToString());
+        players[index].transform.Find("VotedImage").gameObject.SetActive(true);
+        if (index == Cycle.myIndex)
+        {
+          messageText.gameObject.SetActive(true);
+          GameObject.Find("VoteButton").SetActive(false);
+        }
+      }, message.playerIndex);
+    }
     if (message.type.Equals("vote") & PlayerStatus.isHost)
     {
       Cycle.mvpCount[message.mvpIndex]++;
@@ -135,7 +151,7 @@ public class VoteManager : MonoBehaviour
       _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
       _player.transform.Find("Answer").Find("Text").GetComponent<Text>().text = Cycle.numbers[i].ToString();
       _player.transform.Find("Answer").Find("Text").GetComponent<Text>().color = newCol;
-
+      players[i] = _player;
       // MVP・MWP ボタンの初期設定
       int tmp = i;
       var mvpButton = _player.transform.Find("MVPButton").GetComponent<Button>();
@@ -161,7 +177,7 @@ public class VoteManager : MonoBehaviour
 
   private IEnumerator PostVoteResult(int mvpIndex, int mwpIndex, int nearIndex, int farIndex)
   {
-    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex, nearIndex, farIndex, RoomStatus.cycleIndex);
+    VoteMessage message = new VoteMessage("voteResult", mvpIndex, mwpIndex, nearIndex, farIndex, RoomStatus.cycleIndex, 0);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");

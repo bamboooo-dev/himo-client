@@ -52,23 +52,23 @@ public class OrderingManager : MonoBehaviour
     else
     {
       message.gameObject.SetActive(true);
-      ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
-      ws.OnOpen += (sender, e) =>
-      {
-        Debug.Log("WebSocket Open");
-      };
-      var context = SynchronizationContext.Current;
-      ws.OnMessage += (sender, e) =>
-      {
-        ProcessData(e.Data, context);
-      };
-      ws.OnClose += (sender, e) =>
-      {
-        Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
-        if (e.Code == 1006) { ws.Connect(); }
-      };
-      ws.Connect();
     }
+    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("WebSocket Open");
+    };
+    var context = SynchronizationContext.Current;
+    ws.OnMessage += (sender, e) =>
+    {
+      ProcessData(e.Data, context);
+    };
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
+    };
+    ws.Connect();
   }
 
   private int[] SortIndices(int[] numbers)
@@ -84,12 +84,10 @@ public class OrderingManager : MonoBehaviour
 
   void OnDestroy()
   {
-    if (!PlayerStatus.isHost)
-    {
-      ws.Close();
-      ws = null;
-    }
+    ws.Close();
+    ws = null;
   }
+
   private void InstantiateOrderPlayers(int[] numbers, string[] names)
   {
     int count = names.Length;

@@ -390,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   themeText: {fileID: 801554212}
+  messageText: {fileID: 813422172}
   player: {fileID: 8671278126515776360, guid: d1533a381f7404053a1239aa1b5346f4, type: 3}
   players: []
   playerParent: {fileID: 2087864234}
@@ -666,15 +667,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.07211539
-    width: 1
-    height: 0.8557692
+    x: 0.050340444
+    y: 0
+    width: 0.8993191
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.4
+  orthographic size: 6.0045424
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1144,7 +1145,7 @@ RectTransform:
   m_GameObject: {fileID: 2087864234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7416667, y: 0.7416667, z: 0.7416667}
+  m_LocalScale: {x: 1.437037, y: 1.437037, z: 1.437037}
   m_Children:
   - {fileID: 1222854231}
   - {fileID: 813422171}

@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 using System;
 using System.Threading;
 using WebSocketSharp;
+using System.Collections;
+using LitJson;
 
 public class GameFieldManager : MonoBehaviour
 {
   public Text themeText;
+  public Text messageText;
   public Player player;
   public WebSocket ws;
   public Player[] players; // GuessButton が取得する用に定義
@@ -43,12 +47,29 @@ public class GameFieldManager : MonoBehaviour
     ws.OnMessage += (sender, e) =>
     {
       ProcessData(e.Data, context);
+
+      // ホストが全員の予想値を受け取れば画面遷移を促す
+      if (PlayerStatus.isHost)
+      {
+        for (int i = 0; i < Cycle.names.Length; i++)
+        {
+          if (Cycle.predicts[i][0] == 0)
+          {
+            return;
+          }
+        }
+        context.Post(state =>
+        {
+          StartCoroutine(PostGuessProceed());
+        }, e.Data);
+      }
     };
+
     ws.OnClose += (sender, e) =>
-    {
-      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
-      if (e.Code == 1006) { ws.Connect(); }
-    };
+      {
+        Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+        if (e.Code == 1006) { ws.Connect(); }
+      };
     ws.Connect();
   }
 
@@ -96,22 +117,56 @@ public class GameFieldManager : MonoBehaviour
 
   private void ProcessData(string data, SynchronizationContext context)
   {
-    Debug.Log(data);
-    var message = JsonUtility.FromJson<GuessMessage>(data);
-    if (message.type != "guess" | message.cycleIndex != RoomStatus.cycleIndex) return;
-    Cycle.predicts[message.playerIndex] = message.numbers;
-    int index = message.playerIndex;
+    var message = JsonMapper.ToObject(data);
+    if ((string)message["type"] == "guessProceed" & (int)message["cycleIndex"] == RoomStatus.cycleIndex)
+    {
+      for (int i = 0; i < Cycle.names.Length; ++i)
+      {
+        int[] p = new int[Cycle.names.Length];
+        for (int j = 0; j < Cycle.names.Length; ++j)
+        {
+          p[j] = (int)message["predicts"][i][j];
+        }
+        Cycle.predicts[i] = p;
+      }
+      context.Post(state =>
+      {
+        SceneManager.LoadScene("Ordering");
+      }, data);
+      return;
+    }
+    if ((string)message["type"] != "guess" | (int)message["cycleIndex"] != RoomStatus.cycleIndex) return;
+    int[] predict = new int[Cycle.names.Length];
+    for (int i = 0; i < Cycle.names.Length; i++)
+    {
+      predict[i] = (int)message["numbers"][i];
+    }
+    Cycle.predicts[(int)message["playerIndex"]] = predict;
+    int index = (int)message["playerIndex"];
     context.Post(state =>
     {
       players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
-      for (int i = 0; i < Cycle.names.Length; i++)
+      if (Int32.Parse(state.ToString()) == Cycle.myIndex)
       {
-        if (Cycle.predicts[i][0] == 0)
-        {
-          return;
-        }
+        GameObject.Find("GuessButton").SetActive(false);
+        messageText.text = "みんなの予想が終わるまで待ってね！";
       }
-      SceneManager.LoadScene("Ordering");
     }, index);
+  }
+
+  private IEnumerator PostGuessProceed()
+  {
+    GuessMessage message = new GuessMessage("guessProceed", new int[Cycle.names.Length], Cycle.myIndex, RoomStatus.cycleIndex, Cycle.predicts);
+    string json = JsonMapper.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
   }
 }
