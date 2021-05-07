@@ -15,7 +15,7 @@ public class StartButton : MonoBehaviour
 
   private IEnumerator StartRoomRequest()
   {
-    var startRoomRequest = new StartRoomRequest(RoomStatus.channelName);
+    var startRoomRequest = new StartRoomRequest(RoomStatus.channelName, RoomStatus.cycleIndex);
     string myjson = JsonUtility.ToJson(startRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
     var request = new UnityWebRequest(Url.Start(), "POST");

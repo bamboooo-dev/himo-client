@@ -10,7 +10,6 @@ public class RoundManager : MonoBehaviour
 {
   private WebSocket ws;
   private float step_time;
-  private int count;
   void Start()
   {
     Debug.Log("Round Scene start");
@@ -19,7 +18,6 @@ public class RoundManager : MonoBehaviour
     // RoomStatus.channelName = "263261a";
 
     SetupWebSocket();
-    count = 0;
     if (PlayerStatus.isHost)
     {
       StartCoroutine(StartRoomRequest());
@@ -58,14 +56,7 @@ public class RoundManager : MonoBehaviour
     context.Post(state =>
     {
       var response = JsonUtility.FromJson<StartRoomResponse>(data);
-      if (response.type != "answer") return;
-
-      // 以前のデータも流れてくるため今回のデータのみ採用する
-      if (count < RoomStatus.cycleIndex)
-      {
-        count++;
-        return;
-      }
+      if (response.type != "answer" || response.cycle_index != RoomStatus.cycleIndex) return;
       Cycle.numbers = response.numbers;
       Cycle.names = response.names;
       SceneManager.LoadScene("CardCheck");
@@ -75,7 +66,7 @@ public class RoundManager : MonoBehaviour
   private IEnumerator StartRoomRequest()
   {
     yield return new WaitForSeconds(3);
-    var startRoomRequest = new StartRoomRequest(RoomStatus.channelName);
+    var startRoomRequest = new StartRoomRequest(RoomStatus.channelName, RoomStatus.cycleIndex);
     string myjson = JsonUtility.ToJson(startRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
     var request = new UnityWebRequest(Url.Start(), "POST");

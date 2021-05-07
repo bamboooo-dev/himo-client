@@ -112,7 +112,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     {
       numbers.Add(i);
     }
-
+    UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
     for (int i = 0; i < count; i++)
     {
 
