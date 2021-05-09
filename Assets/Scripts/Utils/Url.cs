@@ -47,5 +47,10 @@ public static class Url
   {
     return wsIngame + "/sub" + "?channel_id=" + channelName;
   }
+
+  public static string Version()
+  {
+    return "https://raw.githubusercontent.com/bamboooo-dev/waiwai-privacy-policy/master/version.json";
+  }
 }
 
