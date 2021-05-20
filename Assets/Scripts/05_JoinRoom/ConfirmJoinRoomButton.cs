@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 public class ConfirmJoinRoomButton : MonoBehaviour
 {
   public InputField inputField;
+  [SerializeField] private Text messageText = default;
   [SerializeField] private GameObject parent = default;
   [SerializeField] private Dialog dialog = default;
   private JoinRoomResponse response;
@@ -20,10 +21,14 @@ public class ConfirmJoinRoomButton : MonoBehaviour
   public async void OnClickConfirmJoinRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
+
+    if (!Validate(inputField.text)) { return; }
+    string channelName = inputField.text;
+
     try
     {
-      await PostRequestAsync();
-      RoomStatus.channelName = inputField.text;
+      await PostRequestAsync(channelName);
+      RoomStatus.channelName = channelName;
       RoomStatus.maxNum = response.max_num;
       RoomStatus.themes = response.themes;
       RoomStatus.cycleIndex = 0;
@@ -40,10 +45,25 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     }
   }
 
-  private IEnumerator PostRequestAsync()
+  private bool Validate(string text)
+  {
+    if (text == "")
+    {
+      messageText.text = "部屋のIDを\n入力してね";
+      return false;
+    }
+    else if (text.Length < 7 || text.Length > 7)
+    {
+      messageText.text = "部屋のIDは\n7桁だよ";
+      return false;
+    }
+    return true;
+  }
+
+  private IEnumerator PostRequestAsync(string channelName)
   {
     var enterRoomRequest = new EnterRoomRequest();
-    enterRoomRequest.channel_name = inputField.text;
+    enterRoomRequest.channel_name = channelName;
     string requestJson = JsonUtility.ToJson(enterRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(requestJson);
     var request = new UnityWebRequest(Url.Enter(), "POST");
