@@ -7,9 +7,11 @@ public class FinalResultManager : MonoBehaviour
   [SerializeField] private Text firstPlaceText;
   [SerializeField] private Text secondPlaceText;
   [SerializeField] private Text thirdPlaceText;
+  [SerializeField] private Text lastPlaceText;
   [SerializeField] private Text firstPointText;
   [SerializeField] private Text secondPointText;
   [SerializeField] private Text thirdPointText;
+  [SerializeField] private Text lastPointText;
   [SerializeField] private Button finishButton;
   private Result[] results;
 
@@ -40,6 +42,11 @@ public class FinalResultManager : MonoBehaviour
   {
     firstPlaceText.text = this.results[0].name;
     firstPointText.text = this.results[0].point.ToString() + "pt";
+    if (this.results.Length >= 4)
+    {
+      lastPlaceText.text = this.results[this.results.Length - 1].name;
+      lastPointText.text = this.results[this.results.Length - 1].point.ToString() + "pt";
+    }
     finishButton.gameObject.SetActive(true);
   }
 

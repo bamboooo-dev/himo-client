@@ -38,7 +38,9 @@ public class VoteManager : MonoBehaviour
     // };
 
     Cycle.mvpCount = new int[Cycle.names.Length];
+    for (int i = 0; i < Cycle.names.Length; ++i) { Cycle.mvpCount[i] = -1; }
     Cycle.mwpCount = new int[Cycle.names.Length];
+    for (int i = 0; i < Cycle.names.Length; ++i) { Cycle.mwpCount[i] = -1; }
 
     players = new VotePlayer[Cycle.names.Length];
     InstantiatePlayers(Cycle.names);
@@ -89,18 +91,15 @@ public class VoteManager : MonoBehaviour
     }
     if (message.type.Equals("vote") & PlayerStatus.isHost)
     {
-      Cycle.mvpCount[message.mvpIndex]++;
-      Cycle.mwpCount[message.mwpIndex]++;
-      if (Cycle.mvpCount.Sum() == Cycle.names.Length)
+      Cycle.mvpCount[message.playerIndex] = message.mvpIndex;
+      Cycle.mwpCount[message.playerIndex] = message.mwpIndex;
+      var (isFin, mvpIndex, mwpIndex) = checkCount(Cycle.mvpCount, Cycle.mwpCount);
+      if (!isFin) { return; }
+      var (nearIndex, farIndex) = CalcScore();
+      context.Post(state =>
       {
-        var mvpIndex = Array.IndexOf(Cycle.mvpCount, Cycle.mvpCount.Max());
-        var mwpIndex = Array.IndexOf(Cycle.mwpCount, Cycle.mwpCount.Max());
-        var (nearIndex, farIndex) = CalcScore();
-        context.Post(state =>
-        {
-          StartCoroutine(PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex));
-        }, message);
-      }
+        StartCoroutine(PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex));
+      }, message);
     }
     else if (message.type.Equals("voteResult"))
     {
@@ -235,5 +234,21 @@ public class VoteManager : MonoBehaviour
       }
     }
     return (nearIndex, farIndex);
+  }
+
+  private (bool, int, int) checkCount(int[] mvpIndices, int[] mwpIndices)
+  {
+    int[] mvpCount = new int[Cycle.names.Length];
+    int[] mwpCount = new int[Cycle.names.Length];
+    for (int i = 0; i < Cycle.names.Length; i++)
+    {
+      if (mvpIndices[i] == -1) { return (false, 0, 0); }
+      mvpCount[mvpIndices[i]]++;
+      mwpCount[mwpIndices[i]]++;
+    }
+    int mvpIndex = Array.IndexOf(mvpCount, mvpCount.Max());
+    int mwpIndex = Array.IndexOf(mwpCount, mwpCount.Max());
+
+    return (true, mvpIndex, mwpIndex);
   }
 }

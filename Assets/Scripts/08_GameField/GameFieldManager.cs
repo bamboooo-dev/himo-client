@@ -25,15 +25,14 @@ public class GameFieldManager : MonoBehaviour
     // RoomStatus.themes = new Theme[] {
     //   new Theme(0, "好きな食べ物は")
     // };
-    // Cycle.names = new string[] { "a", "b" };
-    // Cycle.numbers = new int[] { 1, 2 };
+    // Cycle.names = new string[] { "しゅんこりん", "しゅんこりん", "しゅんこりん" };
+    // Cycle.numbers = new int[] { 1, 2, 3 };
     // Cycle.myIndex = 0;
     // Cycle.predicts = new int[Cycle.names.Length][];
     // for (int i = 0; i < Cycle.predicts.Length; i++)
     // {
     //   Cycle.predicts[i] = new int[Cycle.names.Length];
     // }
-    // RoomStatus.channelName = "hikari5";
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     players = new Player[Cycle.names.Length];
@@ -46,7 +45,8 @@ public class GameFieldManager : MonoBehaviour
     var context = SynchronizationContext.Current;
     ws.OnMessage += (sender, e) =>
     {
-      ProcessData(e.Data, context);
+      bool isFin = ProcessData(e.Data, context);
+      if (isFin) return;
 
       // ホストが全員の予想値を受け取れば画面遷移を促す
       if (PlayerStatus.isHost)
@@ -115,7 +115,7 @@ public class GameFieldManager : MonoBehaviour
     }
   }
 
-  private void ProcessData(string data, SynchronizationContext context)
+  private bool ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonMapper.ToObject(data);
     if ((string)message["type"] == "guessProceed" & (int)message["cycleIndex"] == RoomStatus.cycleIndex)
@@ -133,9 +133,9 @@ public class GameFieldManager : MonoBehaviour
       {
         SceneManager.LoadScene("Ordering");
       }, data);
-      return;
+      return true;
     }
-    if ((string)message["type"] != "guess" | (int)message["cycleIndex"] != RoomStatus.cycleIndex) return;
+    if ((string)message["type"] != "guess" | (int)message["cycleIndex"] != RoomStatus.cycleIndex) return false;
     int[] predict = new int[Cycle.names.Length];
     for (int i = 0; i < Cycle.names.Length; i++)
     {
@@ -152,6 +152,7 @@ public class GameFieldManager : MonoBehaviour
         messageText.text = "みんなの予想が終わるまで待ってね！";
       }
     }, index);
+    return false;
   }
 
   private IEnumerator PostGuessProceed()

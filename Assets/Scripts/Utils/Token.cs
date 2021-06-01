@@ -9,6 +9,4 @@ public static class Token
     string token = File.ReadAllText(tokenPath);
     return "Bearer " + token;
   }
-
 }
-

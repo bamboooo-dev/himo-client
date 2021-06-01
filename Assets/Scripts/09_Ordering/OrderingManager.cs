@@ -38,6 +38,7 @@ public class OrderingManager : MonoBehaviour
     // }
     // Cycle.orderIndices = SortIndices(Cycle.numbers);
     // PlayerStatus.isHost = true;
+    // DEBUG
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
 
@@ -45,7 +46,7 @@ public class OrderingManager : MonoBehaviour
     InstantiateOrderPlayers(Cycle.numbers, Cycle.names);
     if (PlayerStatus.isHost)
     {
-      PlayerPrefs.SetInt("radio", 0);
+      PlayerPrefs.SetInt("radio", -1);
       SetBtns();
       orderButton.gameObject.SetActive(true);
     }
@@ -140,10 +141,12 @@ public class OrderingManager : MonoBehaviour
 
   void SetBtns()
   {
-    int r = PlayerPrefs.GetInt("radio"), cnt = 0;
+    int r = PlayerPrefs.GetInt("radio");
+    int cnt = 0;
     foreach (Button b in btns)
     {
-      b.interactable = (cnt != r); cnt++;
+      b.interactable = (cnt != r);
+      cnt++;
     }
   }
 

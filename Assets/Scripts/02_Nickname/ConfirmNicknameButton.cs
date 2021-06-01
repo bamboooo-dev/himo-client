@@ -16,7 +16,13 @@ public class ConfirmNicknameButton : MonoBehaviour
     inputField = GameObject.Find("InputField").GetComponent<InputField>();
   }
 
-  void Update() { }
+  void Update()
+  {
+    if (File.Exists(SavePath.token) && File.ReadAllText(SavePath.token) != "")
+    {
+      SceneManager.LoadScene("Home");
+    }
+  }
 
   string GetNickname()
   {
@@ -53,8 +59,7 @@ public class ConfirmNicknameButton : MonoBehaviour
     Task<Metadata> headers = call.ResponseHeadersAsync;
     string token = headers.Result.GetValue("access-token");
 
-    File.WriteAllText(SavePath.token, token);
     File.WriteAllText(SavePath.nickname, nickname);
-    SceneManager.LoadScene("Home");
+    File.WriteAllText(SavePath.token, token);
   }
 }

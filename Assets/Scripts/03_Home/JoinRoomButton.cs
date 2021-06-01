@@ -8,5 +8,4 @@ public class JoinRoomButton : MonoBehaviour
     AudioManager.GetInstance().PlaySound(0);
     SceneManager.LoadScene("JoinRoom");
   }
-
 }

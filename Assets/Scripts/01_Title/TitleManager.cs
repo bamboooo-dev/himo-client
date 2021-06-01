@@ -6,31 +6,39 @@ using Cysharp.Threading.Tasks;
 
 public class TitleManager : MonoBehaviour
 {
-  [SerializeField] private GameObject dialog = default;
-  private VersionResponse response;
+  [SerializeField] private GameObject versionDialog = default;
+  [SerializeField] private GameObject maintenanceDialog = default;
 
   async void Start()
   {
-    Debug.Log("Title scene started.");
-    VersionResponse response = await GetVersionAsync();
-    bool isLatest = CheckVersion(response.latestVersion);
-    if (!isLatest) ShowDialog();
+    StatusResponse response = await GetStatusAsync();
+
+    checkMaintenance(response);
+
+    checkVersion(response);
   }
 
-  private void ShowDialog()
-  {
-    dialog.SetActive(true);
-  }
-
-  private bool CheckVersion(string latestVersion)
+  private void checkVersion(StatusResponse response)
   {
     string thisVersion = GameObject.Find("VersionText").GetComponent<Text>().text.Substring(1);
-    return thisVersion == latestVersion;
+    if (!response.maintenanceStatus && thisVersion.CompareTo(response.latestVersion) == -1)
+    {
+      versionDialog.SetActive(true);
+    }
   }
 
-  private async UniTask<VersionResponse> GetVersionAsync()
+  private void checkMaintenance(StatusResponse response)
   {
-    UnityWebRequest request = UnityWebRequest.Get(Url.Version());
+    if (response.maintenanceStatus)
+    {
+      maintenanceDialog.SetActive(true);
+      maintenanceDialog.transform.Find("TimeText").GetComponent<Text>().text = response.maintenanceFinishTime;
+    }
+  }
+
+  private async UniTask<StatusResponse> GetStatusAsync()
+  {
+    UnityWebRequest request = UnityWebRequest.Get(Url.Status());
     request.SetRequestHeader("Accept", "text/json");
     await request.SendWebRequest();
     if (request.isHttpError || request.isNetworkError)
@@ -39,8 +47,7 @@ public class TitleManager : MonoBehaviour
     }
     else
     {
-      response = JsonUtility.FromJson<VersionResponse>(request.downloadHandler.text);
-      return response;
+      return JsonUtility.FromJson<StatusResponse>(request.downloadHandler.text);
     }
   }
 }

@@ -7,6 +7,9 @@ public class CompanyManager : MonoBehaviour
   void Start()
   {
     step_time = 0.0f;
+#if UNITY_IOS
+    ShowAttDialog.RequestIDFA();
+#endif
   }
 
   // Update is called once per frame

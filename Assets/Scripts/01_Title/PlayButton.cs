@@ -8,7 +8,6 @@ public class PlayButton : MonoBehaviour
   {
     AudioManager.GetInstance().PlaySound(0);
     string tokenPath = Application.persistentDataPath + "/access-token.jwt";
-
     if (File.Exists(tokenPath))
     {
       SceneManager.LoadScene("Home");
