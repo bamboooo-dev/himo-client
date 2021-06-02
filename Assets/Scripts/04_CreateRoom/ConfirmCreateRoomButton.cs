@@ -115,7 +115,6 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
     for (int i = 0; i < count; i++)
     {
-
       int index = UnityEngine.Random.Range(0, numbers.Count);
       int ransu = numbers[index];
       ids[i] = ransu;
