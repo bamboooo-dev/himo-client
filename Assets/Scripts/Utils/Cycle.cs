@@ -14,4 +14,5 @@ public class Cycle : ScriptableObject
   public static int farIndex;
   public static int[] mvpCount;
   public static int[] mwpCount;
+  public static bool hasGuessed;
 }

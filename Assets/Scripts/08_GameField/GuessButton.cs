@@ -16,7 +16,10 @@ public class GuessButton : MonoBehaviour
     (int[] numbers, bool isValid) = Validate(players);
     if (!isValid) { return; }
 
-    StartCoroutine(PostGuess(numbers));
+    this.gameObject.SetActive(false);
+    messageText.text = "みんなの予想が終わるまで待ってね！";
+    GameFieldManager.Instance.StartCoroutine(PostGuess(numbers));
+    GameFieldManager.Instance.StartCoroutine(CheckHasGuessed());
   }
 
   private (int[], bool) Validate(Player[] players)
@@ -54,6 +57,16 @@ public class GuessButton : MonoBehaviour
     if (request.isHttpError || request.isNetworkError)
     {
       throw new InvalidOperationException(request.error);
+    }
+  }
+
+  private IEnumerator CheckHasGuessed()
+  {
+    yield return new WaitForSeconds(3);
+    if (!Cycle.hasGuessed)
+    {
+      this.gameObject.SetActive(true);
+      messageText.text = "もう一度決定ボタンを押してください";
     }
   }
 }

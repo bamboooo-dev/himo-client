@@ -18,6 +18,23 @@ public class GameFieldManager : MonoBehaviour
   [SerializeField] private GameObject playerParent;
   [SerializeField] private Sprite[] sprites;
   [SerializeField] private GameObject openFinishGameDialogButton;
+  private static GameFieldManager instance;
+
+  public static GameFieldManager Instance
+  {
+    get
+    {
+      if (null == instance)
+      {
+        instance = (GameFieldManager)FindObjectOfType(typeof(GameFieldManager));
+        if (null == instance)
+        {
+          Debug.Log("GameFieldManager Instance Error");
+        }
+      }
+      return instance;
+    }
+  }
 
   void Start()
   {
@@ -35,6 +52,7 @@ public class GameFieldManager : MonoBehaviour
     //   Cycle.predicts[i] = new int[Cycle.names.Length];
     // }
 
+    Cycle.hasGuessed = false;
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     if (PlayerStatus.isHost) { openFinishGameDialogButton.SetActive(true); }
     players = new Player[Cycle.names.Length];
@@ -81,11 +99,7 @@ public class GameFieldManager : MonoBehaviour
           context.Post(state =>
           {
             players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
-            if (Int32.Parse(state.ToString()) == Cycle.myIndex)
-            {
-              GameObject.Find("GuessButton").SetActive(false);
-              messageText.text = "みんなの予想が終わるまで待ってね！";
-            }
+            if (Int32.Parse(state.ToString()) == Cycle.myIndex) { Cycle.hasGuessed = true; }
           }, index);
           // ホストが全員の予想値を受け取れば画面遷移を促す
           if (PlayerStatus.isHost)
