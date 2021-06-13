@@ -151,7 +151,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u30B2\u30FC\u30E0\u3092\u3084\u3081\u308B"
+  m_Text: "\u306F\u3044"
 --- !u!1 &2793446361603166617
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +230,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 2
-  m_Text: "\u672C\u5F53\u306B\u30B2\u30FC\u30E0\u3092\u3084\u3081\u3066\u3057\u307E\u3046\u3093\u3067\u3059\u304B\uFF1F"
+  m_Text: "\u672C\u5F53\u306B\u30B2\u30FC\u30E0\u3092\u7D42\u4E86\u3057\u307E\u3059\u304B\uFF1F"
 --- !u!114 &2081583214974048210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 332, y: -120.4}
+  m_AnchoredPosition: {x: -306, y: -120.4}
   m_SizeDelta: {x: 493.58667, y: 133.15613}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4626751739246773012
@@ -493,7 +493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -306, y: -120.4}
+  m_AnchoredPosition: {x: 332, y: -120.4}
   m_SizeDelta: {x: 493.58667, y: 133.15613}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4493261159014779970
@@ -638,7 +638,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finishGameDialog: {fileID: 6638941409445612134}
-  parent: {fileID: 0}
 --- !u!1 &7108981714075823615
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,4 +863,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u30B2\u30FC\u30E0\u3092\u7D9A\u3051\u308B"
+  m_Text: "\u3044\u3044\u3048"
