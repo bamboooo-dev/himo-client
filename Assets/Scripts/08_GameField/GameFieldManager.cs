@@ -19,6 +19,7 @@ public class GameFieldManager : MonoBehaviour
   [SerializeField] private Sprite[] sprites;
   [SerializeField] private GameObject openFinishGameDialogButton;
   private static GameFieldManager instance;
+  private bool connected;
 
   public static GameFieldManager Instance
   {
@@ -116,6 +117,11 @@ public class GameFieldManager : MonoBehaviour
           }, e.Data);
           break;
 
+        case "ping":
+          if (Cycle.myIndex != (int)message["playerIndex"]) { return; }
+          connected = true;
+          break;
+
         default:
           break;
       }
@@ -127,6 +133,9 @@ public class GameFieldManager : MonoBehaviour
         if (e.Code == 1006) { ws.Connect(); }
       };
     ws.Connect();
+
+    // コネクションのチェックを30秒ごとに行う
+    InvokeRepeating("CheckWebsocketConnection", 30.0f, 30.0f);
   }
 
   void OnDestroy()
@@ -171,11 +180,32 @@ public class GameFieldManager : MonoBehaviour
     }
   }
 
-
-
   private IEnumerator PostGuessProceed()
   {
     GuessMessage message = new GuessMessage("guessProceed", new int[Cycle.names.Length], Cycle.myIndex, RoomStatus.cycleIndex, Cycle.predicts);
+    string json = JsonMapper.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
+  }
+
+  private void CheckWebsocketConnection()
+  {
+    if (!connected) { ws.Connect(); }
+    connected = false;
+    StartCoroutine(PostPing());
+  }
+
+  private IEnumerator PostPing()
+  {
+    GuessMessage message = new GuessMessage("ping", new int[Cycle.names.Length], Cycle.myIndex, RoomStatus.cycleIndex, Cycle.predicts);
     string json = JsonMapper.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
