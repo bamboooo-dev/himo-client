@@ -52,7 +52,7 @@ public class OrderButton : MonoBehaviour
 
   private IEnumerator PostOrder(string result, int playerIndex)
   {
-    OrderMessage message = new OrderMessage(result, playerIndex, RoomStatus.cycleIndex);
+    OrderMessage message = new OrderMessage("order", result, playerIndex, RoomStatus.cycleIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
