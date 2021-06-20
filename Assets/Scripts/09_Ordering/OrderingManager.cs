@@ -57,6 +57,9 @@ public class OrderingManager : MonoBehaviour
     {
       message.gameObject.SetActive(true);
     }
+    SetupWebSocket();
+    // コネクションのチェックを定期的に行う
+    InvokeRepeating("CheckWebSocketConnection", 5.0f, 5.0f);
   }
 
   private int[] SortIndices(int[] numbers)
