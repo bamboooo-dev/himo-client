@@ -19,6 +19,7 @@ public class GameFieldManager : MonoBehaviour
   [SerializeField] private Sprite[] sprites;
   [SerializeField] private GameObject openFinishGameDialogButton;
   private static GameFieldManager instance;
+  private bool connected;
 
   public static GameFieldManager Instance
   {
@@ -56,7 +57,57 @@ public class GameFieldManager : MonoBehaviour
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
     if (PlayerStatus.isHost) { openFinishGameDialogButton.SetActive(true); }
     players = new Player[Cycle.names.Length];
+
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
+    SetupWebsocket();
+    // コネクションのチェックを30秒ごとに行う
+    InvokeRepeating("CheckWebsocketConnection", 5.0f, 5.0f);
+  }
+
+  void OnDestroy()
+  {
+    ws.Close();
+    ws = null;
+  }
+
+  private void InstantiatePlayers(int[] numbers, string[] names, int myIndex)
+  {
+    int count = names.Length;
+
+    string[] colors = new string[] { "#018D50", "#0178C2", "#FD8016", "#C4453F", "#714A9B", "#C031A5" };
+
+    for (int i = 0; i < count; ++i)
+    {
+      int x;
+      if (count == 1)
+      {
+        x = 0;
+      }
+      else
+      {
+        x = -750 + i * 1500 / (count - 1);
+      }
+      var _player = Instantiate(player, new Vector3(x, 0, 0), Quaternion.identity);
+      _player.transform.SetParent(playerParent.transform.transform, false);
+      _player.transform.Find("Name").GetComponent<Text>().text = names[i];
+      Color newCol;
+      ColorUtility.TryParseHtmlString(colors[i], out newCol);
+      _player.transform.Find("Name").GetComponent<Text>().color = newCol;
+      _player.transform.Find("InputField").Find("Text").GetComponent<Text>().color = newCol;
+      newCol.a = 0.25f;
+      _player.transform.Find("InputField").Find("Placeholder").GetComponent<Text>().color = newCol;
+      _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
+      if (i == myIndex)
+      {
+        _player.transform.Find("InputField").GetComponent<InputField>().text = numbers[myIndex].ToString();
+        _player.transform.Find("InputField").GetComponent<InputField>().readOnly = true;
+      }
+      players[i] = _player;
+    }
+  }
+
+  private void SetupWebsocket()
+  {
     ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
     ws.OnOpen += (sender, e) =>
     {
@@ -116,6 +167,11 @@ public class GameFieldManager : MonoBehaviour
           }, e.Data);
           break;
 
+        case "ping":
+          if (Cycle.myIndex != (int)message["playerIndex"]) { return; }
+          connected = true;
+          break;
+
         default:
           break;
       }
@@ -129,53 +185,43 @@ public class GameFieldManager : MonoBehaviour
     ws.Connect();
   }
 
-  void OnDestroy()
-  {
-    ws.Close();
-    ws = null;
-  }
-
-  private void InstantiatePlayers(int[] numbers, string[] names, int myIndex)
-  {
-    int count = names.Length;
-
-    string[] colors = new string[] { "#018D50", "#0178C2", "#FD8016", "#C4453F", "#714A9B", "#C031A5" };
-
-    for (int i = 0; i < count; ++i)
-    {
-      int x;
-      if (count == 1)
-      {
-        x = 0;
-      }
-      else
-      {
-        x = -750 + i * 1500 / (count - 1);
-      }
-      var _player = Instantiate(player, new Vector3(x, 0, 0), Quaternion.identity);
-      _player.transform.SetParent(playerParent.transform.transform, false);
-      _player.transform.Find("Name").GetComponent<Text>().text = names[i];
-      Color newCol;
-      ColorUtility.TryParseHtmlString(colors[i], out newCol);
-      _player.transform.Find("Name").GetComponent<Text>().color = newCol;
-      _player.transform.Find("InputField").Find("Text").GetComponent<Text>().color = newCol;
-      newCol.a = 0.25f;
-      _player.transform.Find("InputField").Find("Placeholder").GetComponent<Text>().color = newCol;
-      _player.transform.Find("EmoImage").GetComponent<Image>().sprite = sprites[i];
-      if (i == myIndex)
-      {
-        _player.transform.Find("InputField").GetComponent<InputField>().text = numbers[myIndex].ToString();
-        _player.transform.Find("InputField").GetComponent<InputField>().readOnly = true;
-      }
-      players[i] = _player;
-    }
-  }
-
-
-
   private IEnumerator PostGuessProceed()
   {
     GuessMessage message = new GuessMessage("guessProceed", new int[Cycle.names.Length], Cycle.myIndex, RoomStatus.cycleIndex, Cycle.predicts);
+    string json = JsonMapper.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
+  }
+
+  private void CheckWebsocketConnection()
+  {
+    if (!connected)
+    {
+      try {
+        Debug.Log("websocket connect 通ります");
+        ws.Close();
+        SetupWebsocket();
+        Debug.Log("websocket connect 通りました");
+      } catch (Exception e) {
+        Debug.Log("websocket connect でエラー返ってきてます");
+        Debug.Log(e.ToString());
+      }
+    }
+    connected = false;
+    StartCoroutine(PostPing());
+  }
+
+  private IEnumerator PostPing()
+  {
+    GuessMessage message = new GuessMessage("ping", new int[Cycle.names.Length], Cycle.myIndex, RoomStatus.cycleIndex, Cycle.predicts);
     string json = JsonMapper.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
