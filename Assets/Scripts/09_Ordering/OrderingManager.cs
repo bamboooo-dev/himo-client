@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 using WebSocketSharp;
 
 public class OrderingManager : MonoBehaviour
@@ -19,6 +21,7 @@ public class OrderingManager : MonoBehaviour
   [SerializeField] private Image successImage;
   [SerializeField] private Image failedImage;
   private WebSocket ws;
+  private bool connected;
 
 
   void Start()
@@ -54,22 +57,6 @@ public class OrderingManager : MonoBehaviour
     {
       message.gameObject.SetActive(true);
     }
-    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
-    ws.OnOpen += (sender, e) =>
-    {
-      Debug.Log("WebSocket Open");
-    };
-    var context = SynchronizationContext.Current;
-    ws.OnMessage += (sender, e) =>
-    {
-      ProcessData(e.Data, context);
-    };
-    ws.OnClose += (sender, e) =>
-    {
-      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
-      if (e.Code == 1006) { ws.Connect(); }
-    };
-    ws.Connect();
   }
 
   private int[] SortIndices(int[] numbers)
@@ -87,6 +74,26 @@ public class OrderingManager : MonoBehaviour
   {
     ws.Close();
     ws = null;
+  }
+
+  private void SetupWebSocket()
+  {
+    ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("WebSocket Open");
+    };
+    var context = SynchronizationContext.Current;
+    ws.OnMessage += (sender, e) =>
+    {
+      ProcessData(e.Data, context);
+    };
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
+    };
+    ws.Connect();
   }
 
   private void InstantiateOrderPlayers(int[] numbers, string[] names)
@@ -153,31 +160,75 @@ public class OrderingManager : MonoBehaviour
   private void ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonUtility.FromJson<OrderMessage>(data);
-    if (message.type != "order" | message.cycleIndex != RoomStatus.cycleIndex) return;
-    string result = message.result;
-    context.Post(state =>
+    if (message.cycleIndex != RoomStatus.cycleIndex) return;
+    switch (message.type)
     {
-      if (state.ToString() == "OK")
-      {
-        successImage.gameObject.SetActive(true);
-        Invoke(nameof(EraseSuccessImage), 1.0f);
-      }
-      else if (state.ToString() == "NG")
-      {
-        failedImage.gameObject.SetActive(true);
-        Invoke(nameof(EraseFailedImage), 1.0f);
-      }
-      else if (state.ToString() == "FIN")
-      {
-        successImage.gameObject.SetActive(true);
-        Invoke(nameof(Finish), 1.0f);
-      }
-    }, result);
-    int index = message.player_index;
-    context.Post(state =>
+      case "order":
+        string result = message.result;
+        context.Post(state =>
+        {
+          if (state.ToString() == "OK")
+          {
+            successImage.gameObject.SetActive(true);
+            Invoke(nameof(EraseSuccessImage), 1.0f);
+          }
+          else if (state.ToString() == "NG")
+          {
+            failedImage.gameObject.SetActive(true);
+            Invoke(nameof(EraseFailedImage), 1.0f);
+          }
+          else if (state.ToString() == "FIN")
+          {
+            successImage.gameObject.SetActive(true);
+            Invoke(nameof(Finish), 1.0f);
+          }
+        }, result);
+        int index = message.player_index;
+        context.Post(state =>
+        {
+          players[Int32.Parse(state.ToString())].gameObject.SetActive(false);
+        }, index);
+        break;
+
+      case "ping":
+        if (Cycle.myIndex != message.player_index) { return; }
+        connected = true;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  private void CheckWebSocketConnection()
+  {
+    if (!connected)
     {
-      players[Int32.Parse(state.ToString())].gameObject.SetActive(false);
-    }, index);
+      try {
+        ws.Close();
+        SetupWebSocket();
+      } catch (Exception e) {
+        Debug.Log(e.ToString());
+      }
+    }
+    connected = false;
+    StartCoroutine(PostPing());
+  }
+
+  private IEnumerator PostPing()
+  {
+    OrderMessage message = new OrderMessage("ping", "PING", Cycle.myIndex, RoomStatus.cycleIndex);
+    string json = JsonUtility.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
   }
 
   private void EraseSuccessImage()
