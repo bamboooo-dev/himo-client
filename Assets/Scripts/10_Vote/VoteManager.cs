@@ -19,6 +19,7 @@ public class VoteManager : MonoBehaviour
   public Button[] mwpBtns;
   public Text messageText;
   public VotePlayer[] players;
+  private bool connected;
 
   [SerializeField] private VotePlayer player;
   [SerializeField] private GameObject votePlayerParent;
@@ -48,13 +49,17 @@ public class VoteManager : MonoBehaviour
     PlayerPrefs.SetInt("mwpIndex", 0);
     SetMVPBtns();
     SetMWPBtns();
-    ws = SetupWebSocket();
-    ws.Connect();
+    SetupWebSocket();
+    InvokeRepeating("CheckWebSocketConnection", 5.0f, 5.0f);
   }
 
-  private WebSocket SetupWebSocket()
+  private void SetupWebSocket()
   {
     ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("WebSocket Open");
+    };
     var context = SynchronizationContext.Current;
     ws.OnMessage += (sender, e) =>
     {
@@ -69,48 +74,89 @@ public class VoteManager : MonoBehaviour
       Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
       if (e.Code == 1006) { ws.Connect(); }
     };
-    return ws;
+    ws.Connect();
+  }
+
+  private void CheckWebSocketConnection()
+  {
+    if (!connected)
+    {
+      try
+      {
+        ws.Close();
+        SetupWebSocket();
+      }
+      catch (Exception e) { Debug.Log(e); }
+    }
+    connected = false;
+    StartCoroutine(PostPing());
+  }
+
+  private IEnumerator PostPing()
+  {
+    VoteMessage message = new VoteMessage("ping", 0, 0, 0, 0, RoomStatus.cycleIndex, Cycle.myIndex);
+    string json = JsonUtility.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
   }
 
   private void ProcessData(string data, SynchronizationContext context)
   {
     var message = JsonUtility.FromJson<VoteMessage>(data);
-    if ((!message.type.Equals("vote") & !message.type.Equals("voteResult")) | message.cycleIndex != RoomStatus.cycleIndex) return;
-    if (message.type.Equals("vote"))
+    if (message.cycleIndex != RoomStatus.cycleIndex) return;
+    switch (message.type)
     {
-      context.Post(state =>
-      {
-        int index = Int32.Parse(state.ToString());
-        players[index].transform.Find("VotedImage").gameObject.SetActive(true);
-        if (index == Cycle.myIndex)
+      case "vote":
+        context.Post(state =>
         {
-          messageText.gameObject.SetActive(true);
-          GameObject.Find("VoteButton").SetActive(false);
+          int index = Int32.Parse(state.ToString());
+          players[index].transform.Find("VotedImage").gameObject.SetActive(true);
+          if (index == Cycle.myIndex)
+          {
+            messageText.gameObject.SetActive(true);
+            GameObject.Find("VoteButton").SetActive(false);
+          }
+        }, message.playerIndex);
+        if (PlayerStatus.isHost)
+        {
+          Cycle.mvpCount[message.playerIndex] = message.mvpIndex;
+          Cycle.mwpCount[message.playerIndex] = message.mwpIndex;
+          var (isFin, mvpIndex, mwpIndex) = checkCount(Cycle.mvpCount, Cycle.mwpCount);
+          if (!isFin) { return; }
+          var (nearIndex, farIndex) = CalcScore();
+          context.Post(state =>
+          {
+            StartCoroutine(PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex));
+          }, message);
         }
-      }, message.playerIndex);
-    }
-    if (message.type.Equals("vote") & PlayerStatus.isHost)
-    {
-      Cycle.mvpCount[message.playerIndex] = message.mvpIndex;
-      Cycle.mwpCount[message.playerIndex] = message.mwpIndex;
-      var (isFin, mvpIndex, mwpIndex) = checkCount(Cycle.mvpCount, Cycle.mwpCount);
-      if (!isFin) { return; }
-      var (nearIndex, farIndex) = CalcScore();
-      context.Post(state =>
-      {
-        StartCoroutine(PostVoteResult(mvpIndex, mwpIndex, nearIndex, farIndex));
-      }, message);
-    }
-    else if (message.type.Equals("voteResult"))
-    {
-      Cycle.mvpIndex = message.mvpIndex;
-      Cycle.mwpIndex = message.mwpIndex;
-      Cycle.nearIndex = message.nearIndex;
-      Cycle.farIndex = message.farIndex;
-      context.Post(state =>
-      {
-        SceneManager.LoadScene("VoteResult");
-      }, message);
+        break;
+
+      case "voteResult":
+        Cycle.mvpIndex = message.mvpIndex;
+        Cycle.mwpIndex = message.mwpIndex;
+        Cycle.nearIndex = message.nearIndex;
+        Cycle.farIndex = message.farIndex;
+        context.Post(state =>
+        {
+          SceneManager.LoadScene("VoteResult");
+        }, message);
+        break;
+
+      case "ping":
+        if (Cycle.myIndex != message.playerIndex) { return; }
+        connected = true;
+        break;
+
+      default:
+        break;
     }
   }
 
