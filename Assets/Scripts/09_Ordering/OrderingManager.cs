@@ -31,7 +31,7 @@ public class OrderingManager : MonoBehaviour
     // RoomStatus.themes = new Theme[] {
     //   new Theme(0, "好きな食べ物は")
     // };
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e", "f" };
+    // Cycle.names = new string[] { "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "f" };
     // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
     // Cycle.myIndex = 0;
     // Cycle.predicts = new int[Cycle.names.Length][];
@@ -41,7 +41,6 @@ public class OrderingManager : MonoBehaviour
     // }
     // Cycle.orderIndices = SortIndices(Cycle.numbers);
     // PlayerStatus.isHost = true;
-    // DEBUG
 
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
 
@@ -207,10 +206,13 @@ public class OrderingManager : MonoBehaviour
   {
     if (!connected)
     {
-      try {
+      try
+      {
         ws.Close();
         SetupWebSocket();
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
         Debug.Log(e.ToString());
       }
     }
