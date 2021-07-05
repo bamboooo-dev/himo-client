@@ -14,8 +14,8 @@ public class ExpectResultManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    // RoomStatus.points = new int[] { 10, 13, 10, 7, 10 };
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+    // RoomStatus.points = new int[] { 10, 13, 10, 7, 10, 11 };
+    // Cycle.names = new string[] { "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
     // Cycle.nearIndex = 1;
     // Cycle.farIndex = 0;
 

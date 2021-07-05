@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 public class FinalResultManager : MonoBehaviour
@@ -13,41 +14,73 @@ public class FinalResultManager : MonoBehaviour
   [SerializeField] private Text thirdPointText;
   [SerializeField] private Text lastPointText;
   [SerializeField] private Button finishButton;
+  [SerializeField] private Place placePrefab;
+  [SerializeField] private GameObject placeParent;
+  [SerializeField] private Sprite[] placeSprites;
   private Result[] results;
 
   void Start()
   {
     // DEBUG
-    // RoomStatus.points = new int[] { 3, 2, 1, 4, 5 };
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+    // RoomStatus.points = new int[] { 3, 2, 1, 4, 5, 6 };
+    // Cycle.names = new string[] { "a", "b", "c", "jdk", "しゅんこりん", "あさしゅん" };
 
     SortNames();
-    Invoke(nameof(ShowThirdPlace), 3.0f);
-    Invoke(nameof(ShowSecondPlace), 4.0f);
-    Invoke(nameof(ShowFirstPlace), 6.0f);
-  }
 
-  private void ShowThirdPlace()
-  {
-    thirdPlaceText.text = this.results[2].name;
-    thirdPointText.text = this.results[2].point.ToString() + "pt";
-  }
-
-  private void ShowSecondPlace()
-  {
-    secondPlaceText.text = this.results[1].name;
-    secondPointText.text = this.results[1].point.ToString() + "pt";
-  }
-  private void ShowFirstPlace()
-  {
-    firstPlaceText.text = this.results[0].name;
-    firstPointText.text = this.results[0].point.ToString() + "pt";
-    if (this.results.Length >= 4)
+    switch (this.results.Length)
     {
-      lastPlaceText.text = this.results[this.results.Length - 1].name;
-      lastPointText.text = this.results[this.results.Length - 1].point.ToString() + "pt";
+      case 1:
+        StartCoroutine(ShowPlace(3.0f, 0, 1));
+        break;
+      case 2:
+        StartCoroutine(ShowPlace(3.0f, 1, 2));
+        StartCoroutine(ShowPlace(5.0f, 0, 2));
+        break;
+      case 3:
+        StartCoroutine(ShowPlace(3.0f, 2, 3));
+        StartCoroutine(ShowPlace(4.0f, 1, 3));
+        StartCoroutine(ShowPlace(5.0f, 0, 3));
+        break;
+      case 4:
+        StartCoroutine(ShowPlace(3.0f, 2, 4));
+        StartCoroutine(ShowPlace(4.0f, 1, 4));
+        StartCoroutine(ShowPlace(6.0f, 0, 4));
+        StartCoroutine(ShowPlace(6.0f, 3, 4));
+        break;
+      case 5:
+        StartCoroutine(ShowPlace(3.0f, 3, 5));
+        StartCoroutine(ShowPlace(4.0f, 2, 5));
+        StartCoroutine(ShowPlace(5.0f, 1, 5));
+        StartCoroutine(ShowPlace(7.0f, 0, 5));
+        StartCoroutine(ShowPlace(7.0f, 4, 5));
+        break;
+      case 6:
+        StartCoroutine(ShowPlace(3.0f, 4, 6));
+        StartCoroutine(ShowPlace(4.0f, 3, 6));
+        StartCoroutine(ShowPlace(5.0f, 2, 6));
+        StartCoroutine(ShowPlace(6.0f, 1, 6));
+        StartCoroutine(ShowPlace(8.0f, 0, 6));
+        StartCoroutine(ShowPlace(8.0f, 5, 6));
+        break;
+      default:
+        break;
     }
-    finishButton.gameObject.SetActive(true);
+  }
+
+  private IEnumerator ShowPlace(float waitTime, int place, int maxPlace)
+  {
+    yield return new WaitForSeconds(waitTime);
+    int y;
+    y = 450 - (place + 1) * 900 / (maxPlace + 1);
+    var _place = Instantiate(placePrefab, new Vector3(0, y, 0), Quaternion.identity);
+    _place.transform.SetParent(placeParent.transform.transform, false);
+    _place.transform.Find("Point").GetComponent<Text>().text = results[place].point.ToString() + "pt";
+    _place.transform.Find("Name").GetComponent<Text>().text = results[place].name;
+    if (place >= 3 && place == maxPlace - 1)
+    {
+      place = placeSprites.Length - 1;
+    }
+    _place.transform.Find("PlaceImage").GetComponent<Image>().sprite = placeSprites[place];
   }
 
   private void SortNames()

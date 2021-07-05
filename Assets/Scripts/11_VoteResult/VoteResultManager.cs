@@ -12,8 +12,8 @@ public class VoteResultManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    // RoomStatus.points = new int[] { 10, 10, 10, 10, 10 };
-    // Cycle.names = new string[] { "a", "b", "c", "d", "e" };
+    // RoomStatus.points = new int[] { 10, 10, 10, 10, 10, 10 };
+    // Cycle.names = new string[] { "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
     // Cycle.mvpIndex = 1;
     // Cycle.mwpIndex = 2;
 
