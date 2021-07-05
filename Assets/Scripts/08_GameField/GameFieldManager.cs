@@ -44,8 +44,8 @@ public class GameFieldManager : MonoBehaviour
     // RoomStatus.themes = new Theme[] {
     //   new Theme(0, "好きな食べ物は")
     // };
-    // Cycle.names = new string[] { "しゅんこりん", "しゅんこりん", "しゅんこりん" };
-    // Cycle.numbers = new int[] { 1, 2, 3 };
+    // Cycle.names = new string[] { "a", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
+    // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
     // Cycle.myIndex = 0;
     // Cycle.predicts = new int[Cycle.names.Length][];
     // for (int i = 0; i < Cycle.predicts.Length; i++)
@@ -205,12 +205,15 @@ public class GameFieldManager : MonoBehaviour
   {
     if (!connected)
     {
-      try {
+      try
+      {
         Debug.Log("websocket connect 通ります");
         ws.Close();
         SetupWebsocket();
         Debug.Log("websocket connect 通りました");
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
         Debug.Log("websocket connect でエラー返ってきてます");
         Debug.Log(e.ToString());
       }
