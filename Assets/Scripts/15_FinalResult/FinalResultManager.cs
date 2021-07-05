@@ -48,19 +48,19 @@ public class FinalResultManager : MonoBehaviour
         StartCoroutine(ShowPlace(6.0f, 3, 4));
         break;
       case 5:
-        StartCoroutine(ShowPlace(3.0f, 2, 5));
-        StartCoroutine(ShowPlace(4.0f, 1, 5));
-        StartCoroutine(ShowPlace(6.0f, 0, 5));
-        StartCoroutine(ShowPlace(6.0f, 3, 5));
-        StartCoroutine(ShowPlace(6.0f, 4, 5));
+        StartCoroutine(ShowPlace(3.0f, 3, 5));
+        StartCoroutine(ShowPlace(4.0f, 2, 5));
+        StartCoroutine(ShowPlace(5.0f, 1, 5));
+        StartCoroutine(ShowPlace(7.0f, 0, 5));
+        StartCoroutine(ShowPlace(7.0f, 4, 5));
         break;
       case 6:
-        StartCoroutine(ShowPlace(3.0f, 2, 6));
-        StartCoroutine(ShowPlace(4.0f, 1, 6));
-        StartCoroutine(ShowPlace(6.0f, 0, 6));
-        StartCoroutine(ShowPlace(6.0f, 3, 6));
-        StartCoroutine(ShowPlace(6.0f, 4, 6));
-        StartCoroutine(ShowPlace(6.0f, 5, 6));
+        StartCoroutine(ShowPlace(3.0f, 4, 6));
+        StartCoroutine(ShowPlace(4.0f, 3, 6));
+        StartCoroutine(ShowPlace(5.0f, 2, 6));
+        StartCoroutine(ShowPlace(6.0f, 1, 6));
+        StartCoroutine(ShowPlace(8.0f, 0, 6));
+        StartCoroutine(ShowPlace(8.0f, 5, 6));
         break;
       default:
         break;
