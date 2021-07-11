@@ -8,6 +8,8 @@ using System.Collections;
 public class FeedbackDialog : MonoBehaviour
 {
   InputField inputField;
+  [SerializeField] private Text validationMessage;
+  [SerializeField] private Text thankMessage;
   void Start()
   {
     inputField = GameObject.Find("InputField").GetComponent<InputField>();
@@ -19,11 +21,11 @@ public class FeedbackDialog : MonoBehaviour
     if (Validate(inputField.text))
     {
       StartCoroutine(PostFeedback(inputField.text));
-      Destroy(this.gameObject);
+      StartCoroutine(DestroyDialog());
     }
     else
     {
-      GameObject.Find("ValidationMessage").SetActive(true);
+      validationMessage.gameObject.SetActive(true);
     }
   }
 
@@ -52,6 +54,16 @@ public class FeedbackDialog : MonoBehaviour
     {
       throw new InvalidOperationException(request.error);
     }
+  }
+
+  private IEnumerator DestroyDialog()
+  {
+    GameObject.Find("InputField").SetActive(false);
+    GameObject.Find("SendButton").SetActive(false);
+    validationMessage.gameObject.SetActive(false);
+    thankMessage.gameObject.SetActive(true);
+    yield return new WaitForSeconds(2.0f);
+    Destroy(this.gameObject);
   }
 }
 
