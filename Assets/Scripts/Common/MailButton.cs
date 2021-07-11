@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+#if UNITY_ANDROID && !UNITY_EDITOR
 using Google.Play.Review;
+#else
 using UnityEngine.iOS;
+#endif
 
 public class MailButton : MonoBehaviour
 {
@@ -15,8 +18,6 @@ public class MailButton : MonoBehaviour
   {
 #if UNITY_ANDROID && !UNITY_EDITOR
     _reviewManager = new ReviewManager();
-#else
-    Debug.Log("Start");
     StartCoroutine(RequestPlayReviewInfoObject());
 #endif
   }
@@ -55,7 +56,7 @@ public class MailButton : MonoBehaviour
     _playReviewInfo = null; // Reset the object
     if (launchFlowOperation.Error != ReviewErrorCode.NoError)
     {
-      Debug.Log(requestFlowOperation.Error.ToString());
+      Debug.Log(launchFlowOperation.Error.ToString());
       yield break;
     }
     // The flow has finished. The API does not indicate whether the user
