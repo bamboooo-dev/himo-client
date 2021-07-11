@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MailDialog : MonoBehaviour
+public class FeedbackDialog : MonoBehaviour
 {
   InputField inputField;
   void Start()

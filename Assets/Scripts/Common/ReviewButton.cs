@@ -7,7 +7,7 @@ using Google.Play.Review;
 using UnityEngine.iOS;
 #endif
 
-public class MailButton : MonoBehaviour
+public class ReviewButton : MonoBehaviour
 {
 #if UNITY_ANDROID && !UNITY_EDITOR
   private ReviewManager _reviewManager;
@@ -22,8 +22,9 @@ public class MailButton : MonoBehaviour
 #endif
   }
 
-  public void OnClickMailButton()
+  public void OnClickReviewButton()
   {
+    AudioManager.GetInstance().PlaySound(0);
 #if UNITY_ANDROID && !UNITY_EDITOR
     StartCoroutine(StartInAppReviewFlow());
 #else
