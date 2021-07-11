@@ -72,3 +72,5 @@ crashlytics-build.properties
 
 Assets/Plugins
 build.app
+
+Assets/Scripts/Utils/Env.cs
