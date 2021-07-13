@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,33 +86,24 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
   private int[] RandomThemeIDs(int categoryID)
   {
-    int start = 0;
-    int end = 0;
+    List<int> numbers = new List<int>();
+
     switch (categoryID)
     {
-      case 0: // おまかせ
-        start = 1;
-        end = 40;
+      case 0: // 一般向け
+        numbers = (Enumerable.Range(1, 40).Concat(Enumerable.Range(121, 40))).ToList();
         break;
       case 1: // エンジニア
-        start = 41;
-        end = 80;
+        numbers = Enumerable.Range(41, 40).ToList();
         break;
       case 2: // 18禁
-        start = 81;
-        end = 120;
+        numbers = Enumerable.Range(81, 40).ToList();
         break;
     }
 
     int count = 3;
     int[] ids = new int[count];
 
-    List<int> numbers = new List<int>();
-
-    for (int i = start; i <= end; i++)
-    {
-      numbers.Add(i);
-    }
     UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
     for (int i = 0; i < count; i++)
     {
