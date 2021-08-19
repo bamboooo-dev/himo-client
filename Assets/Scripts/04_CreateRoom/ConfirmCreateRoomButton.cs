@@ -90,13 +90,13 @@ public class ConfirmCreateRoomButton : MonoBehaviour
 
     switch (categoryID)
     {
-      case 0: // 一般向け
-        numbers = (Enumerable.Range(1, 40).Concat(Enumerable.Range(121, 40))).ToList();
+      case 0: // 一般向け: 1~40, 121~180
+        numbers = (Enumerable.Range(1, 40).Concat(Enumerable.Range(121, 60))).ToList();
         break;
-      case 1: // エンジニア
+      case 1: // エンジニア: 41~80
         numbers = Enumerable.Range(41, 40).ToList();
         break;
-      case 2: // 18禁
+      case 2: // 18禁: 81~120
         numbers = Enumerable.Range(81, 40).ToList();
         break;
     }
