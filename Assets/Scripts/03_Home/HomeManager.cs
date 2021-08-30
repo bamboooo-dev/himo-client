@@ -33,7 +33,10 @@ public class HomeManager : MonoBehaviour
     // DEBUG
     // string adUnitId = "ca-app-pub-3940256099942544/1033173712";
 #elif UNITY_IPHONE
-      string adUnitId = "ca-app-pub-3882323268333157/5774151767";
+    string adUnitId = "ca-app-pub-3882323268333157/5774151767";
+
+    // DEBUG
+    // string adUnitId = "ca-app-pub-3940256099942544/4411468910";
 #else
       string adUnitId = "unexpected_platform";
 #endif

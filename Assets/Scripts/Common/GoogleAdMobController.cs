@@ -15,6 +15,9 @@ public class GoogleAdMobController : MonoBehaviour
     string adUnitId = "ca-app-pub-3882323268333157/3741511642";
 #elif UNITY_IPHONE
     string adUnitId = "ca-app-pub-3882323268333157/7655763978";
+
+    // DEBUG
+    // string adUnitId = "ca-app-pub-3940256099942544/2934735716";
 #else
     string adUnitId = "unexpected_platform";
 #endif
