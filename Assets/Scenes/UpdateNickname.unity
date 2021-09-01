@@ -977,8 +977,8 @@ GameObject:
   - component: {fileID: 1680864597}
   - component: {fileID: 1680864600}
   - component: {fileID: 1680864598}
-  - component: {fileID: 1680864601}
   - component: {fileID: 1680864599}
+  - component: {fileID: 1680864601}
   m_Layer: 5
   m_Name: Confirm
   m_TagString: Untagged
@@ -1106,10 +1106,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1680864596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009be102fa41c4f4b8b4da1ff63a2d5d, type: 3}
+  m_Script: {fileID: 11500000, guid: c1a9808b175484843a32435c8050504d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  errorText: {fileID: 1687107761}
+  errorText: {fileID: 0}
 --- !u!1 &1687107761
 GameObject:
   m_ObjectHideFlags: 0

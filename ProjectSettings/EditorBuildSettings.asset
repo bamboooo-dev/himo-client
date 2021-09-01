@@ -80,4 +80,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Howto/Howto7.unity
     guid: 321ad7b9456a346a69b8e4b5d1b91451
+  - enabled: 1
+    path: Assets/Scenes/UpdateNickname.unity
+    guid: 5384e28f831104fdc9c4effe8540d380
   m_configObjects: {}

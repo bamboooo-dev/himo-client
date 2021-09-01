@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-public class UpdateNicknameButton : MonoBehaviour
+public class ConfirmUpdateNicknameButton : MonoBehaviour
 {
   InputField inputField;
   public GameObject errorText;
@@ -17,21 +17,24 @@ public class UpdateNicknameButton : MonoBehaviour
     inputField.text = File.ReadAllText(SavePath.nickname);
   }
 
-
   string GetNickname()
   {
     return inputField.text;
   }
 
-  public AsyncUnaryCall<Himo.V1.SignUpResponse> SignUp(string nickname)
+  public AsyncUnaryCall<Himo.V1.UpdateUserNameResponse> UpdateNickname(string nickname)
   {
     // 接続するチャンネルを生成
     // ここでは、Golang の gRPC サーバーは dev サーバーの5502番ポートに建っているのでそう指定
     Channel channel = new Channel(Url.OutgameIP(), ChannelCredentials.Insecure);
 
     UserManager.UserManagerClient client = new UserManager.UserManagerClient(channel);
+    var metadata = new Metadata
+    {
+      { "Authorization", Token.getToken() }
+    };
 
-    AsyncUnaryCall<SignUpResponse> call = client.SignUpAsync(new SignUpRequest { Nickname = nickname });
+    AsyncUnaryCall<UpdateUserNameResponse> call = client.UpdateUserNameAsync(new UpdateUserNameRequest { Nickname = nickname }, metadata);
 
     channel.ShutdownAsync().Wait();
 
@@ -49,10 +52,10 @@ public class UpdateNicknameButton : MonoBehaviour
       return;
     }
 
-    AsyncUnaryCall<SignUpResponse> call = SignUp(nickname);
-    Task<Metadata> headers = call.ResponseHeadersAsync;
+    AsyncUnaryCall<UpdateUserNameResponse> call = UpdateNickname(nickname);
+    var result = call.ResponseAsync.Result;
 
     File.WriteAllText(SavePath.nickname, nickname);
-    File.WriteAllText(SavePath.token, token);
+    SceneManager.LoadScene("Home");
   }
 }
