@@ -44,6 +44,8 @@ namespace Himo.V1 {
 
     static readonly grpc::Marshaller<global::Himo.V1.SignUpRequest> __Marshaller_himo_v1_SignUpRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Himo.V1.SignUpRequest.Parser));
     static readonly grpc::Marshaller<global::Himo.V1.SignUpResponse> __Marshaller_himo_v1_SignUpResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Himo.V1.SignUpResponse.Parser));
+    static readonly grpc::Marshaller<global::Himo.V1.UpdateUserNameRequest> __Marshaller_himo_v1_UpdateUserNameRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Himo.V1.UpdateUserNameRequest.Parser));
+    static readonly grpc::Marshaller<global::Himo.V1.UpdateUserNameResponse> __Marshaller_himo_v1_UpdateUserNameResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Himo.V1.UpdateUserNameResponse.Parser));
 
     static readonly grpc::Method<global::Himo.V1.SignUpRequest, global::Himo.V1.SignUpResponse> __Method_SignUp = new grpc::Method<global::Himo.V1.SignUpRequest, global::Himo.V1.SignUpResponse>(
         grpc::MethodType.Unary,
@@ -51,6 +53,13 @@ namespace Himo.V1 {
         "SignUp",
         __Marshaller_himo_v1_SignUpRequest,
         __Marshaller_himo_v1_SignUpResponse);
+
+    static readonly grpc::Method<global::Himo.V1.UpdateUserNameRequest, global::Himo.V1.UpdateUserNameResponse> __Method_UpdateUserName = new grpc::Method<global::Himo.V1.UpdateUserNameRequest, global::Himo.V1.UpdateUserNameResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "UpdateUserName",
+        __Marshaller_himo_v1_UpdateUserNameRequest,
+        __Marshaller_himo_v1_UpdateUserNameResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -63,6 +72,11 @@ namespace Himo.V1 {
     public abstract partial class UserManagerBase
     {
       public virtual global::System.Threading.Tasks.Task<global::Himo.V1.SignUpResponse> SignUp(global::Himo.V1.SignUpRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Himo.V1.UpdateUserNameResponse> UpdateUserName(global::Himo.V1.UpdateUserNameRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -108,6 +122,22 @@ namespace Himo.V1 {
       {
         return CallInvoker.AsyncUnaryCall(__Method_SignUp, null, options, request);
       }
+      public virtual global::Himo.V1.UpdateUserNameResponse UpdateUserName(global::Himo.V1.UpdateUserNameRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UpdateUserName(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Himo.V1.UpdateUserNameResponse UpdateUserName(global::Himo.V1.UpdateUserNameRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_UpdateUserName, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Himo.V1.UpdateUserNameResponse> UpdateUserNameAsync(global::Himo.V1.UpdateUserNameRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return UpdateUserNameAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Himo.V1.UpdateUserNameResponse> UpdateUserNameAsync(global::Himo.V1.UpdateUserNameRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_UpdateUserName, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override UserManagerClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -120,7 +150,8 @@ namespace Himo.V1 {
     public static grpc::ServerServiceDefinition BindService(UserManagerBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_SignUp, serviceImpl.SignUp).Build();
+          .AddMethod(__Method_SignUp, serviceImpl.SignUp)
+          .AddMethod(__Method_UpdateUserName, serviceImpl.UpdateUserName).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -130,6 +161,7 @@ namespace Himo.V1 {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, UserManagerBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_SignUp, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Himo.V1.SignUpRequest, global::Himo.V1.SignUpResponse>(serviceImpl.SignUp));
+      serviceBinder.AddMethod(__Method_UpdateUserName, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Himo.V1.UpdateUserNameRequest, global::Himo.V1.UpdateUserNameResponse>(serviceImpl.UpdateUserName));
     }
 
   }
