@@ -11,7 +11,7 @@ using Cysharp.Threading.Tasks;
 
 
 [Serializable]
-public partial class CreateRoomResponse
+public partial class UpdateRoomResponse
 {
   public string message;
   public string channel_name;
@@ -19,15 +19,11 @@ public partial class CreateRoomResponse
   public Theme[] themes;
 }
 
-public class ConfirmCreateRoomButton : MonoBehaviour
+public class ConfirmAgainButton : MonoBehaviour
 {
-  private CreateRoomResponse response;
+  private UpdateRoomResponse response;
 
-  void Start() { }
-
-  void Update() { }
-
-  public async void OnClickConfirmCreateRoomButton()
+  public async void OnClickConfirmAgainRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
     try
@@ -55,14 +51,13 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
   }
 
-  [SerializeField] private Dropdown dropdownComponent;
   [SerializeField] private Dropdown categoryDropdown;
   private IEnumerator PostRequestAsync()
   {
-    var createRoomRequest = new CreateRoomRequest();
-    createRoomRequest.max_num = Int32.Parse(dropdownComponent.options[dropdownComponent.value].text.ToString());
-    createRoomRequest.theme_ids = Theme.RandomThemeIDs(categoryDropdown.value);
-    string myjson = JsonUtility.ToJson(createRoomRequest);
+    var updateRoomRequest = new UpdateRoomRequest();
+    updateRoomRequest.theme_ids = Theme.RandomThemeIDs(categoryDropdown.value);
+    updateRoomRequest.channel_name = RoomStatus.channelName;
+    string myjson = JsonUtility.ToJson(updateRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
     var request = new UnityWebRequest(Url.Room(), "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
@@ -80,9 +75,10 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
     else
     {
-      response = JsonUtility.FromJson<CreateRoomResponse>(request.downloadHandler.text);
+      response = JsonUtility.FromJson<UpdateRoomResponse>(request.downloadHandler.text);
     }
   }
+
 
   // ダイアログを追加する親の GameObject
   [SerializeField] private GameObject parent = default;
@@ -108,5 +104,4 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
     File.WriteAllText(dirPath + "themes.json", JsonUtility.ToJson(themes));
   }
-
 }

@@ -38,6 +38,11 @@ public static class Url
     return ingame + "/start";
   }
 
+  public static string Update()
+  {
+    return ingame + "/update";
+  }
+
   public static string WsSub(string channelName, int playerNum)
   {
     return wsIngame + "/sub" + "?channel_id=" + channelName + "&player_num=" + playerNum.ToString();

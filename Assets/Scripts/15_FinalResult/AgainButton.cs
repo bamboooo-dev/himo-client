@@ -5,17 +5,17 @@ using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 
-public class FinishButton : MonoBehaviour
+public class AgainButton : MonoBehaviour
 {
   public async void OnClick()
   {
     AudioManager.GetInstance().PlaySound(0);
-    await PostFinishAsync();
+    await PostAgainAsync();
   }
 
-  private IEnumerator PostFinishAsync()
+  private IEnumerator PostAgainAsync()
   {
-    FinalResultMessage message = new FinalResultMessage("finish", Cycle.myIndex);
+    FinalResultMessage message = new FinalResultMessage("again", Cycle.myIndex);
     string json = JsonUtility.ToJson(message);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
     var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
