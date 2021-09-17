@@ -23,6 +23,12 @@ public class ConfirmAgainButton : MonoBehaviour
 {
   private UpdateRoomResponse response;
 
+  void Start()
+  {
+    // DEBUG
+    // RoomStatus.channelName = "cbd30a4";
+  }
+
   public async void OnClickConfirmAgainRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
@@ -35,6 +41,7 @@ public class ConfirmAgainButton : MonoBehaviour
       RoomStatus.cycleIndex = 0;
       PlayerStatus.isHost = true;
       SaveThemes(response.themes);
+      await PostAgainAsync();
       SceneManager.LoadScene("WaitingRoom");
     }
     catch (UnauthorizedException)
@@ -59,7 +66,7 @@ public class ConfirmAgainButton : MonoBehaviour
     updateRoomRequest.channel_name = RoomStatus.channelName;
     string myjson = JsonUtility.ToJson(updateRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
-    var request = new UnityWebRequest(Url.Room(), "POST");
+    var request = new UnityWebRequest(Url.Update(), "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
@@ -79,6 +86,21 @@ public class ConfirmAgainButton : MonoBehaviour
     }
   }
 
+  private IEnumerator PostAgainAsync()
+  {
+    FinalResultMessage message = new FinalResultMessage("again", Cycle.myIndex);
+    string json = JsonUtility.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
+  }
 
   // ダイアログを追加する親の GameObject
   [SerializeField] private GameObject parent = default;

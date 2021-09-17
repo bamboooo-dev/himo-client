@@ -83,4 +83,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UpdateNickname.unity
     guid: 5384e28f831104fdc9c4effe8540d380
+  - enabled: 1
+    path: Assets/Scenes/AgainRoom.unity
+    guid: 28f6bef68735149f2906ead8e17022a0
   m_configObjects: {}

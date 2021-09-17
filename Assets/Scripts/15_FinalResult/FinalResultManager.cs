@@ -36,6 +36,8 @@ public class FinalResultManager : MonoBehaviour
     // DEBUG
     // RoomStatus.points = new int[] { 3, 2, 1, 4, 5, 6 };
     // Cycle.names = new string[] { "a", "b", "c", "jdk", "しゅんこりん", "あさしゅん" };
+    // PlayerStatus.isHost = true;
+    // Cycle.myIndex = 0;
 
     SortNames();
     SetupWebSocket();
@@ -127,14 +129,12 @@ public class FinalResultManager : MonoBehaviour
         break;
 
       case "again":
-        if (PlayerStatus.isHost)
-        {
-          SceneManager.LoadScene("AgainRoom");
-        }
-        else
-        {
-          againDialog.gameObject.SetActive(true);
-        }
+        context.Post(state =>
+          {
+            againDialog.gameObject.SetActive(true);
+            ws.Close();
+            ws = null;
+          }, message.type);
         break;
 
       case "ping":
