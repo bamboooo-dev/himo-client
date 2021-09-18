@@ -60,7 +60,7 @@ public class GameFieldManager : MonoBehaviour
 
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
     SetupWebsocket();
-    // コネクションのチェックを30秒ごとに行う
+    // コネクションのチェックを5秒ごとに行う
     InvokeRepeating("CheckWebsocketConnection", 5.0f, 5.0f);
   }
 

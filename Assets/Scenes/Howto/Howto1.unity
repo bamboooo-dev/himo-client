@@ -321,7 +321,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -361,8 +361,8 @@ RectTransform:
   m_Children:
   - {fileID: 121925974}
   - {fileID: 1305742032}
-  - {fileID: 1728249492}
   - {fileID: 1116916748}
+  - {fileID: 1728249492}
   - {fileID: 1911554858}
   - {fileID: 2043203778}
   - {fileID: 790737198}
@@ -930,7 +930,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 175369096}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

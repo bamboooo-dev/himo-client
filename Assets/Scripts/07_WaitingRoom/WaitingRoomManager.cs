@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
@@ -26,6 +27,7 @@ public class WaitingRoomManager : MonoBehaviour
   public Text channelNameText;
   public WebSocket ws;
   public GameObject startButton;
+  private bool connected;
 
   void Start()
   {
@@ -36,36 +38,9 @@ public class WaitingRoomManager : MonoBehaviour
     {
       startButton.SetActive(false);
     }
-    if (PlayerStatus.isHost)
-    {
-      ws = new WebSocket(Url.WsSub(RoomStatus.channelName, RoomStatus.maxNum));
-    }
-    else
-    {
-      ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
-    }
-    ws.OnOpen += (sender, e) =>
-    {
-      Debug.Log("WebSocket Open");
-    };
 
-    ws.OnMessage += (sender, e) =>
-    {
-      ProcessData(e.Data);
-    };
-
-    ws.OnError += (sender, e) =>
-    {
-      Debug.Log("WebSocket Error Message: " + e.Message);
-    };
-
-    ws.OnClose += (sender, e) =>
-    {
-      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
-      if (e.Code == 1006) { ws.Connect(); }
-    };
-
-    ws.Connect();
+    SetupWebSocket();
+    InvokeRepeating("CheckWebSocketConnection", 5.0f, 5.0f);
     channelNameText.text = RoomStatus.channelName;
   }
 
@@ -119,11 +94,85 @@ public class WaitingRoomManager : MonoBehaviour
     }
   }
 
+  private void SetupWebSocket()
+  {
+    if (PlayerStatus.isHost)
+    {
+      ws = new WebSocket(Url.WsSub(RoomStatus.channelName, RoomStatus.maxNum));
+    }
+    else
+    {
+      ws = new WebSocket(Url.WsSub(RoomStatus.channelName));
+    }
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("WebSocket Open");
+    };
+    ws.OnMessage += (sender, e) =>
+    {
+      ProcessData(e.Data);
+    };
+    ws.OnError += (sender, e) =>
+    {
+      Debug.Log("WebSocket Error Message: " + e.Message);
+    };
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log($"Websocket Close. StatusCode: {e.Code} Reason: {e.Reason}");
+      if (e.Code == 1006) { ws.Connect(); }
+    };
+    ws.Connect();
+  }
+
+  private void CheckWebSocketConnection()
+  {
+    if (!connected)
+    {
+      try
+      {
+        ws.Close();
+        SetupWebSocket();
+      }
+      catch (Exception e)
+      {
+        Debug.Log(e.ToString());
+      }
+    }
+    connected = false;
+    StartCoroutine(PostPing());
+  }
+
+  private IEnumerator PostPing()
+  {
+    StartRoomResponse message = new StartRoomResponse("ping");
+    string json = JsonUtility.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
+    }
+  }
+
   private void ProcessData(string data)
   {
-    var response = JsonUtility.FromJson<StartRoomResponse>(data);
-    Cycle.numbers = response.numbers;
-    Cycle.names = response.names;
-    RoomStatus.started = true;
+    var message = JsonUtility.FromJson<StartRoomResponse>(data);
+    switch (message.type)
+    {
+      case "answer":
+        Cycle.numbers = message.numbers;
+        Cycle.names = message.names;
+        RoomStatus.started = true;
+        break;
+      case "ping":
+        connected = true;
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -11,7 +11,7 @@ using Cysharp.Threading.Tasks;
 
 
 [Serializable]
-public partial class CreateRoomResponse
+public partial class UpdateRoomResponse
 {
   public string message;
   public string channel_name;
@@ -19,15 +19,17 @@ public partial class CreateRoomResponse
   public Theme[] themes;
 }
 
-public class ConfirmCreateRoomButton : MonoBehaviour
+public class ConfirmAgainButton : MonoBehaviour
 {
-  private CreateRoomResponse response;
+  private UpdateRoomResponse response;
 
-  void Start() { }
+  void Start()
+  {
+    // DEBUG
+    // RoomStatus.channelName = "cbd30a4";
+  }
 
-  void Update() { }
-
-  public async void OnClickConfirmCreateRoomButton()
+  public async void OnClickConfirmAgainRoomButton()
   {
     AudioManager.GetInstance().PlaySound(0);
     try
@@ -39,6 +41,7 @@ public class ConfirmCreateRoomButton : MonoBehaviour
       RoomStatus.cycleIndex = 0;
       PlayerStatus.isHost = true;
       SaveThemes(response.themes);
+      await PostAgainAsync();
       SceneManager.LoadScene("WaitingRoom");
     }
     catch (UnauthorizedException)
@@ -55,16 +58,15 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
   }
 
-  [SerializeField] private Dropdown dropdownComponent;
   [SerializeField] private Dropdown categoryDropdown;
   private IEnumerator PostRequestAsync()
   {
-    var createRoomRequest = new CreateRoomRequest();
-    createRoomRequest.max_num = Int32.Parse(dropdownComponent.options[dropdownComponent.value].text.ToString());
-    createRoomRequest.theme_ids = Theme.RandomThemeIDs(categoryDropdown.value);
-    string myjson = JsonUtility.ToJson(createRoomRequest);
+    var updateRoomRequest = new UpdateRoomRequest();
+    updateRoomRequest.theme_ids = Theme.RandomThemeIDs(categoryDropdown.value);
+    updateRoomRequest.channel_name = RoomStatus.channelName;
+    string myjson = JsonUtility.ToJson(updateRoomRequest);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(myjson);
-    var request = new UnityWebRequest(Url.Room(), "POST");
+    var request = new UnityWebRequest(Url.Update(), "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
@@ -80,7 +82,23 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
     else
     {
-      response = JsonUtility.FromJson<CreateRoomResponse>(request.downloadHandler.text);
+      response = JsonUtility.FromJson<UpdateRoomResponse>(request.downloadHandler.text);
+    }
+  }
+
+  private IEnumerator PostAgainAsync()
+  {
+    FinalResultMessage message = new FinalResultMessage("again", Cycle.myIndex);
+    string json = JsonUtility.ToJson(message);
+    byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
+    var request = new UnityWebRequest(Url.Pub(RoomStatus.channelName), "POST");
+    request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
+    request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+    request.SetRequestHeader("Content-Type", "application/json");
+    yield return request.SendWebRequest();
+    if (request.isHttpError || request.isNetworkError)
+    {
+      throw new InvalidOperationException(request.error);
     }
   }
 
@@ -108,5 +126,4 @@ public class ConfirmCreateRoomButton : MonoBehaviour
     }
     File.WriteAllText(dirPath + "themes.json", JsonUtility.ToJson(themes));
   }
-
 }

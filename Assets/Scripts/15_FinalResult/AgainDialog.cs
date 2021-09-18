@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -6,25 +6,19 @@ using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 
-public class ConfirmJoinRoomButton : MonoBehaviour
+public class AgainDialog : MonoBehaviour
 {
-  public InputField inputField;
-  [SerializeField] private Text messageText = default;
-  [SerializeField] private GameObject parent = default;
   [SerializeField] private Dialog dialog = default;
+  [SerializeField] private GameObject parent = default;
   private JoinRoomResponse response;
 
-  public async void OnClickConfirmJoinRoomButton()
+  public async void OnClickAgainButton()
   {
     AudioManager.GetInstance().PlaySound(0);
 
-    if (!Validate(inputField.text)) { return; }
-    string channelName = inputField.text;
-
     try
     {
-      await PostRequestAsync(channelName);
-      RoomStatus.channelName = channelName;
+      await PostRequestAsync(RoomStatus.channelName);
       RoomStatus.maxNum = response.max_num;
       RoomStatus.themes = response.themes;
       RoomStatus.cycleIndex = 0;
@@ -41,19 +35,11 @@ public class ConfirmJoinRoomButton : MonoBehaviour
     }
   }
 
-  private bool Validate(string text)
+  public void OnClickCancelButton()
   {
-    if (text == "")
-    {
-      messageText.text = "部屋のIDを\n入力してね";
-      return false;
-    }
-    else if (text.Length < 7 || text.Length > 7)
-    {
-      messageText.text = "部屋のIDは\n7桁だよ";
-      return false;
-    }
-    return true;
+    AudioManager.GetInstance().PlaySound(0);
+    RoomStatus.finished = true;
+    SceneManager.LoadScene("Home");
   }
 
   private IEnumerator PostRequestAsync(string channelName)
