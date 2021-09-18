@@ -470,6 +470,7 @@ MonoBehaviour:
   themeText: {fileID: 801554212}
   messageText: {fileID: 813422172}
   player: {fileID: 8671278126515776360, guid: d1533a381f7404053a1239aa1b5346f4, type: 3}
+  heart: {fileID: 6609083384399393600, guid: 4a9b8a72f71364f1f9ddc94d4051d236, type: 3}
   players: []
   playerParent: {fileID: 1469116065}
   sprites:

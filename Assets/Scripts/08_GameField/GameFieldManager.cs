@@ -13,6 +13,7 @@ public class GameFieldManager : MonoBehaviour
   public Text themeText;
   public Text messageText;
   public Player player;
+  public Heart heart;
   public WebSocket ws;
   public Player[] players; // GuessButton が取得する用に定義
   [SerializeField] private GameObject playerParent;
@@ -40,18 +41,18 @@ public class GameFieldManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    // RoomStatus.cycleIndex = 0;
-    // RoomStatus.themes = new Theme[] {
-    //   new Theme(0, "好きな食べ物は")
-    // };
-    // Cycle.names = new string[] { "a", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
-    // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
-    // Cycle.myIndex = 0;
-    // Cycle.predicts = new int[Cycle.names.Length][];
-    // for (int i = 0; i < Cycle.predicts.Length; i++)
-    // {
-    //   Cycle.predicts[i] = new int[Cycle.names.Length];
-    // }
+    RoomStatus.cycleIndex = 0;
+    RoomStatus.themes = new Theme[] {
+      new Theme(0, "好きな食べ物は")
+    };
+    Cycle.names = new string[] { "a", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
+    Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
+    Cycle.myIndex = 0;
+    Cycle.predicts = new int[Cycle.names.Length][];
+    for (int i = 0; i < Cycle.predicts.Length; i++)
+    {
+      Cycle.predicts[i] = new int[Cycle.names.Length];
+    }
 
     Cycle.hasGuessed = false;
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
@@ -59,6 +60,8 @@ public class GameFieldManager : MonoBehaviour
     players = new Player[Cycle.names.Length];
 
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
+    Invoke(nameof(InstantiateReaction), 0.5f);
+    Invoke(nameof(InstantiateReaction), 1.0f);
     SetupWebsocket();
     // コネクションのチェックを5秒ごとに行う
     InvokeRepeating("CheckWebsocketConnection", 5.0f, 5.0f);
@@ -68,6 +71,12 @@ public class GameFieldManager : MonoBehaviour
   {
     ws.Close();
     ws = null;
+  }
+
+  private void InstantiateReaction()
+  {
+    var _heart = Instantiate(heart, new Vector3(-910, -200, 0), Quaternion.identity);
+    _heart.transform.SetParent(playerParent.transform.transform, false);
   }
 
   private void InstantiatePlayers(int[] numbers, string[] names, int myIndex)
