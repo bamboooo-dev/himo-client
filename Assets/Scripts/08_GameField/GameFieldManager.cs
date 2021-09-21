@@ -13,11 +13,12 @@ public class GameFieldManager : MonoBehaviour
   public Text themeText;
   public Text messageText;
   public Player player;
-  public Heart heart;
+  public ReactionPrefab reactionPrefab;
   public WebSocket ws;
   public Player[] players; // GuessButton が取得する用に定義
   [SerializeField] private GameObject playerParent;
   [SerializeField] private Sprite[] sprites;
+  [SerializeField] private Sprite[] reactionSprites;
   [SerializeField] private GameObject openFinishGameDialogButton;
   private static GameFieldManager instance;
   private bool connected;
@@ -41,18 +42,18 @@ public class GameFieldManager : MonoBehaviour
   void Start()
   {
     // DEBUG
-    RoomStatus.cycleIndex = 0;
-    RoomStatus.themes = new Theme[] {
-      new Theme(0, "好きな食べ物は")
-    };
-    Cycle.names = new string[] { "a", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
-    Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
-    Cycle.myIndex = 0;
-    Cycle.predicts = new int[Cycle.names.Length][];
-    for (int i = 0; i < Cycle.predicts.Length; i++)
-    {
-      Cycle.predicts[i] = new int[Cycle.names.Length];
-    }
+    // RoomStatus.cycleIndex = 0;
+    // RoomStatus.themes = new Theme[] {
+    //   new Theme(0, "好きな食べ物は")
+    // };
+    // Cycle.names = new string[] { "a", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん", "しゅんこりん" };
+    // Cycle.numbers = new int[] { 1, 2, 3, 4, 5, 6 };
+    // Cycle.myIndex = 0;
+    // Cycle.predicts = new int[Cycle.names.Length][];
+    // for (int i = 0; i < Cycle.predicts.Length; i++)
+    // {
+    //   Cycle.predicts[i] = new int[Cycle.names.Length];
+    // }
 
     Cycle.hasGuessed = false;
     themeText.text = RoomStatus.themes[RoomStatus.cycleIndex].Sentence;
@@ -60,8 +61,6 @@ public class GameFieldManager : MonoBehaviour
     players = new Player[Cycle.names.Length];
 
     InstantiatePlayers(Cycle.numbers, Cycle.names, Cycle.myIndex);
-    Invoke(nameof(InstantiateReaction), 0.5f);
-    Invoke(nameof(InstantiateReaction), 1.0f);
     SetupWebsocket();
     // コネクションのチェックを5秒ごとに行う
     InvokeRepeating("CheckWebsocketConnection", 5.0f, 5.0f);
@@ -73,10 +72,14 @@ public class GameFieldManager : MonoBehaviour
     ws = null;
   }
 
-  private void InstantiateReaction()
+  private void InstantiateReaction(SynchronizationContext context, int playerIndex, Reaction reaction)
   {
-    var _heart = Instantiate(heart, new Vector3(-910, -200, 0), Quaternion.identity);
-    _heart.transform.SetParent(playerParent.transform.transform, false);
+    context.Post(state =>
+    {
+      var _reaction = Instantiate(reactionPrefab, new Vector3(-910, -200, 0), Quaternion.identity);
+      _reaction.transform.Find("Image").GetComponent<Image>().sprite = reactionSprites[(int)reaction - 1];
+      _reaction.transform.SetParent(playerParent.transform.transform, false);
+    }, null);
   }
 
   private void InstantiatePlayers(int[] numbers, string[] names, int myIndex)
@@ -125,65 +128,7 @@ public class GameFieldManager : MonoBehaviour
     var context = SynchronizationContext.Current;
     ws.OnMessage += (sender, e) =>
     {
-      var message = JsonMapper.ToObject(e.Data);
-
-      // 今回の cycle ではないものは除外
-      if ((int)message["cycleIndex"] != RoomStatus.cycleIndex) { return; }
-
-      switch ((string)message["type"])
-      {
-        case "guessProceed":
-          for (int i = 0; i < Cycle.names.Length; ++i)
-          {
-            int[] p = new int[Cycle.names.Length];
-            for (int j = 0; j < Cycle.names.Length; ++j)
-            {
-              p[j] = (int)message["predicts"][i][j];
-            }
-            Cycle.predicts[i] = p;
-          }
-          context.Post(state =>
-          {
-            SceneManager.LoadScene("Ordering");
-          }, e.Data);
-          break;
-
-        case "guess":
-          int[] predict = new int[Cycle.names.Length];
-          for (int i = 0; i < Cycle.names.Length; i++)
-          {
-            predict[i] = (int)message["numbers"][i];
-          }
-          Cycle.predicts[(int)message["playerIndex"]] = predict;
-          int index = (int)message["playerIndex"];
-          context.Post(state =>
-          {
-            players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
-            if (Int32.Parse(state.ToString()) == Cycle.myIndex) { Cycle.hasGuessed = true; }
-          }, index);
-          // ホストが全員の予想値を受け取れば画面遷移を促す
-          if (PlayerStatus.isHost)
-          {
-            for (int i = 0; i < Cycle.names.Length; i++) { if (Cycle.predicts[i][0] == 0) { return; } }
-            context.Post(state => { StartCoroutine(PostGuessProceed()); }, e.Data);
-          }
-          break;
-
-        case "finishGame":
-          context.Post(state =>
-          {
-            SceneManager.LoadScene("Home");
-          }, e.Data);
-          break;
-
-        case "ping":
-          if (Cycle.myIndex != (int)message["playerIndex"]) { return; }
-          connected = true;
-          break;
-
-        default:
-          break;
-      }
+      ProcessData(e.Data, context);
     };
 
     ws.OnClose += (sender, e) =>
@@ -192,6 +137,73 @@ public class GameFieldManager : MonoBehaviour
         if (e.Code == 1006) { ws.Connect(); }
       };
     ws.Connect();
+  }
+
+  private void ProcessData(string data, SynchronizationContext context)
+  {
+    var message = JsonMapper.ToObject(data);
+
+    // 今回の cycle ではないものは除外
+    if ((int)message["cycleIndex"] != RoomStatus.cycleIndex) { return; }
+
+    switch ((string)message["type"])
+    {
+      case "guessProceed":
+        for (int i = 0; i < Cycle.names.Length; ++i)
+        {
+          int[] p = new int[Cycle.names.Length];
+          for (int j = 0; j < Cycle.names.Length; ++j)
+          {
+            p[j] = (int)message["predicts"][i][j];
+          }
+          Cycle.predicts[i] = p;
+        }
+        context.Post(state =>
+        {
+          SceneManager.LoadScene("Ordering");
+        }, data);
+        break;
+
+      case "guess":
+        int[] predict = new int[Cycle.names.Length];
+        for (int i = 0; i < Cycle.names.Length; i++)
+        {
+          predict[i] = (int)message["numbers"][i];
+        }
+        int playerIndex = (int)message["playerIndex"];
+        Cycle.predicts[playerIndex] = predict;
+        context.Post(state =>
+        {
+          players[Int32.Parse(state.ToString())].transform.Find("GuessedImage").gameObject.SetActive(true);
+          if (Int32.Parse(state.ToString()) == Cycle.myIndex) { Cycle.hasGuessed = true; }
+        }, playerIndex);
+        // ホストが全員の予想値を受け取れば画面遷移を促す
+        if (PlayerStatus.isHost)
+        {
+          for (int i = 0; i < Cycle.names.Length; i++) { if (Cycle.predicts[i][0] == 0) { return; } }
+          context.Post(state => { StartCoroutine(PostGuessProceed()); }, data);
+        }
+        break;
+
+      case "finishGame":
+        context.Post(state =>
+        {
+          SceneManager.LoadScene("Home");
+        }, data);
+        break;
+
+      case "reaction":
+        InstantiateReaction(context, (int)message["playerIndex"], (Reaction)(int)message["reaction"]);
+        break;
+
+      case "ping":
+        if (Cycle.myIndex != (int)message["playerIndex"]) { return; }
+        connected = true;
+        break;
+
+      default:
+        break;
+    }
   }
 
   private IEnumerator PostGuessProceed()

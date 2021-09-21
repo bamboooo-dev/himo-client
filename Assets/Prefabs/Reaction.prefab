@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 8171890080994359880}
   - component: {fileID: 6609083384399393600}
   m_Layer: 5
-  m_Name: Heart
+  m_Name: Reaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,6 +133,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4302076246391744200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baaff65645f0542f4995bf7bdd745061, type: 3}
+  m_Script: {fileID: 11500000, guid: 0639e301c26d54542958c162fd74ae41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

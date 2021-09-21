@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Heart : MonoBehaviour
+public class ReactionPrefab : MonoBehaviour
 {
   float seconds;
   float startX;
