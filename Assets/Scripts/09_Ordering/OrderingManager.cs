@@ -169,20 +169,23 @@ public class OrderingManager : MonoBehaviour
         string result = message.result;
         context.Post(state =>
         {
-          if (state.ToString() == "OK")
+          switch (state.ToString())
           {
-            successImage.gameObject.SetActive(true);
-            Invoke(nameof(EraseSuccessImage), 1.0f);
-          }
-          else if (state.ToString() == "NG")
-          {
-            failedImage.gameObject.SetActive(true);
-            Invoke(nameof(EraseFailedImage), 1.0f);
-          }
-          else if (state.ToString() == "FIN")
-          {
-            successImage.gameObject.SetActive(true);
-            Invoke(nameof(Finish), 1.0f);
+            case "OK":
+              successImage.gameObject.SetActive(true);
+              Invoke(nameof(EraseSuccessImage), 1.0f);
+              break;
+            case "NG":
+              failedImage.gameObject.SetActive(true);
+              Invoke(nameof(EraseFailedImage), 1.0f);
+              break;
+            case "FIN":
+              successImage.gameObject.SetActive(true);
+              Cycle.clearSpriteIndex = message.clearSpriteIndex;
+              Invoke(nameof(Finish), 1.0f);
+              break;
+            default:
+              break;
           }
         }, result);
         int index = message.player_index;
@@ -250,6 +253,6 @@ public class OrderingManager : MonoBehaviour
   private void Finish()
   {
     successImage.gameObject.SetActive(false);
-    SceneManager.LoadScene("Vote");
+    SceneManager.LoadScene("Clear");
   }
 }
