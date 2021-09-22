@@ -76,7 +76,7 @@ public class GameFieldManager : MonoBehaviour
   {
     context.Post(state =>
     {
-      var _reaction = Instantiate(reactionPrefab, new Vector3(-910, -200, 0), Quaternion.identity);
+      var _reaction = Instantiate(reactionPrefab, new Vector3(players[playerIndex].GetComponent<RectTransform>().anchoredPosition.x - 160, -200, 0), Quaternion.identity);
       _reaction.transform.Find("Image").GetComponent<Image>().sprite = reactionSprites[(int)reaction - 1];
       _reaction.transform.SetParent(playerParent.transform.transform, false);
     }, null);
