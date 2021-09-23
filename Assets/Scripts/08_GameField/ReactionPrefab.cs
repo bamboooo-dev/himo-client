@@ -16,11 +16,11 @@ public class ReactionPrefab : MonoBehaviour
   {
     Transform myTransform = this.transform;
     Vector3 pos = myTransform.position;
-    pos.y += 1f;
+    pos.y += 7f;
     pos.x = startX + Mathf.PingPong((Time.time - startTime) * 50, 50f);
     myTransform.position = pos;
     seconds += Time.deltaTime;
-    if (seconds >= 5)
+    if (seconds >= 3)
     {
       Destroy(this.gameObject);
     }

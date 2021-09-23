@@ -17,6 +17,7 @@ public class GameFieldManager : MonoBehaviour
   public WebSocket ws;
   public Player[] players; // GuessButton が取得する用に定義
   [SerializeField] private GameObject playerParent;
+  [SerializeField] private GameObject reactionParent;
   [SerializeField] private Sprite[] sprites;
   [SerializeField] private Sprite[] reactionSprites;
   [SerializeField] private GameObject openFinishGameDialogButton;
@@ -76,9 +77,18 @@ public class GameFieldManager : MonoBehaviour
   {
     context.Post(state =>
     {
-      var _reaction = Instantiate(reactionPrefab, new Vector3(players[playerIndex].GetComponent<RectTransform>().anchoredPosition.x - 160, -200, 0), Quaternion.identity);
+      float x;
+      if (UnityEngine.Random.Range(0, 2) == 0)
+      {
+        x = UnityEngine.Random.Range(-145.0f, -135.0f);
+      }
+      else
+      {
+        x = UnityEngine.Random.Range(105.0f, 115.0f);
+      }
+      var _reaction = Instantiate(reactionPrefab, new Vector3(players[playerIndex].GetComponent<RectTransform>().anchoredPosition.x + x, -200, 0), Quaternion.identity);
       _reaction.transform.Find("Image").GetComponent<Image>().sprite = reactionSprites[(int)reaction - 1];
-      _reaction.transform.SetParent(playerParent.transform.transform, false);
+      _reaction.transform.SetParent(reactionParent.transform.transform, false);
     }, null);
   }
 
