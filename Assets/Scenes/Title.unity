@@ -806,7 +806,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v1.9.0
+  m_Text: v1.9.1
 --- !u!222 &1093755301
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1023,6 +1023,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4672936877903116587, guid: 62acc6499d27b42978aed8c42a4dcf33,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5489a71e1eb5f49f8b27c1ec44790f82,
+        type: 3}
     - target: {fileID: 6511488254969724444, guid: 62acc6499d27b42978aed8c42a4dcf33,
         type: 3}
       propertyPath: m_Name
