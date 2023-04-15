@@ -22,7 +22,7 @@ public class FeedbackDialog : MonoBehaviour
     if (Validate(inputField.text))
     {
       StartCoroutine(PostFeedback(inputField.text));
-      StartCoroutine(DestroyDialog());
+      ShowMessage();
     }
     else
     {
@@ -62,15 +62,13 @@ public class FeedbackDialog : MonoBehaviour
     }
   }
 
-  private IEnumerator DestroyDialog()
+  private void ShowMessage()
   {
     GameObject.Find("InputField").SetActive(false);
     GameObject.Find("SendButton").SetActive(false);
     validationMessage.gameObject.SetActive(false);
     thankMessage.gameObject.SetActive(true);
     twitterButton.SetActive(true);
-    yield return new WaitForSeconds(2.0f);
-    Destroy(gameObject);
   }
 }
 
