@@ -1,16 +1,16 @@
 public static class Url
 {
   // prod
-  private static string outgame = "http://185.81.165.107:31488";
+  private static string outgame = "http://138.2.43.212:30837";
   // dev
   // private static string outgame = "http://168.138.198.236:5502";
   // prod
-  private static string ingame = "http://185.81.165.107:32762";
+  private static string ingame = "http://138.2.43.212:30687";
   // dev
   // private static string ingame = "http://168.138.198.236";
 
   // prod
-  private static string wsIngame = "ws://185.81.165.107:32762";
+  private static string wsIngame = "ws://138.2.43.212:30687";
   // dev
   // private static string wsIngame = "ws://168.138.198.236";
 
