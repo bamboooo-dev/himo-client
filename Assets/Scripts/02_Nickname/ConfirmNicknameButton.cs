@@ -13,7 +13,12 @@ public class ConfirmNicknameButton : MonoBehaviour
 
   void Start()
   {
+    File.Delete(SavePath.token);
     inputField = GameObject.Find("InputField").GetComponent<InputField>();
+    if (File.Exists(SavePath.nickname) && File.ReadAllText(SavePath.nickname) != "")
+    {
+      inputField.text = File.ReadAllText(SavePath.nickname);
+    }
   }
 
   void Update()
