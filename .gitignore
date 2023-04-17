@@ -72,6 +72,7 @@ crashlytics-build.properties
 
 Assets/Plugins/*
 !/Assets/Plugins/websocket-sharp.dll
+!/Assets/Plugins/iOS/
 build.app
 
 Assets/Scripts/Utils/Env.cs
