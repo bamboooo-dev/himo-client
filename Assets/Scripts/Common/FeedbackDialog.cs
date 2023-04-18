@@ -51,7 +51,7 @@ public class FeedbackDialog : MonoBehaviour
     FeedbackData data = new FeedbackData(text);
     string json = JsonUtility.ToJson(data);
     byte[] postData = System.Text.Encoding.UTF8.GetBytes(json);
-    var request = new UnityWebRequest(Environment.GetEnvironmentVariable("SLACK_URL"), "POST");
+    var request = new UnityWebRequest(Env.slackURL, "POST");
     request.uploadHandler = (UploadHandler)new UploadHandlerRaw(postData);
     request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
     request.SetRequestHeader("Content-Type", "application/json");
