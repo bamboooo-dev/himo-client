@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.onesignal.unity.android": "3.0.1",
+    "com.onesignal.unity.core": "3.0.1",
+    "com.onesignal.unity.ios": "3.0.1",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.3",
@@ -47,6 +50,13 @@
       "url": "https://unityregistry-pa.googleapis.com",
       "scopes": [
         "shunshun.p0514@gmail.com"
+      ]
+    },
+    {
+      "name": "npmjs",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.onesignal"
       ]
     }
   ]

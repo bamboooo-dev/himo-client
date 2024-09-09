@@ -70,7 +70,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-Assets/Plugins
+Assets/Plugins/*
+!/Assets/Plugins/websocket-sharp.dll
 build.app
 
 Assets/Scripts/Utils/Env.cs

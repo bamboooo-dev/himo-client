@@ -124,7 +124,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.9.1
+  bundleVersion: 2.0.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -169,9 +169,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier: {}
   buildNumber: {}
-  AndroidBundleVersionCode: 19
-  AndroidMinSdkVersion: 19
-  AndroidTargetSdkVersion: 0
+  AndroidBundleVersionCode: 21
+  AndroidMinSdkVersion: 20
+  AndroidTargetSdkVersion: 31
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -731,10 +731,10 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
     Build: 0
-    Collab: 1
+    Collab: 0
     ErrorHub: 0
     Hub: 0
-    UNet: 1
+    UNet: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -749,7 +749,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 7c6abc83-2d72-4be1-ad4b-ce4cbe99051c
   framebufferDepthMemorylessMode: 0
-  projectName: HIMO
+  projectName: "\u30EF\u30A4\u30EF\u30A4"
   organizationId: bamboooo-dev
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

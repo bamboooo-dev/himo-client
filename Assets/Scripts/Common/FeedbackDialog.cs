@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
@@ -10,6 +9,8 @@ public class FeedbackDialog : MonoBehaviour
   InputField inputField;
   [SerializeField] private Text validationMessage;
   [SerializeField] private Text thankMessage;
+  [SerializeField] private GameObject twitterButton;
+  
   void Start()
   {
     inputField = GameObject.Find("InputField").GetComponent<InputField>();
@@ -21,7 +22,7 @@ public class FeedbackDialog : MonoBehaviour
     if (Validate(inputField.text))
     {
       StartCoroutine(PostFeedback(inputField.text));
-      StartCoroutine(DestroyDialog());
+      ShowMessage();
     }
     else
     {
@@ -33,6 +34,11 @@ public class FeedbackDialog : MonoBehaviour
   {
     AudioManager.GetInstance().PlaySound(0);
     Destroy(this.gameObject);
+  }
+  
+  public void OnTwitter()
+  {
+    Application.OpenURL("https://twitter.com/bamboooo_inc");
   }
 
   public bool Validate(string text)
@@ -56,14 +62,13 @@ public class FeedbackDialog : MonoBehaviour
     }
   }
 
-  private IEnumerator DestroyDialog()
+  private void ShowMessage()
   {
     GameObject.Find("InputField").SetActive(false);
     GameObject.Find("SendButton").SetActive(false);
     validationMessage.gameObject.SetActive(false);
     thankMessage.gameObject.SetActive(true);
-    yield return new WaitForSeconds(2.0f);
-    Destroy(this.gameObject);
+    twitterButton.SetActive(true);
   }
 }
 

@@ -85,9 +85,19 @@
         </member>
         <member name="M:Grpc.Core.AsyncClientStreamingCall`2.GetAwaiter">
             <summary>
-            Allows awaiting this object directly.
+            Gets an awaiter used to await this <see cref="T:Grpc.Core.AsyncClientStreamingCall`2"/>.
             </summary>
-            <returns></returns>
+            <returns>An awaiter instance.</returns>
+            <remarks>This method is intended for compiler use rather than use directly in code.</remarks>
+        </member>
+        <member name="M:Grpc.Core.AsyncClientStreamingCall`2.ConfigureAwait(System.Boolean)">
+            <summary>
+            Configures an awaiter used to await this <see cref="T:Grpc.Core.AsyncClientStreamingCall`2"/>.
+            </summary>
+            <param name="continueOnCapturedContext">
+            true to attempt to marshal the continuation back to the original context captured; otherwise, false.
+            </param>
+            <returns>An object used to await this task.</returns>
         </member>
         <member name="M:Grpc.Core.AsyncClientStreamingCall`2.GetStatus">
             <summary>
@@ -298,8 +308,19 @@
         </member>
         <member name="M:Grpc.Core.AsyncUnaryCall`1.GetAwaiter">
             <summary>
-            Allows awaiting this object directly.
+            Gets an awaiter used to await this <see cref="T:Grpc.Core.AsyncUnaryCall`1"/>.
             </summary>
+            <returns>An awaiter instance.</returns>
+            <remarks>This method is intended for compiler use rather than use directly in code.</remarks>
+        </member>
+        <member name="M:Grpc.Core.AsyncUnaryCall`1.ConfigureAwait(System.Boolean)">
+            <summary>
+            Configures an awaiter used to await this <see cref="T:Grpc.Core.AsyncUnaryCall`1"/>.
+            </summary>
+            <param name="continueOnCapturedContext">
+            true to attempt to marshal the continuation back to the original context captured; otherwise, false.
+            </param>
+            <returns>An object used to await this task.</returns>
         </member>
         <member name="M:Grpc.Core.AsyncUnaryCall`1.GetStatus">
             <summary>
@@ -706,6 +727,16 @@
             <summary>
             Returns instance of credentials that provides no security and 
             will result in creating an unsecure channel with no encryption whatsoever.
+            </summary>
+        </member>
+        <member name="P:Grpc.Core.ChannelCredentials.SecureSsl">
+            <summary>
+            Returns instance of credentials that provides SSL security.
+            <para>
+            These credentials are the same as creating <see cref="T:Grpc.Core.SslCredentials"/> without parameters.
+            Apps that are using Grpc.Core can create <see cref="T:Grpc.Core.SslCredentials"/> directly to customize
+            the secure SSL credentials.
+            </para>
             </summary>
         </member>
         <member name="M:Grpc.Core.ChannelCredentials.Create(Grpc.Core.ChannelCredentials,Grpc.Core.CallCredentials)">
